@@ -8,6 +8,18 @@ public class Projeto {
     private String categoria;
     private String status;
 
+    public Projeto(){
+        
+    };
+
+    public Projeto(int id, String nome, String descricao, String categoria, String status){
+        this.id = id;
+        this.nome = nome;
+        this.descricao= descricao;
+        this.categoria = categoria;
+        this.status = status;
+    }
+
     public int getId() {
         return id;
     }
