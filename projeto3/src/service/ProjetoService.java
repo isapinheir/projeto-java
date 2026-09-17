@@ -41,6 +41,15 @@ public class ProjetoService{
 				resultado.add(projeto);
 			}	
 		}
-		return(resultado);
+		return(resultado);	
 	}
+
+	public boolean removerPorId(int id){
+    	Projeto projeto = buscarPorId(id);
+		if(projeto != null){
+			projetos.remove(projeto);
+			return true;
+		}
+		return false;
+    }
 }

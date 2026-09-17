@@ -57,6 +57,16 @@ public class Main {
         for(Projeto projeto : service.buscarPorStatus("Concluído")){
             projeto.exibirDados();
         }
+
+        System.out.println("Total de projetos: " + service.listar().size());
+        boolean removido = service.removerPorId(2);
+        if(removido){
+            System.out.println("Projeto removido com sucesso.");        
+        }
+        else{
+            System.out.println("Projeto não encontrado.");
+        }
+        System.out.println("Total de projetos: " + service.listar().size());
     }
 }
 
