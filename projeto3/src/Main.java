@@ -1,37 +1,46 @@
-
-import java.util.ArrayList;
 import model.Projeto;
+import service.ProjetoService;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        ArrayList<Projeto> projetos = new ArrayList<>();
+        ProjetoService service = new ProjetoService();
 
-        Projeto projeto1 = new Projeto(
+        Projeto p1 = new Projeto(
             1,
             "Sistema Acadêmico",
             "Software para gerenciamento acadêmico",
             "Software",
             "Em desenvolvimento"
         );
+        service.adicionar(p1);
 
-        Projeto projeto2 = new Projeto(
+        Projeto p2 = new Projeto(
             2,
             "Site Institucional",
             "Site de uma instituição",
             "Web",
             "Concluído"
         );
+        service.adicionar(p2);
 
-        projetos.add(projeto1);
-        projetos.add(projeto2);
+        Projeto p3 = new Projeto(
+            3,
+            "Aplicativo Mobile",
+            "Aplicativo de serviços",
+            "Mobile",
+            "Planejado"
+        );
+        service.adicionar(p3);
 
-        for(Projeto projeto : projetos){
-            projeto.exibirDados();
-        }
+        for(Projeto projeto : service.listar()){
+			projeto.exibirDados();
+		}
+		System.out.println("Total de projetos: " + service.listar().size());
     }
 }
+
 
 /*
 cadastro de projetos
