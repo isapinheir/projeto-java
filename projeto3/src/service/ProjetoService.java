@@ -63,4 +63,27 @@ public class ProjetoService{
 		}
 		return false;
     }
+
+	public int contarPorCategoria(String categoria){
+		return buscarPorCategoria(categoria).size();
+	}
+
+	public boolean alterarStatus(int id, String novoStatus){
+		Projeto projeto = buscarPorId(id);
+		if(projeto == null){
+			return false;
+		}
+		projeto.setStatus(novoStatus);
+		return true;
+	}
+
+	public List<Projeto> buscarPorNome(String texto){
+		List<Projeto> resultado = new ArrayList<>();
+		for(Projeto projeto : projetos){
+			if(projeto.getNome().toLowerCase().contains(texto.toLowerCase())){
+				resultado.add(projeto);
+			}
+		}
+		return resultado;
+	}
 }

@@ -34,6 +34,24 @@ public class Main {
         );
         service.adicionar(p3);
 
+        Projeto p4 = new Projeto(
+            4,
+            "Portal de Eventos",
+            "Portal para eventos",
+            "Web",
+            "Em desenvolvimento"
+        );
+        service.adicionar(p4);
+
+        Projeto p5 = new Projeto(
+            5,
+            "Sistema Financeiro",
+            "Sistema para gerenciar finanças",
+            "Software",
+            "Concluído"
+        );
+        service.adicionar(p5);
+
 		System.out.println("Total de projetos: " + service.listar().size());
         System.out.println();
         
@@ -57,6 +75,7 @@ public class Main {
         for(Projeto projeto : service.buscarPorCategoria("Web")){
             projeto.exibirDados();
         }
+        System.out.println("Total de projetos da categoria: " + service.contarPorCategoria("web"));
 
         System.out.println("PROJETOS CONCLUÍDOS");
         for(Projeto projeto : service.buscarPorStatus("Concluído")){
@@ -65,7 +84,7 @@ public class Main {
 
         System.out.println("Total de projetos: " + service.listar().size());
         System.out.println("REMOVER PROJETO");
-        boolean removido = service.removerPorId(2);
+        boolean removido = service.removerPorId(3);
         if(removido){
             System.out.println("Projeto removido com sucesso.");        
         }
@@ -81,12 +100,13 @@ public class Main {
         else{
             System.out.println("Já existe um projeto com esse id.");
         }
+        
+        System.out.println("ALTERAR STATUS DO PROJETO");
+        service.alterarStatus(2, "Em desenvolvimento");
+        System.out.println(encontrado.getStatus());
+
+        System.out.println("BUSCAR POR NOME");
+        System.out.println(service.buscarPorNome("sistema"));      
+
     }
 }
-
-
-/*
-exibir quantidade - categoria
-alterar status
-exibir por nome
-*/
