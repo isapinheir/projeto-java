@@ -11,12 +11,21 @@ public class ProjetoService{
 		projetos = new ArrayList<>();
 	}
 
-	public void adicionar(Projeto projeto){
+	public boolean adicionar(Projeto projeto){
+		if(projeto.getNome() == null || projeto.getNome().isBlank()){
+			return false;
+		}
+		if(buscarPorId(projeto.getId()) != null){
+			return false;
+		}
 		projetos.add(projeto);	
+		return true;
 	}
+
     public List<Projeto> listar(){
         return projetos;    
     }
+
 	public Projeto buscarPorId(int id){
         for(Projeto projeto : projetos){
 			if(projeto.getId() == id){
@@ -25,6 +34,7 @@ public class ProjetoService{
         }
 		return null;
     }
+
 	public List<Projeto> buscarPorCategoria(String categoria){
 		List <Projeto> resultado = new ArrayList<>();
 		for(Projeto projeto : projetos){
@@ -34,6 +44,7 @@ public class ProjetoService{
 		}
 		return resultado;
 	}
+
 	public List<Projeto> buscarPorStatus(String status){
 		List <Projeto> resultado = new ArrayList<>();
 		for(Projeto projeto : projetos){

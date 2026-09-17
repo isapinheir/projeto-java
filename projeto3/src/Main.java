@@ -34,11 +34,16 @@ public class Main {
         );
         service.adicionar(p3);
 
-        for(Projeto projeto : service.listar()){
-			projeto.exibirDados();
-		}
 		System.out.println("Total de projetos: " + service.listar().size());
+        System.out.println();
+        
+        System.out.println("LISTA DE PROJETOS");
+        for(Projeto projeto : service.listar()){
+            projeto.exibirDados();
+            System.out.println("--------------");
+        }
 
+        System.out.println("BUSCA POR ID");
         Projeto encontrado = service.buscarPorId(2);
         if(encontrado != null){
             System.out.println("Projeto encontrado:");
@@ -59,6 +64,7 @@ public class Main {
         }
 
         System.out.println("Total de projetos: " + service.listar().size());
+        System.out.println("REMOVER PROJETO");
         boolean removido = service.removerPorId(2);
         if(removido){
             System.out.println("Projeto removido com sucesso.");        
@@ -67,19 +73,19 @@ public class Main {
             System.out.println("Projeto não encontrado.");
         }
         System.out.println("Total de projetos: " + service.listar().size());
+
+        boolean cadastrado = service.adicionar(p1);
+        if (cadastrado){
+            System.out.println("Projeto cadastrado.");
+        }
+        else{
+            System.out.println("Já existe um projeto com esse id.");
+        }
     }
 }
 
 
 /*
-cadastro de projetos
-listar todos
-exibir quantidade - total
-buscar por id
-listar por categoria
-remover por id
-lidar com cadastro de ids iguais
-
 exibir quantidade - categoria
 alterar status
 exibir por nome
