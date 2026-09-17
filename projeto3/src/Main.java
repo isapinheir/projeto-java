@@ -38,6 +38,25 @@ public class Main {
 			projeto.exibirDados();
 		}
 		System.out.println("Total de projetos: " + service.listar().size());
+
+        Projeto encontrado = service.buscarPorId(2);
+        if(encontrado != null){
+            System.out.println("Projeto encontrado:");
+            encontrado.exibirDados();        
+        }
+        else{
+            System.out.println("Projeto não encontrado.");      
+        }
+
+        System.out.println("PROJETOS WEB");
+        for(Projeto projeto : service.buscarPorCategoria("Web")){
+            projeto.exibirDados();
+        }
+
+        System.out.println("PROJETOS CONCLUÍDOS");
+        for(Projeto projeto : service.buscarPorStatus("Concluído")){
+            projeto.exibirDados();
+        }
     }
 }
 
