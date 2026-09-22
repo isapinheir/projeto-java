@@ -11,7 +11,7 @@ public class ProjetoCSV {
     private Path caminho;
 
     public ProjetoCSV(){
-        caminho = Path.of("dados/projetos.csv");
+        caminho = Path.of("../dados/projetos.csv");
     }
 
     public void salvar(List<Projeto> projetos) throws Exception{

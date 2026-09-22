@@ -14,9 +14,13 @@ public class Main {
         int opt;
 
         service.carregar();
-
+        System.out.println("============================");
+        System.out.println("=== PORTIFÓLIO ACADÊMICO ===");
+        System.out.println("============================");
+        System.out.println("= Bem-vindo(a) ao sistema! =");
+        System.out.println("");
         System.out.println("Total de projetos: "+ service.listar().size());
-        System.out.println();
+        System.out.println("");
 
         do{
             System.out.println("1- Listar");
@@ -28,27 +32,108 @@ public class Main {
 
             System.out.print("Escolha --> ");
             opt = sc.nextInt();
+
+            switch(opt){
+                case 1:
+                    System.out.println("=== Projetos ===");
+                    for(Projeto projeto : service.listar()){
+                        projeto.exibirDados();
+                        System.out.println("-------------------------");
+                    }
+                    break;
+                case 2:
+                    System.out.println("=== Busca ===");
+                    System.out.print("Digite o id do projeto que deseja buscar: ");
+                    int busca = sc.nextInt();
+                    System.out.println("");
+
+                    Projeto projeto = service.buscarPorId(busca);
+                    if(projeto != null){
+                        projeto.exibirDados(); 
+                        System.out.println("-------------------------");       
+                    }
+                    else{
+                        System.out.println("Não foi possível buscar o projeto.");
+                        System.out.println("-------------------------");
+                    }
+                    break;
+                case 3:
+                    System.out.println("=== CADASTRO ===");
+
+                    System.out.print("ID: ");
+                    int id = sc.nextInt();
+                    sc.nextLine();
+
+                    System.out.print("Nome: ");
+                    String nome = sc.nextLine();
+
+                    System.out.print("Descrição: ");
+                    String desc = sc.nextLine();
+
+                    System.out.print("Categoria: ");
+                    String cat = sc.nextLine();
+
+                    System.out.print("Status: ");
+                    String stts = sc.nextLine();
+
+                    Projeto novoProjeto = new Projeto(id, nome, desc, cat, stts);
+
+                    boolean cadastrado = service.adicionar(novoProjeto);
+                    if(cadastrado){
+                        service.salvar();
+                        System.out.println("Projeto salvo com sucesso.");
+                        System.out.println("-------------------------");
+                    }
+                    else{
+                        System.out.println("Não foi possível salvar o projeto.");
+                        System.out.println("-------------------------");
+                    }
+                    break;
+                case 4:
+                    System.out.println("=== ALTERAR PROJETO ===");
+
+                    System.out.print("Informe a id do projeto a ser alterado: ");
+                    id = sc.nextInt();
+                    sc.nextLine();
+
+                    Projeto existente = service.buscarPorId(id);
+                    if(existente == null){
+                        System.out.println("Não foi possível encontrar o projeto.");
+                        System.out.println("-------------------------");
+                        break;
+                    }
+                    System.out.println("Dados Atuais:");
+                    existente.exibirDados();
+                    System.out.println("-------------------------");
+
+                    System.out.println("Novos Dados:");
+                    System.out.print("Nome: ");
+                    nome = sc.nextLine();
+
+                    System.out.print("Descrição: ");
+                    desc = sc.nextLine();
+
+                    System.out.print("Categoria: ");
+                    cat = sc.nextLine();
+
+                    System.out.print("Status: ");
+                    stts = sc.nextLine();
+
+                    Projeto alterado = new Projeto(id, nome, desc, cat, stts);
+                    boolean alterado = serivce.alterar(atualizado);
+                    if(alterado){
+                        service.salvar();
+                        System.out.println("Projeto alterado.");
+                    }
+                    else{
+                        System.out.println("Não foi possível alterar o projeto.");
+                    }
+
+            }
         }
         while(opt != 0);
 
-
        /* 
-        System.out.println("=== Projetos ===");
-        for(Projeto projeto : service.listar()){
-            projeto.exibirDados();
-            System.out.println("--------------");
-        }
-       
-       boolean cadastrado = service.adicionar(novoProjeto);
-        if(cadastrado){
-            service.salvar();
-            System.out.println("Projeto salvo com sucesso.");
-
-        }
-        else{
-            System.out.println("Não foi possível salvar o projeto.");
-        }
-
         boolean removido = service.removerPorId(1);
         if(removido){
             service.salvar();
@@ -58,11 +143,7 @@ public class Main {
         }
 
 
-        Projeto encontrado = service.buscarPorId(2);
-        if(encontrado != null){
-            System.out.println("Projeto encontrado:");
-            encontrado.exibirDados();        
-        }
+
         else{
             System.out.println("Projeto não encontrado.");      
         }
