@@ -58,7 +58,7 @@ public class Main {
                     }
                     break;
                 case 3:
-                    System.out.println("=== CADASTRO ===");
+                    System.out.println("=== Cadastro ===");
 
                     System.out.print("ID: ");
                     int id = sc.nextInt();
@@ -90,7 +90,7 @@ public class Main {
                     }
                     break;
                 case 4:
-                    System.out.println("=== ALTERAR PROJETO ===");
+                    System.out.println("=== Alterar Projeto ===");
 
                     System.out.print("Informe a id do projeto a ser alterado: ");
                     id = sc.nextInt();
@@ -119,34 +119,60 @@ public class Main {
                     System.out.print("Status: ");
                     stts = sc.nextLine();
 
-                    Projeto alterado = new Projeto(id, nome, desc, cat, stts);
-                    boolean alterado = serivce.alterar(atualizado);
+                    Projeto atualizado = new Projeto(id, nome, desc, cat, stts);
+                    boolean alterado = service.alterarProjeto(atualizado);
                     if(alterado){
                         service.salvar();
                         System.out.println("Projeto alterado.");
+                        System.out.println("-------------------------");
                     }
                     else{
                         System.out.println("Não foi possível alterar o projeto.");
+                        System.out.println("-------------------------");
                     }
+                    break;
+                case 5:
+                    System.out.println("=== Deletar Projeto ===");
+                    System.out.print("Informe a id do projeto a ser deletado: ");
+                    id = sc.nextInt();
+                    sc.nextLine();
 
+                    Projeto projetoExcluir = service.buscarPorId(id);
+
+                    if(projetoExcluir == null){
+                        System.out.println("Não foi possível encontrar o projeto.");
+                        System.out.println("-------------------------");
+                        break;
+                    }
+                    System.out.println("Projeto que será excluído:");
+                    projetoExcluir.exibirDados();
+                    System.out.print("Confirma a exclusão? (S/N): ");
+                    String confirmacao = sc.nextLine();
+
+                    if(confirmacao.equalsIgnoreCase("S")){
+                        boolean removido = service.removerPorId(id);
+                        if(removido){
+                            service.salvar();
+                            System.out.println("Projeto excluído com sucesso.");
+                        }
+                        else{
+                            System.out.println("Exclusão cancelada.");
+                        }
+                    }
+                    System.out.println("-------------------------");
+                    break;
+                case 0:
+                    System.out.println("-------------------------");
+                    System.out.println("Encerrando...");
+                    break;
+                default:
+                    System.out.println("Opção inválida.");
+                    break;
             }
         }
         while(opt != 0);
 
        /* 
-        boolean removido = service.removerPorId(1);
-        if(removido){
-            service.salvar();
-        }
-        else{
-            System.out.println("Não foi possível salvar o projeto.");
-        }
-
-
-
-        else{
-            System.out.println("Projeto não encontrado.");      
-        }
 
         for(Projeto projeto : service.buscarPorCategoria("Web")){
             projeto.exibirDados();
@@ -156,23 +182,6 @@ public class Main {
         System.out.println("PROJETOS CONCLUÍDOS");
         for(Projeto projeto : service.buscarPorStatus("Concluído")){
             projeto.exibirDados();
-        }
-
-
-        boolean removido = service.removerPorId(3);
-        if(removido){
-            System.out.println("Projeto removido com sucesso.");        
-        }
-        else{
-            System.out.println("Projeto não encontrado.");
-        }
-
-        boolean cadastrado = service.adicionar(p1);
-        if (cadastrado){
-            System.out.println("Projeto cadastrado.");
-        }
-        else{
-            System.out.println("Já existe um projeto com esse id.");
         }
         
         System.out.println("ALTERAR STATUS DO PROJETO");

@@ -40,6 +40,18 @@ public class ProjetoService{
 
 	// -- ALTERAR --
 
+	public boolean alterarProjeto(Projeto projetoAtualizado){
+		Projeto projeto = buscarPorId(projetoAtualizado.getId());
+		if(projeto == null){
+			return false;
+		}
+		projeto.setNome(projetoAtualizado.getNome());
+		projeto.setDescricao(projetoAtualizado.getDescricao());
+		projeto.setCategoria(projetoAtualizado.getCategoria());
+		projeto.setStatus(projetoAtualizado.getStatus());
+		return true;
+	}
+
 	public boolean alterarNome(int id, String novoNome){
 		Projeto projeto = buscarPorId(id);
 		if(projeto == null){
@@ -53,7 +65,7 @@ public class ProjetoService{
 		if(projeto == null){
 			return false;
 		}
-		projeto.setStatus(novaDescricao);
+		projeto.setDescricao(novaDescricao);
 		return true;
 	}
 	public boolean alterarCategoria(int id, String novaCategoria){
@@ -61,7 +73,7 @@ public class ProjetoService{
 		if(projeto == null){
 			return false;
 		}
-		projeto.setStatus(novaCategoria);
+		projeto.setCategoria(novaCategoria);
 		return true;
 	}
 	public boolean alterarStatus(int id, String novoStatus){
