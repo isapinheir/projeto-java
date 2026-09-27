@@ -41,7 +41,10 @@ public class Main {
                     System.out.println("=== Busca ===");
                     System.out.println("Como deseja realizar sua busca?");
                     System.out.println("1- Por id");
-                    System.out.println("2- Por categoria");
+                    System.out.println("2- Por nome");
+                    System.out.println("3- Por descrição");
+                    System.out.println("4- Por categoria");
+                    System.out.println("5- Por status");
 
                     System.out.print("Escolha --> ");
                     opt2 = sc.nextInt();
@@ -51,7 +54,16 @@ public class Main {
                             opcaoBuscaId();
                             break;
                         case 2:
+                            opcaoBuscaNome();
+                            break;
+                        case 3:
+                            opcaoBuscaDescricao();
+                            break;
+                        case 4:
                             opcaoBuscaCategoria();
+                            break;
+                        case 5:
+                            opcaoBuscaStatus();
                             break;
                         default:                       
                             System.out.println("Opção inválida.");
@@ -76,21 +88,9 @@ public class Main {
                     break;
             }
         }
-        while(opt != 0);
-
-       /* 
-        System.out.println("PROJETOS CONCLUÍDOS");
-        for(Projeto projeto : service.buscarPorStatus("Concluído")){
-            projeto.exibirDados();
-        }
-
-        System.out.println("BUSCAR POR NOME");
-        System.out.println(service.buscarPorNome("sistema"));
-                            System.out.println("3- Por descrição");
-                    System.out.println("4- Por categoria");
-                    System.out.println("5- Por status");
-        */    
+        while(opt != 0);   
     }
+
     public static void opcaoListar(){
         System.out.println("=== Projetos ===");
         for(Projeto projeto : service.listar()){
@@ -114,7 +114,7 @@ public class Main {
         }
     }
     public static void opcaoBuscaCategoria(){
-        System.out.print("Digite o nome do projeto que deseja buscar: ");
+        System.out.print("Digite a categoria do projeto que deseja buscar: ");
         sc.nextLine();
         String cat = sc.nextLine();
 
@@ -123,7 +123,43 @@ public class Main {
             System.out.println("-------------------------");    
         }
 
-        System.out.println("Total de projetos da categoria: " + service.contarPorCategoria(cat));
+        System.out.println("Total de projetos da categoria: " + service.buscarPorCategoria(cat).size());
+        System.out.println("-------------------------");
+    }
+    public static void opcaoBuscaNome(){
+        System.out.print("Digite o nome do projeto que deseja buscar: ");
+        sc.nextLine();
+        String nome = sc.nextLine();
+
+        for(Projeto projeto : service.buscarPorNome(nome)){
+            projeto.exibirDados();
+            System.out.println("-------------------------");
+        }
+        System.out.println("Total de projetos com nome correspondente: " + service.buscarPorNome(nome).size());
+        System.out.println("-------------------------");
+    }
+    public static void opcaoBuscaDescricao(){
+        System.out.print("Digite a descrição do projeto que deseja buscar: ");
+        String desc = sc.nextLine();
+        sc.nextLine();
+
+        for(Projeto projeto : service.buscarPorDescricao(desc)){
+            projeto.exibirDados();
+            System.out.println("-------------------------");
+        }
+        System.out.println("Total de projetos com descrição correspondente: " + service.buscarPorDescricao(desc).size());
+        System.out.println("-------------------------");
+    }
+    public static void opcaoBuscaStatus(){
+        System.out.print("Digite o status do projeto que deseja buscar: ");
+        String stts = sc.nextLine();
+        sc.nextLine();
+        
+        for(Projeto projeto : service.buscarPorStatus(stts)){
+            projeto.exibirDados();
+            System.out.println("-------------------------");
+        }
+        System.out.println("Total de projetos com o status selecionado: " + service.buscarPorStatus(stts).size());
         System.out.println("-------------------------");
     }
     public static void opcaoCadastro() throws Exception{

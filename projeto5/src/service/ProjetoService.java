@@ -110,6 +110,16 @@ public class ProjetoService{
 		return resultado;
 	}
 
+	public List<Projeto> buscarPorDescricao(String texto){
+		List<Projeto> resultado = new ArrayList<>();
+		for(Projeto projeto : projetos){
+			if(projeto.getDescricao().toLowerCase().contains(texto.toLowerCase())){
+				resultado.add(projeto);
+			}
+		}
+		return resultado;
+	}
+
 	public List<Projeto> buscarPorCategoria(String categoria){
 		List <Projeto> resultado = new ArrayList<>();
 		for(Projeto projeto : projetos){
@@ -128,10 +138,6 @@ public class ProjetoService{
 			}	
 		}
 		return(resultado);	
-	}
-
-	public int contarPorCategoria(String categoria){
-		return buscarPorCategoria(categoria).size();
 	}
 
 	// -- REMOVER --
