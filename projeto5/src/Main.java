@@ -6,6 +6,11 @@ import java.util.Scanner;
 
 
 public class Main {
+    // constantes para adicionar cores na interface
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
+    public static final String ANSI_BLUE = "\u001B[34m";
+
     static ProjetoService service = new ProjetoService();
     static ProjetoCSV dao = new ProjetoCSV();
     static Scanner sc = new Scanner(System.in);
@@ -14,21 +19,21 @@ public class Main {
         int opt, opt2;
 
         service.carregar();
-        System.out.println("============================");
+        System.out.println(ANSI_BLUE + "============================");
         System.out.println("=== PORTIFÓLIO ACADÊMICO ===");
         System.out.println("============================");
         System.out.println("= Bem-vindo(a) ao sistema! =");
         System.out.println("");
-        System.out.println("Total de projetos: "+ service.listar().size());
+        System.out.println(ANSI_YELLOW + "Total de projetos: " + ANSI_RESET + service.listar().size());
         System.out.println("");
 
         do{
-            System.out.println("1- Listar");
-            System.out.println("2- Buscar");
-            System.out.println("3- Cadastrar");
-            System.out.println("4- Alterar");
-            System.out.println("5- Excluir");
-            System.out.println("0- Sair");
+            System.out.println(ANSI_YELLOW + "1-"+ ANSI_RESET + "Listar");
+            System.out.println(ANSI_YELLOW + "2-"+ ANSI_RESET + "Buscar");
+            System.out.println(ANSI_YELLOW + "3-"+ ANSI_RESET + "Cadastrar");
+            System.out.println(ANSI_YELLOW + "4-"+ ANSI_RESET + "Alterar");
+            System.out.println(ANSI_YELLOW + "5-"+ ANSI_RESET + "Excluir");
+            System.out.println(ANSI_YELLOW + "0-"+ ANSI_RESET + "Sair");
 
             System.out.print("Escolha --> ");
             opt = sc.nextInt();
@@ -38,7 +43,7 @@ public class Main {
                     opcaoListar();
                     break;
                 case 2:
-                    System.out.println("=== Busca ===");
+                    System.out.println(ANSI_BLUE + "=== Busca ===" + ANSI_RESET);
                     System.out.println("Como deseja realizar sua busca?");
                     System.out.println("1- Por id");
                     System.out.println("2- Por nome");
@@ -80,7 +85,7 @@ public class Main {
                     opcaoDeletar();
                     break;
                 case 0:
-                    System.out.println("-------------------------");
+                    System.out.println(ANSI_YELLOW + "-------------------------" + ANSI_RESET);
                     System.out.println("Encerrando...");
                     break;
                 default:
@@ -92,10 +97,10 @@ public class Main {
     }
 
     public static void opcaoListar(){
-        System.out.println("=== Projetos ===");
+        System.out.println(ANSI_BLUE + "=== Projetos ===" + ANSI_RESET);
         for(Projeto projeto : service.listar()){
             projeto.exibirDados();
-            System.out.println("-------------------------");
+            System.out.println(ANSI_YELLOW + "-------------------------" + ANSI_RESET);
         }
     }
     public static void opcaoBuscaId(){
@@ -106,11 +111,11 @@ public class Main {
         Projeto projeto = service.buscarPorId(busca);
         if(projeto != null){
             projeto.exibirDados(); 
-            System.out.println("-------------------------");       
+            System.out.println(ANSI_YELLOW + "-------------------------" + ANSI_RESET);       
         }
         else{
             System.out.println("Não foi possível buscar o projeto.");
-            System.out.println("-------------------------");
+            System.out.println(ANSI_YELLOW + "-------------------------" + ANSI_RESET);
         }
     }
     public static void opcaoBuscaCategoria(){
@@ -120,11 +125,11 @@ public class Main {
 
         for(Projeto projeto : service.buscarPorCategoria(cat)){
             projeto.exibirDados();
-            System.out.println("-------------------------");    
+            System.out.println(ANSI_YELLOW + "-------------------------" + ANSI_RESET);    
         }
 
         System.out.println("Total de projetos da categoria: " + service.buscarPorCategoria(cat).size());
-        System.out.println("-------------------------");
+        System.out.println(ANSI_YELLOW + "-------------------------" + ANSI_RESET);
     }
     public static void opcaoBuscaNome(){
         System.out.print("Digite o nome do projeto que deseja buscar: ");
@@ -133,10 +138,10 @@ public class Main {
 
         for(Projeto projeto : service.buscarPorNome(nome)){
             projeto.exibirDados();
-            System.out.println("-------------------------");
+            System.out.println(ANSI_YELLOW + "-------------------------" + ANSI_RESET);
         }
         System.out.println("Total de projetos com nome correspondente: " + service.buscarPorNome(nome).size());
-        System.out.println("-------------------------");
+        System.out.println(ANSI_YELLOW + "-------------------------" + ANSI_RESET);
     }
     public static void opcaoBuscaDescricao(){
         System.out.print("Digite a descrição do projeto que deseja buscar: ");
@@ -145,25 +150,25 @@ public class Main {
 
         for(Projeto projeto : service.buscarPorDescricao(desc)){
             projeto.exibirDados();
-            System.out.println("-------------------------");
+            System.out.println(ANSI_YELLOW + "-------------------------" + ANSI_RESET);
         }
         System.out.println("Total de projetos com descrição correspondente: " + service.buscarPorDescricao(desc).size());
-        System.out.println("-------------------------");
+        System.out.println(ANSI_YELLOW + "-------------------------" + ANSI_RESET);
     }
     public static void opcaoBuscaStatus(){
         System.out.print("Digite o status do projeto que deseja buscar: ");
         String stts = sc.nextLine();
         sc.nextLine();
-        
+
         for(Projeto projeto : service.buscarPorStatus(stts)){
             projeto.exibirDados();
-            System.out.println("-------------------------");
+            System.out.println(ANSI_YELLOW + "-------------------------" + ANSI_RESET);
         }
         System.out.println("Total de projetos com o status selecionado: " + service.buscarPorStatus(stts).size());
-        System.out.println("-------------------------");
+        System.out.println(ANSI_YELLOW + "-------------------------" + ANSI_RESET);
     }
     public static void opcaoCadastro() throws Exception{
-        System.out.println("=== Cadastro ===");
+        System.out.println(ANSI_BLUE + "=== Cadastro ===" + ANSI_RESET);
 
         System.out.print("ID: ");
         int id = sc.nextInt();
@@ -187,15 +192,15 @@ public class Main {
         if(cadastrado){
             service.salvar();
             System.out.println("Projeto salvo com sucesso.");
-            System.out.println("-------------------------");
+            System.out.println(ANSI_YELLOW + "-------------------------" + ANSI_RESET);
         }
         else{
             System.out.println("Não foi possível salvar o projeto.");
-            System.out.println("-------------------------");
+            System.out.println(ANSI_YELLOW + "-------------------------" + ANSI_RESET);
         }
     }
     public static void opcaoAlterar() throws Exception{
-        System.out.println("=== Alterar Projeto ===");
+        System.out.println(ANSI_BLUE + "=== Alterar Projeto ===" + ANSI_RESET);
         System.out.print("Informe a id do projeto a ser alterado: ");
         int id = sc.nextInt();
         sc.nextLine();
@@ -203,11 +208,11 @@ public class Main {
         Projeto projeto = service.buscarPorId(id);
         if(projeto == null){
             System.out.println("Não foi possível encontrar o projeto.");
-            System.out.println("-------------------------");
+            System.out.println(ANSI_YELLOW + "-------------------------" + ANSI_RESET);
         }
         System.out.println("Dados Atuais:");
         projeto.exibirDados();
-        System.out.println("-------------------------");
+        System.out.println(ANSI_YELLOW + "-------------------------" + ANSI_RESET);
 
         System.out.println("Novos Dados:");
         System.out.print("Nome: ");
@@ -227,15 +232,15 @@ public class Main {
         if(alterado){
             service.salvar();
             System.out.println("Projeto alterado.");
-            System.out.println("-------------------------");
+            System.out.println(ANSI_YELLOW + "-------------------------" + ANSI_RESET);
         }
         else{
             System.out.println("Não foi possível alterar o projeto.");
-            System.out.println("-------------------------");
+            System.out.println(ANSI_YELLOW + "-------------------------" + ANSI_RESET);
         }
     }
     public static void opcaoDeletar() throws Exception{
-        System.out.println("=== Deletar Projeto ===");
+        System.out.println(ANSI_BLUE + "=== Deletar Projeto ===" + ANSI_RESET);
         System.out.print("Informe a id do projeto a ser deletado: ");
         int id = sc.nextInt();
         sc.nextLine();
@@ -244,7 +249,7 @@ public class Main {
 
         if(projeto == null){
             System.out.println("Não foi possível encontrar o projeto.");
-            System.out.println("-------------------------");
+            System.out.println(ANSI_YELLOW + "-------------------------" + ANSI_RESET);
         }
         System.out.println("Projeto que será excluído:");
         projeto.exibirDados();
@@ -261,7 +266,7 @@ public class Main {
                 System.out.println("Exclusão cancelada.");
             }
         }
-        System.out.println("-------------------------");
+        System.out.println(ANSI_YELLOW + "-------------------------" + ANSI_RESET);
     }
     
 }

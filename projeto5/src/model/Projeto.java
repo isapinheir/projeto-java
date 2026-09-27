@@ -1,6 +1,9 @@
 package model;
 
 public class Projeto {
+    // constantes para adicionar cores na interface
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_BLUE = "\u001B[34m";
 
     private int id;
     private String nome;
@@ -61,11 +64,11 @@ public class Projeto {
     }
 
     public void exibirDados(){
-        System.out.println("Id: "+id);
-        System.out.println("Nome: "+nome);
-        System.out.println("Descrição: "+descricao);
-        System.out.println("Categoria: "+categoria);
-        System.out.println("Status: "+status);  
+        System.out.println(ANSI_BLUE + "Id: " + ANSI_RESET + id);
+        System.out.println(ANSI_BLUE + "Nome: " + ANSI_RESET +nome);
+        System.out.println(ANSI_BLUE + "Descrição: " + ANSI_RESET +descricao);
+        System.out.println(ANSI_BLUE + "Categoria: " + ANSI_RESET +categoria);
+        System.out.println(ANSI_BLUE + "Status: "  + ANSI_RESET +status);  
     }
 
 }
