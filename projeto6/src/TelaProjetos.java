@@ -1,86 +1,152 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-
 import model.Projeto;
 import service.ProjetoService;
 import dao.ProjetoCSV;
 
-public class TelaProjetos extends JFrame{
+public class TelaProjetos extends JFrame {
 
-    private JLabel labelNome;
+    private JTextField campoId;
     private JTextField campoNome;
+    private JTextField campoDescricao;
 
-    private JLabel labelDesc;
-    private JTextField campoDesc;
-
-    private JLabel labelCat;
-    private JTextField campoCat;
-
-    private JLabel labelStts;
-    private JTextField campoStts;
-
-    private JButton botaoCadastrar;
-    private JButton botaoLimpar;
-    private JButton botaoMostrar;
+    private JComboBox<String> comboCategoria;
+    private JComboBox<String> comboStatus;
 
     private JTable tabela;
     private DefaultTableModel modelo;
 
-    public TelaProjetos(){
+    private JButton botaoCadastrar;
+    private JButton botaoLimpar;
+
+    static ProjetoService service = new ProjetoService();
+    static ProjetoCSV dao = new ProjetoCSV();
+
+    public TelaProjetos() throws Exception{
+
         setTitle("Sistema de Projetos");
         setSize(800, 500);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    
-        labelNome = new JLabel("Nome:");
-        campoNome = new JTextField(30);
 
-        labelDesc = new JLabel("Descrição:");
-        campoDesc = new JTextField(30);
+        criarComponentes();
+        criarEventos();
+        carregarTabela();
+    }
 
-        labelCat = new JLabel("Categoria:");
-        campoCat = new JTextField(30);
+    private void criarComponentes() throws Exception {
+        campoNome = new JTextField(20);
+        campoDescricao = new JTextField(20);
 
-        labelStts = new JLabel("Status:");
-        campoStts = new JTextField(30);
+        comboCategoria = new JComboBox<>();
+        comboCategoria.addItem("Web");
+        comboCategoria.addItem("Software");
+        comboCategoria.addItem("Mobile");
+        comboCategoria.addItem("Outro");
 
-        botaoCadastrar = new JButton("Cadastrar:");
-        botaoMostrar = new JButton("MOSTRAR");
+        comboStatus = new JComboBox<>();
+        comboStatus.addItem("Planejado");
+        comboStatus.addItem("Em desenvolvimento");
+        comboStatus.addItem("Concluído");
 
-        JPanel painel = new JPanel();
-
-        painel.add(labelNome);
-        painel.add(campoNome);
-
-        painel.add(labelDesc);
-        painel.add(campoDesc);
-
-        painel.add(labelCat);
-        painel.add(campoCat);
-
-        painel.add(labelStts);
-        painel.add(campoStts);
-
-        painel.add(botaoCadastrar);
-        painel.add(botaoMostrar);
-        add(painel);
-
-        botaoCadastrar.addActionListener(e -> {
-            String nome = campoNome.getText();
-            System.out.println("Projeto: " + nome); 
-        });
-
-        JOptionPane.showMessageDialog(this,"Projeto Cadastrado!");
+        botaoCadastrar = new JButton("Cadastrar");
+        botaoLimpar = new JButton("Limpar");
 
         modelo = new DefaultTableModel();
+        modelo.addColumn("ID");
+        modelo.addColumn("Nome");
+        modelo.addColumn("Categoria");
+        modelo.addColumn("Status");
+        tabela = new JTable(modelo);
 
-        modelo.addColumn("ID:");
-        modelo.addColumn("Nome:");
-        modelo.addColumn("Descrição:");
-        modelo.addColumn("Categoria:");
-        modelo.addColumn("Status:");
+        JPanel painelFormulario = new JPanel();
+
+        painelFormulario.add(new JLabel("Id:"));
+        painelFormulario.add(campoId);
+
+        painelFormulario.add(new JLabel("Nome:"));
+        painelFormulario.add(campoNome);
+
+        painelFormulario.add(new JLabel("Descrição:"));
+        painelFormulario.add(campoDescricao);
+
+        painelFormulario.add(new JLabel("Categoria:"));
+        painelFormulario.add(comboCategoria);
+
+        painelFormulario.add(new JLabel("Status:"));
+        painelFormulario.add(comboStatus);
+
+        painelFormulario.add(botaoCadastrar);
+        painelFormulario.add(botaoLimpar);
+
+        setLayout(new BoxLayout(getContentPane(),BoxLayout.Y_AXIS));
+
+        add(painelFormulario);
+        add(new JScrollPane(tabela));
     }
-    public static void main(String[]args){
+
+    private void criarEventos() {
+        botaoLimpar.addActionListener(e -> {
+            try{
+                limparFormulario();
+            }
+            catch (Exception ex){
+                System.out.println("Falha ao limpar formulário: " + ex.getMessage());
+            }
+        });
+        botaoCadastrar.addActionListener(e -> {
+            try {
+                cadastrar();
+            } catch (Exception ex) {
+                System.out.println("Falha no cadastro: " + ex.getMessage());
+            }
+        });
+    }
+
+    private void limparFormulario() throws Exception{
+        campoNome.setText("");
+        campoDescricao.setText("");
+        comboCategoria.setSelectedIndex(0);
+        comboStatus.setSelectedIndex(0);
+        campoNome.requestFocus();
+    }
+
+    private void carregarTabela() throws Exception{
+        modelo.setRowCount(0);
+        for (Projeto projeto : service.listar()) {
+            modelo.addRow(new Object[]{
+                projeto.getId(),
+                projeto.getNome(),
+                projeto.getCategoria(),
+                projeto.getStatus()
+            });
+        }
+    }
+
+    private void cadastrar() throws Exception{
+        int id = Integer.parseInt(campoId.getText());
+        String nome = campoNome.getText();
+        String descricao = campoDescricao.getText();
+        String categoria = comboCategoria.getSelectedItem().toString();
+        String status = comboStatus.getSelectedItem().toString();
+
+        if (nome.isBlank()) {
+            JOptionPane.showMessageDialog(this,"Informe o nome.");
+            return;
+        }
+
+        Projeto projeto = new Projeto(id, nome, descricao, categoria, status);
+
+        service.adicionar(projeto);
+        service.salvar();
+
+        JOptionPane.showMessageDialog(this,"Projeto cadastrado com sucesso!");
+
+        limparFormulario();
+        carregarTabela();
+    }
+
+    public static void main(String[] args) throws Exception{
         TelaProjetos tela = new TelaProjetos();
         tela.setVisible(true);
     }
