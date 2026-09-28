@@ -35,6 +35,7 @@ public class TelaProjetos extends JFrame {
     }
 
     private void criarComponentes() throws Exception {
+        campoId = new JTextField(2);
         campoNome = new JTextField(20);
         campoDescricao = new JTextField(20);
 
@@ -147,6 +148,7 @@ public class TelaProjetos extends JFrame {
     }
 
     public static void main(String[] args) throws Exception{
+        service.carregar();
         TelaProjetos tela = new TelaProjetos();
         tela.setVisible(true);
     }
