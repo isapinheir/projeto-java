@@ -2,7 +2,6 @@ package barbosa.isabeli.api;
 
 import barbosa.isabeli.model.Projeto;
 import barbosa.isabeli.service.ProjetoService;
-
 import io.javalin.Javalin;
 import java.util.List;
 
@@ -16,11 +15,18 @@ public class Api {
         });
     }
     
-    public static void listar(Javalin app){
-        app.get("/projetos", ctx -> {
-        	List<Projeto> projetos = service.listar();
-        	ctx.json(projetos);
-        });        	
+    public static void listar(Javalin app) {
+	    app.get("/projetos", ctx -> {
+	        try {
+	            List<Projeto> projetos = service.listar();
+	            ctx.json(projetos);
+	        } 
+	        catch (Exception e) {
+	            e.printStackTrace();
+	            ctx.status(500).result("Erro ao listar projetos.");
+	        }
+	    });
+    	    	
     }
     
     public static void buscarPorId(Javalin app) {

@@ -87,8 +87,12 @@ public class ProjetoService{
 
 	// -- BUSCAR E LISTAR --
 
-	public List<Projeto> listar(){
-		return projetos;
+	public List<Projeto> listar() throws Exception {
+	    // Se a lista em memória estiver vazia, carrega do DAO (CSV)
+	    if (this.projetos == null || this.projetos.isEmpty()) {
+	        this.projetos = dao.listar();
+	    }
+	    return this.projetos;
 	}
 
 	public Projeto buscarPorId(int id){
