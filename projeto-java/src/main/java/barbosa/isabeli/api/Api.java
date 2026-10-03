@@ -9,14 +9,27 @@ public class Api {
 
     static ProjetoService service = new ProjetoService();
 
-    public static void raiz(Javalin app) {
+    public static void web(Javalin app) {
+    	// raiz
         app.get("/", ctx -> {
             ctx.result("API Sistema de Projetos");
         });
-    }
-    
-    public static void listar(Javalin app) {
-	    app.get("/projetos", ctx -> {
+        // POST
+        app.post("/projetos", ctx -> {
+        	Projeto projeto = ctx.bodyAsClass(Projeto.class);
+        	
+        	if (projeto.getNome() == null || projeto.getNome().isBlank()) {
+    		    ctx.status(400);
+    		    ctx.json("{\"erro\":\"Nome é obrigatório\"}");
+    		    return;
+    		}
+        	service.adicionar(projeto);
+        	service.salvar();
+        	ctx.status(201);
+        	ctx.json(projeto);
+        });
+        // GET
+        app.get("/projetos", ctx -> {
 	        try {
 	            List<Projeto> projetos = service.listar();
 	            ctx.json(projetos);
@@ -26,11 +39,8 @@ public class Api {
 	            ctx.status(500).result("Erro ao listar projetos.");
 	        }
 	    });
-    	    	
-    }
-    
-    public static void buscarPorId(Javalin app) {
-        app.get("/projetos{id}", ctx -> {
+        // GET por id
+        app.get("/projetos/{id}", ctx -> {
         	int id = Integer.parseInt(ctx.pathParam("id"));
         	Projeto projeto = service.buscarPorId(id);
         	
@@ -39,6 +49,33 @@ public class Api {
         		return;
         	}
         	ctx.json(projeto);
-        });	
+        });
+        // PUT
+        app.put("/projetos/{id}", ctx -> {
+        	int id = Integer.parseInt(ctx.pathParam("id"));
+        	Projeto projeto = ctx.bodyAsClass(Projeto.class);
+        	projeto.setId(id);
+        	
+        	boolean alterou = service.alterarProjeto(projeto);
+        	if(!alterou) {
+        		ctx.status(404);
+        		return;
+        	}
+        	service.salvar();
+        	ctx.json(projeto);
+        });
+        // DELETE
+        app.delete("/projetos/{id}", ctx ->{
+        	int id = Integer.parseInt(ctx.pathParam("id"));
+        	Projeto projeto = service.buscarPorId(id);
+        	if(projeto == null) {
+        		ctx.status(404);
+        		return;
+        	}
+        	service.removerPorId(id);
+        	service.salvar();
+        	ctx.status(204);
+        });
+        
     }
 }

@@ -25,7 +25,7 @@ public class ProjetoService{
 
 	// -- ADICIONAR --
 
-	public boolean adicionar(Projeto projeto){
+	public boolean adicionar(Projeto projeto) throws Exception{
 		if(projeto.getNome() == null ||
 		projeto.getNome().isBlank()){
 			return false;
@@ -40,7 +40,7 @@ public class ProjetoService{
 
 	// -- ALTERAR --
 
-	public boolean alterarProjeto(Projeto projetoAtualizado){
+	public boolean alterarProjeto(Projeto projetoAtualizado) throws Exception{
 		Projeto projeto = buscarPorId(projetoAtualizado.getId());
 		if(projeto == null){
 			return false;
@@ -52,7 +52,7 @@ public class ProjetoService{
 		return true;
 	}
 
-	public boolean alterarNome(int id, String novoNome){
+	public boolean alterarNome(int id, String novoNome)throws Exception{
 		Projeto projeto = buscarPorId(id);
 		if(projeto == null){
 			return false;
@@ -60,7 +60,7 @@ public class ProjetoService{
 		projeto.setNome(novoNome);
 		return true;
 	}
-	public boolean alterarDescricao(int id, String novaDescricao){
+	public boolean alterarDescricao(int id, String novaDescricao) throws Exception{
 		Projeto projeto = buscarPorId(id);
 		if(projeto == null){
 			return false;
@@ -68,7 +68,7 @@ public class ProjetoService{
 		projeto.setDescricao(novaDescricao);
 		return true;
 	}
-	public boolean alterarCategoria(int id, String novaCategoria){
+	public boolean alterarCategoria(int id, String novaCategoria) throws Exception{
 		Projeto projeto = buscarPorId(id);
 		if(projeto == null){
 			return false;
@@ -76,7 +76,7 @@ public class ProjetoService{
 		projeto.setCategoria(novaCategoria);
 		return true;
 	}
-	public boolean alterarStatus(int id, String novoStatus){
+	public boolean alterarStatus(int id, String novoStatus) throws Exception{
 		Projeto projeto = buscarPorId(id);
 		if(projeto == null){
 			return false;
@@ -88,15 +88,17 @@ public class ProjetoService{
 	// -- BUSCAR E LISTAR --
 
 	public List<Projeto> listar() throws Exception {
-	    // Se a lista em memória estiver vazia, carrega do DAO (CSV)
 	    if (this.projetos == null || this.projetos.isEmpty()) {
 	        this.projetos = dao.listar();
 	    }
 	    return this.projetos;
 	}
 
-	public Projeto buscarPorId(int id){
+	public Projeto buscarPorId(int id) throws Exception{
         for(Projeto projeto : projetos){
+        	if (this.projetos == null || this.projetos.isEmpty()) {
+    	        this.projetos = dao.listar();
+    	    }
 			if(projeto.getId() == id){
 				return projeto;
 			}
@@ -146,7 +148,7 @@ public class ProjetoService{
 
 	// -- REMOVER --
 
-	public boolean removerPorId(int id){
+	public boolean removerPorId(int id) throws Exception{
     	Projeto projeto = buscarPorId(id);
 		if(projeto != null){
 			projetos.remove(projeto);

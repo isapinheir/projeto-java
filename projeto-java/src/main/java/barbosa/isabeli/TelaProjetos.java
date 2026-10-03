@@ -155,10 +155,7 @@ public class TelaProjetos extends JFrame {
     public static void main(String[] args) throws Exception{
         service.carregar();
         Javalin app = Javalin.create().start(7000);
-        Api.raiz(app);
-        Api.listar(app);
-        Api.buscarPorId(app);
-        CsvApi.registrarRotas(app);
+        Api.web(app);
         TelaProjetos tela = new TelaProjetos();
         tela.setVisible(true);
     }
