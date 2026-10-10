@@ -153,7 +153,13 @@ public class TelaProjetos extends JFrame {
 
     public static void main(String[] args) throws Exception{
         service.carregar();
-        Javalin app = Javalin.create().start(7000);
+        Javalin app = Javalin.create(config ->{
+        	config.bundledPlugins.enableCors(cors ->{
+        		cors.addRule(it -> {
+        			it.anyHost();
+        		});
+        	});
+        }).start(7000);
         Api.web(app);
         TelaProjetos tela = new TelaProjetos();
         tela.setVisible(true);
