@@ -49,10 +49,27 @@ function tabela(data) {
     });
 }
 
+document.getElementById('buscaInput').addEventListener('input', async (e) => {
+    const dados = await obterProjetos();
+    if(dados){
+        const projetos = Object.values(dados);
+        const busca = e.target.value.toLowerCase();
+        const filtro = projetos.filter(p => 
+            p.nome.toLowerCase().includes(busca) || 
+            p.descricao.toLowerCase().includes(busca) ||
+            p.categoria.toLowerCase().includes(busca) ||
+            p.status.toLowerCase().includes(busca)
+        );
+        tabela(filtro);
+    }
+    else{
+        console.log("bloquear a barra de busca")
+    }
+});
+
 window.onload = async () => {
     const projetos = await obterProjetos();
     if(projetos){
         tabela(projetos);
-        console.log(projetos)
     }
 };
