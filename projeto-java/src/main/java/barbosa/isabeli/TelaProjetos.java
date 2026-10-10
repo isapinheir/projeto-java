@@ -2,7 +2,6 @@ package barbosa.isabeli;
 
 import barbosa.isabeli.model.Projeto;
 import barbosa.isabeli.api.Api;
-import barbosa.isabeli.api.CsvApi;
 import barbosa.isabeli.dao.ProjetoCSV;
 import barbosa.isabeli.service.ProjetoService;
 
