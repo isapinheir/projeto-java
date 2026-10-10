@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Projetos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+</head>
+<body>
+
+    <header>
+        <h1>Projetos</h1>
+    </header>
+
+    <main>
+        <div class="container">
+            
+            <div class="cabecalho">
+                <div class="busca">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="buscaInput" class="busca-input" placeholder="Buscar projeto">
+                </div>
+            </div>
+
+            <div class="container-tabela">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nome</i></th>
+                            <th>Descrição</i></th>
+                            <th>Categoria</i></th>
+                            <th>Status</i></th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <tr>
+                            <td>
+                                <p class="nome-projeto">Projeto 1</p>
+                            </td>
+                            <td>
+                                <p>Site de uma instituicao</p>
+                            </td>
+                            <td>
+                                <span class="badge categoria">Software</span>
+                            </td>
+                            <td>
+                                <span class="badge concluido">
+                                    <span class="icone-status"></span>Concluído
+                                </span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <p class="nome-projeto">Projeto 2</p>
+                            </td>
+                            <td>
+                                <p>Sistema para gerenciar finanças</p>
+                            </td>
+                            <td>
+                                <span class="badge categoria">Mobile</span>
+                            </td>
+                            <td>
+                                <span class="badge planejado">
+                                    <span class="icone-status"></span>Planejado
+                                </span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <p class="nome-projeto">Projeto 3</p>
+                            </td>
+                            <td>
+                                <p>Aplicativo de servicos</p>
+                            </td>
+                            <td>
+                                <span class="badge categoria">Web</span>
+                            </td>
+                            <td>
+                                <span class="badge desenvolvimento">
+                                    <span class="icone-status"></span>Em desenvolvimento
+                                </span>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </main>
+</body>
+</html>
