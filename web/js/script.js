@@ -40,7 +40,7 @@ function tabela(data) {
                 </td>
                 <td>
                     <span class="badge ${projeto.status ? projeto.status.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() : ''}">
-                        <span class="icone-status"></span>${projeto.status}
+                        <span class="icone-status"></span><p>${projeto.status}</p>
                     </span>
                 </td>
             </tr>
@@ -63,7 +63,7 @@ document.getElementById('buscaInput').addEventListener('input', async (e) => {
         tabela(filtro);
     }
     else{
-        console.log("bloquear a barra de busca")
+        buscaInput.style.cursor = 'not-allowed';
     }
 });
 

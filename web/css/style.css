@@ -90,10 +90,11 @@ main {
     background-color: var(--bg-body);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-sm);
-    font-size: 0.875rem;
+    font-size: 1rem;
     color: var(--text-main);
     outline: none;
     transition: var(--transition);
+    cursor: pointer;
 }
 
 .busca-input:focus {
@@ -107,6 +108,7 @@ main {
 .container-tabela {
     width: 100%;
     overflow-x: auto;
+    overflow-y: auto;
     flex: 1;
 }
 
@@ -118,14 +120,14 @@ table {
     width: 100%;
     border-collapse: collapse;
     text-align: left;
-    font-size: 0.875rem;
+    font-size: 0.8rem;
 }
 
 th {
     background-color: rgba(248, 250, 252, 0.6);
     border-bottom: 1px solid var(--border-color);
     color: var(--text-light);
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -138,6 +140,7 @@ td {
     padding: 1rem;
     border-bottom: 1px solid var(--border-light);
     color: var(--text-main);
+    font-size: 1rem;
     vertical-align: middle;
 }
 
@@ -156,10 +159,13 @@ tbody tr:hover {
     align-items: center;
     padding: 0.25rem 0.75rem;
     border-radius: var(--radius-full);
-    font-size: 0.75rem;
     font-weight: 500;
     border: 1px solid transparent;
     cursor: default;
+}
+.badge p{
+    font-size: .9rem;
+    white-space: nowrap;
 }
 .categoria {
     background-color: var(--border-light);
@@ -191,3 +197,32 @@ tbody tr:hover {
 }
 
 /* RESPONSIVIDADE */
+
+@media(max-width: 640px){
+    h1{
+       font-size: 1.5rem;
+       color: #15803d;
+    }
+    th{
+        font-size: .6rem;
+    }
+    td{
+        font-size: .7rem;
+    }
+}
+
+@media (min-width: 640px) and (max-width: 1024px) {
+    h1{
+        color:burlywood;
+        font-size: 1.8rem;
+    }
+    .busca-input{
+        font-size: .8rem;
+    }
+    td{
+        font-size: .83rem;
+    }
+    .badge p{
+        font-size: .6rem;
+    }
+}
