@@ -74,10 +74,12 @@ document.getElementById('btnAdd').addEventListener('click',() =>{
     if(projetos.style.display === 'flex'){
         projetos.style.display = 'none';
         popup.style.display = 'block';
+        btnAdd.classList.add('ativado');
     }
     else{
         projetos.style.display = 'flex';
         popup.style.display = 'none';
+        btnAdd.classList.remove('ativado');
     }
 })
 

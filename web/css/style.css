@@ -260,6 +260,7 @@ input:focus, textarea:focus, select:focus .btn-cadastro:focus{
     cursor: pointer;
     background-color: #fafafa; 
     color: var(--text-muted);
+    transition: transform 0.3s ease;
 }
 #btnAdd:hover{
     background-color: #eaeaea;
@@ -269,6 +270,9 @@ input:focus, textarea:focus, select:focus .btn-cadastro:focus{
 }
 #btnAdd i {
     font-size: 1.5rem;
+}
+.ativado{
+    transform: rotate(45deg);
 }
 
 /* RESPONSIVIDADE */
