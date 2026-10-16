@@ -71,12 +71,12 @@ document.getElementById('btnAdd').addEventListener('click',() =>{
     const projetos = document.getElementById('projetos');
     const popup = document.getElementById('popup');
 
-    if(projetos.style.display === 'block'){
+    if(projetos.style.display === 'flex'){
         projetos.style.display = 'none';
         popup.style.display = 'block';
     }
     else{
-        projetos.style.display = 'block';
+        projetos.style.display = 'flex';
         popup.style.display = 'none';
     }
 })
