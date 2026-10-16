@@ -16,32 +16,66 @@
     </header>
 
     <main>
-        <div class="container">
+        <div id="container">
+            <section id="projetos">
             
-            <div class="cabecalho">
-                <div class="busca">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" id="buscaInput" class="busca-input" placeholder="Buscar projeto">
+                <div class="cabecalho">
+                    <div class="busca">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="buscaInput" class="busca-input" placeholder="Buscar projeto">
+                    </div>
                 </div>
-            </div>
 
-            <div class="container-tabela">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Nome</th>
-                            <th>Descrição</th>
-                            <th>Categoria</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tBody">
-                        <!-- Itens da tabela inseridos com JS -->
-                    </tbody>
-                </table>
-            </div>
+                <id class="container-tabela">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Descrição</th>
+                                <th>Categoria</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tBody">
+                            <!-- Itens da tabela inseridos com JS -->
+                        </tbody>
+                    </table>
+            </section>
+
+            <section id="popup">
+                <h2>Cadastrar projeto</h2>
+
+                <form id="formProjeto">
+
+                    <label for="nome">Nome:</label>
+                    <input type="text" id="nome" required>
+
+                    <label for="descricao">Descrição:</label>
+                    <textarea id="nome" required></textarea>
+
+                    <label for="categoria">Categoria:</label>
+                    <input type="text" id="nome" required>
+
+                    <label for="status">Status:</label>
+                    <select id="status">
+
+                        <option value="planejado">Planejado</option>
+                        <option value="desenvolvimento">Em desenvolvimento</option>
+                        <option value="concluido">Concluído</option>
+
+                    </select>
+
+                    <button class="btn-cadastro" type="submit">Cadastrar projeto</button>
+
+                </form>
+            </section>
 
         </div>
+
+        <button id="btn-add">
+            <i class="fa-solid fa-plus"></i>        
+        </button>
+
     </main>
     <script src="js/script.js" defer></script>
 </body>

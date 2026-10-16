@@ -46,7 +46,7 @@ main {
     flex-direction: column;
 }
 
-.container {
+#container {
     max-height: 35rem;
     background-color: var(--bg-card);
     border-radius: var(--radius-md);
@@ -56,6 +56,9 @@ main {
     flex-direction: column;
     overflow: hidden;
     flex: 1;
+}
+#projetos{
+    display: block;
 }
 
 /* CABEÇALHO */
@@ -111,7 +114,6 @@ main {
     max-height: inherit;
     overflow-x: auto;
     overflow-y: auto;
-    flex: 1;
 }
 
 .nome-projeto{
@@ -194,6 +196,76 @@ tbody tr:hover {
     border-radius: var(--radius-full);
     background-color: currentColor;
     margin-right: 0.35rem;
+}
+
+/* POPUP */
+#popup{
+    display: none;
+    padding: 1.5rem;
+}
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+label{
+    padding-top: .5rem;
+}
+input, textarea, select {
+    padding: .8rem;
+    border: 1px solid var(--border-color);
+    border-radius: .8rem;
+    background-color: var(--bg-body);
+    font-size: 1rem;
+    color: var(--text-muted);
+    outline: none;
+}
+textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+select{
+    font-weight: bold;
+}
+.btn-cadastro{
+    padding: .8rem;
+    border: 1px solid var(--border-color);
+    border-radius: .8rem;
+    font-size: 1rem;
+    font-weight: bold;
+    background-color: #fafafa;
+    color: var(--text-muted);
+    cursor: pointer;
+}
+.btn-cadastro:hover{
+    background-color: #eaeaea;
+}
+.btn-cadastro:active{
+    background-color: #dadada;
+}
+input:focus, textarea:focus, select:focus .btn-cadastro:focus{
+    box-shadow: 0 0 0 2px #87255b89;
+}
+#btn-add{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 4rem;
+    height: 4rem;
+    margin: 1rem;
+    border-radius: 999px;
+    cursor: pointer;
+    background-color: #fafafa; 
+    color: var(--text-muted);
+}
+#btn-add:hover{
+    background-color: #eaeaea;
+}
+#btn-add:active{
+    background-color: #dadada;
+}
+#btn-add i {
+    font-size: 1.5rem;
 }
 
 /* RESPONSIVIDADE */
