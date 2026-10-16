@@ -47,6 +47,7 @@ main {
 }
 
 .container {
+    max-height: 35rem;
     background-color: var(--bg-card);
     border-radius: var(--radius-md);
     border: 1px solid var(--border-color);
@@ -106,6 +107,8 @@ main {
 
 .container-tabela {
     width: 100%;
+    height: 100%;
+    max-height: inherit;
     overflow-x: auto;
     overflow-y: auto;
     flex: 1;
@@ -117,6 +120,7 @@ main {
 
 table {
     width: 100%;
+    height: 100%;
     border-collapse: collapse;
     text-align: left;
     font-size: 0.8rem;
@@ -198,6 +202,9 @@ tbody tr:hover {
     h1{
        font-size: 1.5rem;
     }
+    .container{
+        max-height: 28rem;
+    }
     .busca-input{
         font-size: .75rem;
     }
@@ -215,6 +222,9 @@ tbody tr:hover {
 @media (min-width: 640px) and (max-width: 1024px) {
     h1{
         font-size: 1.8rem;
+    }
+    .container{
+        max-height: 24rem;
     }
     .busca-input{
         font-size: .8rem;
