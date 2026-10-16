@@ -246,7 +246,7 @@ select{
 input:focus, textarea:focus, select:focus .btn-cadastro:focus{
     box-shadow: 0 0 0 2px #87255b89;
 }
-#btn-add{
+#btnAdd{
     position: absolute;
     bottom: 0;
     right: 0;
@@ -258,13 +258,13 @@ input:focus, textarea:focus, select:focus .btn-cadastro:focus{
     background-color: #fafafa; 
     color: var(--text-muted);
 }
-#btn-add:hover{
+#btnAdd:hover{
     background-color: #eaeaea;
 }
-#btn-add:active{
+#btnAdd:active{
     background-color: #dadada;
 }
-#btn-add i {
+#btnAdd i {
     font-size: 1.5rem;
 }
 

@@ -67,6 +67,20 @@ document.getElementById('buscaInput').addEventListener('input', async (e) => {
     }
 });
 
+document.getElementById('btnAdd').addEventListener('click',() =>{
+    const projetos = document.getElementById('projetos');
+    const popup = document.getElementById('popup');
+
+    if(projetos.style.display === 'block'){
+        projetos.style.display = 'none';
+        popup.style.display = 'block';
+    }
+    else{
+        projetos.style.display = 'block';
+        popup.style.display = 'none';
+    }
+})
+
 window.onload = async () => {
     const projetos = await obterProjetos();
     if(projetos){
