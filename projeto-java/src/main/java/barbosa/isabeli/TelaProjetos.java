@@ -3,9 +3,10 @@ package barbosa.isabeli;
 import barbosa.isabeli.model.Projeto;
 import barbosa.isabeli.api.Api;
 import barbosa.isabeli.dao.ProjetoCSV;
-import barbosa.isabeli.service.ProjetoService;
+import barbosa.isabeli.client.ApiClient;
 
 import io.javalin.Javalin;
+import java.util.List;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -24,7 +25,7 @@ public class TelaProjetos extends JFrame {
     private JButton botaoCadastrar;
     private JButton botaoLimpar;
 
-    static ProjetoService service = new ProjetoService();
+    static ApiClient apiClient;
     static ProjetoCSV dao = new ProjetoCSV();
 
     public TelaProjetos() throws Exception{
@@ -33,7 +34,8 @@ public class TelaProjetos extends JFrame {
         setSize(800, 500);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        
+        apiClient = new ApiClient();
         criarComponentes();
         criarEventos();
         carregarTabela();
@@ -119,7 +121,8 @@ public class TelaProjetos extends JFrame {
 
     private void carregarTabela() throws Exception{
         modelo.setRowCount(0);
-        for (Projeto projeto : service.listar()) {
+        List<Projeto> projetos = apiClient.listarProjetos();
+        for (Projeto projeto : projetos) {
             modelo.addRow(new Object[]{
                 projeto.getId(),
                 projeto.getNome(),
@@ -130,29 +133,32 @@ public class TelaProjetos extends JFrame {
     }
 
     private void cadastrar() throws Exception{
-        int id = Integer.parseInt(campoId.getText());
-        String nome = campoNome.getText();
-        String descricao = campoDescricao.getText();
-        String categoria = comboCategoria.getSelectedItem().toString();
-        String status = comboStatus.getSelectedItem().toString();
-
-        if (nome.isBlank()) {
-            JOptionPane.showMessageDialog(this,"Informe o nome.");
-            return;
-        }
-        Projeto projeto = new Projeto(id, nome, descricao, categoria, status);
-
-        service.adicionar(projeto);
-        service.salvar();
-
-        JOptionPane.showMessageDialog(this,"Projeto cadastrado com sucesso!");
-
-        limparFormulario();
-        carregarTabela();
+    	try {
+	        int id = Integer.parseInt(campoId.getText());
+	        String nome = campoNome.getText();
+	        String descricao = campoDescricao.getText();
+	        String categoria = comboCategoria.getSelectedItem().toString();
+	        String status = comboStatus.getSelectedItem().toString();
+	
+	        if (nome.isBlank()) {
+	            JOptionPane.showMessageDialog(this,"Informe o nome.");
+	            return;
+	        }
+	        Projeto projeto = new Projeto(id, nome, descricao, categoria, status);
+	
+	        apiClient.cadastrarProjeto(projeto);
+	
+	        JOptionPane.showMessageDialog(this,"Projeto cadastrado com sucesso!");
+	
+	        limparFormulario();
+	        carregarTabela();
+    	}
+    	catch(Exception e){
+    		JOptionPane.showMessageDialog(this, "Erro: " + e.getMessage());
+    	}
     }        
 
     public static void main(String[] args) throws Exception{
-        service.carregar();
         Javalin app = Javalin.create(config ->{
         	config.bundledPlugins.enableCors(cors ->{
         		cors.addRule(it -> {
