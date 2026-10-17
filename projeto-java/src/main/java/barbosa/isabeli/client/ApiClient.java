@@ -38,7 +38,7 @@ public class ApiClient {
 	}
 	public void excluirProjeto(int id) throws Exception{
 		HttpRequest request = HttpRequest.newBuilder()
-			.uri(URI.create(baseUrl + "/projetos" + id)).DELETE().build();
+			.uri(URI.create(baseUrl + "/projetos/" + id)).DELETE().build();
 		HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 		
 		if(response.statusCode() != 204) {
@@ -49,7 +49,7 @@ public class ApiClient {
 		String json = mapper.writeValueAsString(projeto);
 		
 		HttpRequest request = HttpRequest.newBuilder()
-				.uri(URI.create(baseUrl + "/projetos" + id))
+				.uri(URI.create(baseUrl + "/projetos/" + id))
 				.header("Content-Type", "application/json")
 				.PUT(HttpRequest.BodyPublishers.ofString(json)).build();
 		
