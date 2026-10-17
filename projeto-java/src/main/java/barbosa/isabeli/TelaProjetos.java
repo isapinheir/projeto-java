@@ -24,6 +24,7 @@ public class TelaProjetos extends JFrame {
 
     private JButton botaoCadastrar;
     private JButton botaoLimpar;
+    private JButton botaoExcluir;
 
     static ApiClient apiClient;
     static ProjetoCSV dao = new ProjetoCSV();
@@ -59,6 +60,7 @@ public class TelaProjetos extends JFrame {
 
         botaoCadastrar = new JButton("Cadastrar");
         botaoLimpar = new JButton("Limpar");
+        botaoExcluir = new JButton("Excluir");
 
         modelo = new DefaultTableModel();
         modelo.addColumn("ID");
@@ -86,6 +88,7 @@ public class TelaProjetos extends JFrame {
 
         painelFormulario.add(botaoCadastrar);
         painelFormulario.add(botaoLimpar);
+        painelFormulario.add(botaoExcluir);
 
         setLayout(new BoxLayout(getContentPane(),BoxLayout.Y_AXIS));
 
@@ -107,6 +110,13 @@ public class TelaProjetos extends JFrame {
                 cadastrar();
             } catch (Exception ex) {
                 System.out.println("Falha no cadastro: " + ex.getMessage());
+            }
+        });
+        botaoExcluir.addActionListener(e -> {
+            try {
+                excluir();
+            } catch (Exception ex) {
+                System.out.println("Falha ao apagar: " + ex.getMessage());
             }
         });
     }
@@ -156,7 +166,23 @@ public class TelaProjetos extends JFrame {
     	catch(Exception e){
     		JOptionPane.showMessageDialog(this, "Erro: " + e.getMessage());
     	}
-    }        
+    }
+    private void excluir() throws Exception{
+    	try {
+	        int linha = tabela.getSelectedRow();
+	        if(linha == -1) {
+	        	JOptionPane.showMessageDialog(this, "Selecione um projeto.");
+	        	return;
+	        }
+	        
+	        int id = (int) modelo.getValueAt(linha, 0);
+	        apiClient.excluirProjeto(id);
+	        carregarTabela();
+    	}
+    	catch(Exception e){
+    		JOptionPane.showMessageDialog(this, "Erro: " + e.getMessage());
+    	}
+    }
 
     public static void main(String[] args) throws Exception{
         Javalin app = Javalin.create(config ->{
