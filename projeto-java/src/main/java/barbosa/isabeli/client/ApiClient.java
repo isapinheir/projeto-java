@@ -28,12 +28,21 @@ public class ApiClient {
 	public Projeto cadastrarProjeto(Projeto projeto) throws Exception{
 		String json = mapper.writeValueAsString(projeto);
 		HttpRequest request = HttpRequest.newBuilder()
-		.uri(URI.create(baseUrl + "/projetos"))
-		.header("Content-Type", "application/json")
-		.POST(HttpRequest.BodyPublishers.ofString(json)).build();
+			.uri(URI.create(baseUrl + "/projetos"))
+			.header("Content-Type", "application/json")
+			.POST(HttpRequest.BodyPublishers.ofString(json)).build();
 		
 		HttpResponse <String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 		
 		return mapper.readValue(response.body(),Projeto.class);
+	}
+	public void excluirProjeto(int id) throws Exception{
+		HttpRequest request = HttpRequest.newBuilder()
+			.uri(URI.create(baseUrl + "/projetos" + id)).DELETE().build();
+		HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+		
+		if(response.statusCode() != 204) {
+			throw new RuntimeException("Erro ao excluir projeto: " + response.statusCode());
+		}
 	}
 }
