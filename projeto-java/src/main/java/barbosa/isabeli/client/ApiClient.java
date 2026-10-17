@@ -45,4 +45,20 @@ public class ApiClient {
 			throw new RuntimeException("Erro ao excluir projeto: " + response.statusCode());
 		}
 	}
+	public Projeto alterarProjeto(int id, Projeto projeto) throws Exception{
+		String json = mapper.writeValueAsString(projeto);
+		
+		HttpRequest request = HttpRequest.newBuilder()
+				.uri(URI.create(baseUrl + "/projetos" + id))
+				.header("Content-Type", "application/json")
+				.PUT(HttpRequest.BodyPublishers.ofString(json)).build();
+		
+		HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+		
+		if(response.statusCode() != 200) {
+			throw new RuntimeException("Erro ao alterar projeto: " + response.statusCode()); 
+		}
+		
+		return mapper.readValue(response.body(), Projeto.class);
+	}
 }
