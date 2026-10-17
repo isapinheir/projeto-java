@@ -15,7 +15,11 @@ public class TelaProjetos extends JFrame {
     private JTextField campoId;
     private JTextField campoNome;
     private JTextField campoDescricao;
+    private JTextField campoNomeNovo;
+    private JTextField campoDescricaoNova;
 
+    private JComboBox<String> comboCategoriaNova;
+    private JComboBox<String> comboStatusNovo;
     private JComboBox<String> comboCategoria;
     private JComboBox<String> comboStatus;
 
@@ -24,6 +28,7 @@ public class TelaProjetos extends JFrame {
 
     private JButton botaoCadastrar;
     private JButton botaoLimpar;
+    private JButton botaoAlterar;
     private JButton botaoExcluir;
 
     static ApiClient apiClient;
@@ -60,6 +65,7 @@ public class TelaProjetos extends JFrame {
 
         botaoCadastrar = new JButton("Cadastrar");
         botaoLimpar = new JButton("Limpar");
+        botaoAlterar = new JButton("Alterar");
         botaoExcluir = new JButton("Excluir");
 
         modelo = new DefaultTableModel();
@@ -68,6 +74,20 @@ public class TelaProjetos extends JFrame {
         modelo.addColumn("Categoria");
         modelo.addColumn("Status");
         tabela = new JTable(modelo);
+        
+        campoNomeNovo = new JTextField(20);
+        campoDescricaoNova = new JTextField(20);
+
+        comboCategoriaNova = new JComboBox<>();
+        comboCategoriaNova.addItem("Web");
+        comboCategoriaNova.addItem("Software");
+        comboCategoriaNova.addItem("Mobile");
+        comboCategoriaNova.addItem("Outro");
+
+        comboStatusNovo = new JComboBox<>();
+        comboStatusNovo.addItem("Planejado");
+        comboStatusNovo.addItem("Em desenvolvimento");
+        comboStatusNovo.addItem("Concluído");
 
         JPanel painelFormulario = new JPanel();
 
@@ -88,12 +108,31 @@ public class TelaProjetos extends JFrame {
 
         painelFormulario.add(botaoCadastrar);
         painelFormulario.add(botaoLimpar);
+        painelFormulario.add(botaoAlterar);
         painelFormulario.add(botaoExcluir);
 
         setLayout(new BoxLayout(getContentPane(),BoxLayout.Y_AXIS));
 
         add(painelFormulario);
         add(new JScrollPane(tabela));
+    }
+    
+    private JPanel criarPainelAlterar() {
+    	JPanel painelAlterar = new JPanel();
+        
+        painelAlterar.add(new JLabel("Nome:"));
+        painelAlterar.add(campoNomeNovo);
+
+        painelAlterar.add(new JLabel("Descrição:"));
+        painelAlterar.add(campoDescricaoNova);
+
+        painelAlterar.add(new JLabel("Categoria:"));
+        painelAlterar.add(comboCategoriaNova);
+
+        painelAlterar.add(new JLabel("Status:"));
+        painelAlterar.add(comboStatusNovo);
+        
+        return painelAlterar;
     }
 
     private void criarEventos() {
@@ -111,6 +150,14 @@ public class TelaProjetos extends JFrame {
             } catch (Exception ex) {
                 System.out.println("Falha no cadastro: " + ex.getMessage());
             }
+        });
+        botaoAlterar.addActionListener(e ->{
+        	try {
+        		alterar();
+        	}
+        	catch(Exception ex){
+        		System.out.println("Falha ao alterar: " + ex.getMessage());
+        	}
         });
         botaoExcluir.addActionListener(e -> {
             try {
@@ -177,6 +224,33 @@ public class TelaProjetos extends JFrame {
 	        
 	        int id = (int) modelo.getValueAt(linha, 0);
 	        apiClient.excluirProjeto(id);
+	        carregarTabela();
+    	}
+    	catch(Exception e){
+    		JOptionPane.showMessageDialog(this, "Erro: " + e.getMessage());
+    	}
+    }
+    private void alterar() throws Exception{
+    	try {
+	        int linha = tabela.getSelectedRow();
+	        if(linha == -1) {
+	        	JOptionPane.showMessageDialog(this, "Selecione um projeto.");
+	        	return;
+	        }
+	        JOptionPane.showMessageDialog(null, criarPainelAlterar());
+	        
+	        int id = (int) modelo.getValueAt(linha, 0);
+	        String nome = campoNomeNovo.getText();
+	        String descricao = campoDescricaoNova.getText();
+	        String categoria = comboCategoriaNova.getSelectedItem().toString();
+	        String status = comboStatusNovo.getSelectedItem().toString();
+	
+	        if (nome.isBlank()) {
+	            JOptionPane.showMessageDialog(this,"Informe o nome.");
+	            return;
+	        }
+	        Projeto novoProjeto = new Projeto(id, nome, descricao, categoria, status);
+	        apiClient.alterarProjeto(id, novoProjeto);
 	        carregarTabela();
     	}
     	catch(Exception e){
