@@ -177,16 +177,36 @@ public class TelaProjetos extends JFrame {
     }
 
     private void carregarTabela() throws Exception{
-        modelo.setRowCount(0);
-        List<Projeto> projetos = apiClient.listarProjetos();
-        for (Projeto projeto : projetos) {
-            modelo.addRow(new Object[]{
-                projeto.getId(),
-                projeto.getNome(),
-                projeto.getCategoria(),
-                projeto.getStatus()
-            });
-        }
+        new SwingWorker<List<Projeto>, Void>(){
+        	
+        	@Override
+        	protected List<Projeto> doInBackground() throws Exception{
+        		return apiClient.listarProjetos();
+        	}
+        	
+        	@Override
+        	protected void done() {
+        		try {
+        			atualizarTabela(get());
+        		}
+        		catch(Exception e){
+        			JOptionPane.showMessageDialog(TelaProjetos.this, "Erro ao carregar: " + e.getMessage());
+        		}
+        	}
+        }.execute();
+    }
+    
+    private void atualizarTabela(List<Projeto> projetos) {
+    	modelo.setRowCount(0);;
+    	
+    	for(Projeto projeto : projetos) {
+    		modelo.addRow(new Object[] {
+    			projeto.getId(),
+    			projeto.getNome(),
+    			projeto.getCategoria(),
+    			projeto.getStatus()
+    		});
+    	}
     }
 
     private void cadastrar() throws Exception{
