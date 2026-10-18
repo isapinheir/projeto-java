@@ -1,6 +1,9 @@
+const API_URL = 'http://localhost:7000/projetos'
+const form = document.getElementById('formProjeto');
+
 async function obterProjetos(){
     try {
-        const resposta = await fetch('http://localhost:7000/projetos');
+        const resposta = await fetch(API_URL);
         console.log(resposta);
         if (!resposta.ok) {
             throw new Error('Erro ao buscar dados da API');
@@ -11,6 +14,13 @@ async function obterProjetos(){
     catch (error) {
         console.error('Erro:', error);
         alert('Não foi possível obter os dados dos projetos.');
+    }
+}
+
+async function listarProjetos(){
+    const projetos = await obterProjetos();
+    if(projetos){
+        tabela(projetos);
     }
 }
 
@@ -83,9 +93,35 @@ document.getElementById('btnAdd').addEventListener('click',() =>{
     }
 })
 
-window.onload = async () => {
-    const projetos = await obterProjetos();
-    if(projetos){
-        tabela(projetos);
+form.addEventListener('submit', async (e) =>{
+    e.preventDefault();
+
+    const projeto = {
+        nome: document.getElementById('nome').value,
+        descricao: document.getElementById('descricao').value,
+        categoria: document.getElementById('categoria').value,
+        status: document.getElementById('status').value,
     }
-};
+
+    try{
+        const resposta = await fetch(API_URL,{
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(projeto)
+        });
+
+        if(!resposta.ok){
+            throw new Error("Erro ao cadastrar o projeto.");
+        }
+
+        alert("Projeto cadastrado com sucesso.");
+        form.reset();
+        listarProjetos();
+    }
+    catch(err){
+        alert("Não foi possível cadastrar o projeto.");
+        console.error(err);
+    }
+});
+
+window.onload = listarProjetos();
