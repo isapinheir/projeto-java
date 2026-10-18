@@ -24,6 +24,42 @@ async function listarProjetos(){
     }
 }
 
+async function excluirProjeto(){
+    const confirmar = confirm("Deseja realmente excluir esse projeto?");
+    if(!confirmar){
+        return;
+    }
+
+    try{
+        const resposta = await fetch(`${API_URL}/${id}`,{
+            method: "DELETE"
+        });
+
+        if(!resposta.ok){
+            throw new Error("Erro ao excluir o projeto.");
+        }
+        
+        alert("Projeto excluído com sucesso.");
+        await listarProjetos();
+    }
+    catch(e){
+        alert("Não foi possível excluir o projeto.");
+        console.error(e);
+    }
+}
+
+async function alterarProjeto(id, projeto){
+    const resposta = await fetch()(`${API_URL}/${id}`,{
+        method: "PUT",
+        headers:{"Content-Type": "application/json"},
+        body: JSON.stringify(projeto),
+    });
+    if(!resposta.ok){
+        throw new Error("Erro ao alterar o projeto.");
+    }
+    return await resposta.json();
+}
+
 function tabela(data) {
     const tbody = document.getElementById('tBody');
     tbody.innerHTML = '';
