@@ -44,6 +44,14 @@ main {
     padding: 2rem;
     display: flex;
     flex-direction: column;
+    position: relative;
+}
+.oculto{
+    display: none !important;
+}
+.blur{
+    filter: blur(3px);
+    pointer-events: none;
 }
 
 #container {
@@ -152,6 +160,11 @@ td {
     font-size: 1rem;
     vertical-align: middle;
 }
+td i{
+    padding: .3rem; 
+    margin-left: 1rem;
+    cursor: pointer;
+}
 
 tbody tr {
     transition: background-color 0.15s ease;
@@ -201,8 +214,8 @@ tbody tr:hover {
     margin-right: 0.35rem;
 }
 
-/* POPUP */
-#popup{
+/* TELA DE CADASTRO */
+#cadastro{
     display: none;
     padding: 1.5rem;
 }
@@ -256,7 +269,7 @@ input:focus, textarea:focus, select:focus .btn-cadastro:focus{
     width: 4rem;
     height: 4rem;
     margin: 1rem;
-    border-radius: 999px;
+    border-radius: var(--radius-full);
     cursor: pointer;
     background-color: #fafafa; 
     color: var(--text-muted);
@@ -273,6 +286,41 @@ input:focus, textarea:focus, select:focus .btn-cadastro:focus{
 }
 .ativado{
     transform: rotate(45deg);
+}
+
+
+/*ALTERAR PROJETO*/
+    
+#alterar{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); 
+    width: 50rem;
+    padding: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background-color: #87255b40;
+}
+#alterar h2{
+    display: inline;
+}
+#alterar i{
+    font-size: 1rem;
+}
+.alterar-cabecalho{
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    background-color: #fafafa;
+    border-radius: var(--radius-md);
+}
+.alterar-cabecalho button{
+    background-color: transparent;
+    border: none;
+    cursor: pointer
 }
 
 /* RESPONSIVIDADE */
