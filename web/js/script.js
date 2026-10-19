@@ -17,6 +17,24 @@ async function obterProjetos(){
     }
 }
 
+async function idAtual(){
+    try {
+        const projetos = obterProjetos();
+        let maior = 0;
+        projetos.forEach((projeto) => {
+            if(projeto.id > maior){
+                maior = projeto.id;
+                console.log(maior);
+            }
+        });
+        return maior;
+    }
+    catch (error) {
+        console.error('Erro:', error);
+        alert('Erro ao cadastrar o projeto.');
+    }
+}
+
 async function listarProjetos(){
     const projetos = await obterProjetos();
     if(projetos){
@@ -26,8 +44,10 @@ async function listarProjetos(){
 
 async function cadastrarProjeto(e) {
     e.preventDefault();
+    id = (await idAtual() + 1);
 
     const projeto = {
+        id: id,
         nome: document.getElementById('nome').value,
         descricao: document.getElementById('descricao').value,
         categoria: document.getElementById('categoria').value,
