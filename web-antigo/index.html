@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Projetos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+</head>
+<body>
+
+    <header>
+        <h1>Sistema de Projetos</h1>
+    </header>
+
+    <main>
+        <div id="container">
+            <section id="projetos">
+            
+                <div class="cabecalho">
+                    <div class="busca">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="buscaInput" class="busca-input" placeholder="Buscar projeto">
+                    </div>
+                </div>
+
+                <div class="container-tabela">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Descrição</th>
+                                <th>Categoria</th>
+                                <th>Status</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="tBody">
+                            <!-- Itens da tabela inseridos com JS -->
+                        </tbody>
+                    </table>
+            </section>
+
+            <section id="cadastro">
+                <h2>Cadastrar projeto</h2>
+
+                <form id="formProjeto">
+
+                    <label for="nome">Nome:</label>
+                    <input type="text" id="nome" required>
+
+                    <label for="descricao">Descrição:</label>
+                    <textarea id="descricao" required></textarea>
+
+                    <label for="categoria">Categoria:</label>
+                    <input type="text" id="categoria" required>
+
+                    <label for="status">Status:</label>
+                    <select id="status">
+
+                        <option value="Planejado">Planejado</option>
+                        <option value="Em desenvolvimento">Em desenvolvimento</option>
+                        <option value="Concluido">Concluído</option>
+
+                    </select>
+
+                    <button class="btn-cadastro" type="submit">Cadastrar projeto</button>
+
+                </form>
+            </section>
+
+        </div>
+
+        <section id="alterar" class="oculto">
+            <div class="alterar-cabecalho">
+                <h2>Alterar projeto</h2>
+                <button id="ocultar">
+                    <i class="fa-solid fa-plus ativado"></i>
+                </button>
+            </div>
+            
+            <div>
+                <form id="formAlterar">
+
+                    <input type="text" id="inputId" class="oculto">
+
+                    <label for="nomeNovo">Nome:</label>
+                    <input type="text" id="nomeNovo" required>
+
+                    <label for="descricaoNova">Descrição:</label>
+                    <textarea id="descricaoNova" required></textarea>
+
+                    <label for="categoriaNova">Categoria:</label>
+                    <input type="text" id="categoriaNova" required>
+
+                    <label for="statusNovo">Status:</label>
+                    <select id="statusNovo">
+
+                        <option value="Planejado">Planejado</option>
+                        <option value="Em desenvolvimento">Em desenvolvimento</option>
+                        <option value="Concluido">Concluído</option>
+
+                    </select>
+
+                    <button class="btn-cadastro" type="submit">Alterar projeto</button>
+                </form>
+            </div>
+        </section>
+
+        <button id="btnAdd">
+            <i class="fa-solid fa-plus"></i>        
+        </button>
+
+    </main>
+    <script src="js/script.js" defer></script>
+</body>
+</html>
