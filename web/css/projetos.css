@@ -311,7 +311,6 @@ body {
 .icone-metrica-wrapper.verde { background-color: #28a745; color: #ffffff; }
 .icone-metrica-wrapper.amarelo { background-color: #ff9800; color: #ffffff; }
 .icone-metrica-wrapper.roxo { background-color: #9c27b0; color: #ffffff; }
-.icone-metrica-wrapper.calendario { background-color: #f0f4f8; color: #0d52bf; border: 1px solid #d0e1f9; }
 
 .metrica-conteudo {
     display: flex;
@@ -568,35 +567,33 @@ body {
     display: inline-flex;
     align-items: center;
     padding: 0.25rem 0.75rem;
-    border-radius: var(--radius-full);
+    border-radius: 99px;
     font-weight: 500;
     border: 1px solid transparent;
     cursor: default;
+    color: var(--cor-texto-secundario)
 }
 .badge p{
     font-size: .9rem;
     white-space: nowrap;
 }
-.categoria {
-    color: var(--text-muted);
-    border-color: var(--border-color);
+.categoria{
+    border: 1px solid #3b3b3e
 }
 .concluido {
-    background-color: #258751;
-    color: #c5efd7;
+    background-color: #befb5e;
 }
 .desenvolvimento{
-    background-color: #252a87;
-    color: #b2b5df;
+    background-color: #fbd05e;
 }
 .planejado{
-    background-color: #87252a;
-    color: #e8aaad;
+    background-color: #c38cf1;
+
 }
 .icone-status {
     width: 6px;
     height: 6px;
-    border-radius: var(--radius-full);
+    border-radius: 99px;
     background-color: currentColor;
     margin-right: 0.35rem;
 }

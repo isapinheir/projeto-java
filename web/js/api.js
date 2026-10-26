@@ -4,7 +4,6 @@ const form = document.getElementById('formProjeto');
 async function obterProjetos(){
     try {
         const resposta = await fetch(API_URL);
-        console.log(resposta);
         if (!resposta.ok) {
             throw new Error('Erro ao buscar dados da API');
         }
@@ -19,19 +18,18 @@ async function obterProjetos(){
 
 async function idAtual(){
     try {
-        const projetos = obterProjetos();
+        const projetos = await obterProjetos();
         let maior = 0;
         projetos.forEach((projeto) => {
             if(projeto.id > maior){
                 maior = projeto.id;
-                console.log(maior);
             }
         });
         return maior;
     }
     catch (error) {
         console.error('Erro:', error);
-        alert('Erro ao cadastrar o projeto.');
+        return error;
     }
 }
 
@@ -39,22 +37,23 @@ async function listarProjetos(){
     const projetos = await obterProjetos();
     if(projetos){
         tabela(projetos);
+        metricas();
     }
 }
 
 async function cadastrarProjeto(e) {
     e.preventDefault();
-    id = (await idAtual() + 1);
-
-    const projeto = {
-        id: id,
-        nome: document.getElementById('nome').value,
-        descricao: document.getElementById('descricao').value,
-        categoria: document.getElementById('categoria').value,
-        status: document.getElementById('status').value,
-    }
-
     try{
+        id = (await idAtual() + 1);
+
+        const projeto = {
+            id: id,
+            nome: document.getElementById('nome').value,
+            descricao: document.getElementById('descricao').value,
+            categoria: document.getElementById('categoria').value,
+            status: document.getElementById('status').value,
+        }
+    
         const resposta = await fetch(API_URL,{
             method: "POST",
             headers: {"Content-Type": "application/json"},
@@ -103,26 +102,32 @@ async function excluirProjeto(id){
 async function alterarProjeto(e){
     e.preventDefault();
 
-    const id = document.getElementById('inputId').value;
-    const projeto = {
-        id: id,
-        nome: document.getElementById('nomeNovo').value,
-        descricao: document.getElementById('descricaoNova').value,
-        categoria: document.getElementById('categoriaNova').value,
-        status: document.getElementById('statusNovo').value,
-    }
+    try{
+        const id = document.getElementById('inputId').value;
+        const projeto = {
+            id: id,
+            nome: document.getElementById('nomeNovo').value,
+            descricao: document.getElementById('descricaoNova').value,
+            categoria: document.getElementById('categoriaNova').value,
+            status: document.getElementById('statusNovo').value,
+        }
 
-    const resposta = await fetch(`${API_URL}/${id}`,{
-        method: "PUT",
-        headers:{"Content-Type": "application/json"},
-        body: JSON.stringify(projeto),
-    });
-    if(!resposta.ok){
-        throw new Error("Erro ao alterar o projeto.");
+        const resposta = await fetch(`${API_URL}/${id}`,{
+            method: "PUT",
+            headers:{"Content-Type": "application/json"},
+            body: JSON.stringify(projeto),
+        });
+        if(!resposta.ok){
+            throw new Error("Erro no servidor do projeto.");
+        }
+        telaAlterar();
+        listarProjetos();
+        return await resposta.json();
     }
-    telaAlterar();
-    listarProjetos();
-    return await resposta.json();
+    catch(e){
+      console.error("Erro: " + e);
+      alert("Não foi possível alterar o projeto."); 
+    }
 }
 
 function tabela(data) {
@@ -193,6 +198,22 @@ function tabela(data) {
     });
 }
 
+async function metricas(){
+    projetos = await obterProjetos();
+
+    const total = projetos.length;
+    const concluido = projetos.filter(p => p.status.toLowerCase().includes('concluído'));
+    const desenvolvimento = projetos.filter(p => p.status.toLowerCase().includes('desenvolvimento'));
+    const planejado = projetos.filter(p => p.status.toLowerCase().includes('planejado'));
+
+    document.getElementById('metrica-total').textContent = (total - 1);
+    document.getElementById('metrica-concluido').textContent = concluido.length;
+    document.getElementById('metrica-desenvolvimento').textContent = desenvolvimento.length;
+    document.getElementById('metrica-planejado').textContent = planejado.length;
+
+    console.log(concluido)
+}
+
 /*
 document.getElementById('btnAdd').addEventListener('click',() =>{
     const projetos = document.getElementById('projetos');
@@ -210,9 +231,8 @@ document.getElementById('btnAdd').addEventListener('click',() =>{
     }
 })
 */
-//document.getElementById('ocultar').addEventListener('click', () =>{telaAlterar()});
 
 form.addEventListener('submit', async (e) =>{cadastrarProjeto(e)});
-//formAlterar.addEventListener('submit', async (e) =>{alterarProjeto(e)}); 
+formAlterar.addEventListener('submit', async (e) =>{alterarProjeto(e)}); 
 
 window.onload = listarProjetos();

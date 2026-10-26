@@ -96,6 +96,7 @@ function telaAlterar(id){
         inputId.value = '';
     }
 }
+document.getElementById('ocultar').addEventListener('click', () =>{telaAlterar()});
 
 /*
 document.getElementById('buscaInput').addEventListener('input', async (e) => {

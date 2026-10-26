@@ -77,7 +77,7 @@
                         <ion-icon name="folder-open"></ion-icon>
                     </div>
                     <div class="metrica-conteudo">
-                        <span class="metrica-valor">25</span>
+                        <span class="metrica-valor" id="metrica-total">25</span>
                         <span class="metrica-rotulo">Total de Projetos</span>
                     </div>
                 </div>
@@ -86,7 +86,7 @@
                         <ion-icon name="checkmark"></ion-icon>
                     </div>
                     <div class="metrica-conteudo">
-                        <span class="metrica-valor">10</span>
+                        <span class="metrica-valor" id="metrica-concluido">10</span>
                         <span class="metrica-rotulo">Concluídos</span>
                     </div>
                 </div>
@@ -95,8 +95,8 @@
                         <ion-icon name="time"></ion-icon>
                     </div>
                     <div class="metrica-conteudo">
-                        <span class="metrica-valor">8</span>
-                        <span class="metrica-rotulo">Em Andamento</span>
+                        <span class="metrica-valor" id="metrica-desenvolvimento">8</span>
+                        <span class="metrica-rotulo">Em desenvolvimento</span>
                     </div>
                 </div>
                 <div class="card-metrica roxo">
@@ -104,7 +104,7 @@
                         <ion-icon name="analytics"></ion-icon>  
                     </div>
                     <div class="metrica-conteudo">
-                        <span class="metrica-valor">7</span>
+                        <span class="metrica-valor" id="metrica-planejado">7</span>
                         <span class="metrica-rotulo">Planejados</span>
                     </div>
                 </div>                
@@ -126,19 +126,19 @@
                         <form id="formProjeto" class="formulario-projeto" onsubmit="event.preventDefault();">
                             
                             <div class="grupo-campo">
-                                <label for="nomeProjeto" class="rotulo-campo">Nome do Projeto</label>
-                                <input type="text" id="nomeProjeto" class="campo-input" value="Sistema Acadêmico" required>
+                                <label for="nome" class="rotulo-campo">Nome do Projeto</label>
+                                <input type="text" id="nome" class="campo-input" value="Sistema Acadêmico" required>
                             </div>
 
                             <div class="grupo-campo">
-                                <label for="descricaoProjeto" class="rotulo-campo">Descrição</label>
-                                <textarea id="descricaoProjeto" class="campo-textarea">Sistema para gestão acadêmica com controle de alunos, professores e turmas.</textarea>
+                                <label for="descricao" class="rotulo-campo">Descrição</label>
+                                <textarea id="descricao" class="campo-textarea">Sistema para gestão acadêmica com controle de alunos, professores e turmas.</textarea>
                             </div>
 
                             <div class="linha-dupla">
                                 <div class="grupo-campo">
-                                    <label for="categoriaProjeto" class="rotulo-campo">Categoria</label>
-                                    <select id="categoriaProjeto" class="campo-select">
+                                    <label for="categoria" class="rotulo-campo">Categoria</label>
+                                    <select id="categoria" class="campo-select">
                                         <option value="Software" selected>Software</option>
                                         <option value="Web">Web</option>
                                         <option value="Mobile">Mobile</option>
@@ -146,8 +146,8 @@
                                 </div>
 
                                 <div class="grupo-campo">
-                                    <label for="statusProjeto" class="rotulo-campo">Status</label>
-                                    <select id="statusProjeto" class="campo-select">
+                                    <label for="status" class="rotulo-campo">Status</label>
+                                    <select id="status" class="campo-select">
                                         <option value="Em desenvolvimento" selected>Em desenvolvimento</option>
                                         <option value="Concluído">Concluído</option>
                                         <option value="Planejado">Planejado</option>
