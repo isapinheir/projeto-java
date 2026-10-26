@@ -37,16 +37,77 @@ function popupAlterar(id){
         inputId.value = id;
     } 
     else{
-        alterar.classList.add('oculto');
-        container.classList.remove('blur');
-        inputId.value = '';
+        ocultarPopupAlterar();
     }
 }
 
-function ocultar(){
+function ocultarPopupAlterar(){
     alterar.classList.add('oculto');
     container.classList.remove('blur');
     inputId.value = '';
+}
+
+function ocultarDashboard(){
+    paginaDashboard.classList.add('oculto');
+}
+
+function ocultarProj(){
+    paginaProjetos.classList.add('oculto');
+}
+
+function ocultarCat(){
+   paginaCategorias.classList.add('oculto'); 
+}
+
+function ocultarRel(){
+    paginaRelatorios.classList.add('oculto');
+}
+
+function ocultarConfig(){
+    paginaConfiguracoes.classList.add('oculto');
+}
+
+function paginacao(pag){
+    ocultarPopupAlterar();
+    switch (pag) {
+        case 1:
+            ocultarProj();
+            ocultarCat();
+            ocultarRel();
+            ocultarConfig();
+            paginaDashboard.classList.remove('oculto');
+            break;
+        case 2:
+            ocultarDashboard();
+            ocultarCat();
+            ocultarRel();
+            ocultarConfig();
+            paginaProjetos.classList.remove('oculto');
+            break;
+        case 3:
+            ocultarDashboard();
+            ocultarProj();
+            ocultarRel();
+            ocultarConfig();
+            paginaCategorias.classList.remove('oculto');
+            break;
+        case 4:
+            ocultarDashboard();
+            ocultarProj();
+            ocultarCat();
+            ocultarConfig();
+            paginaRelatorios.classList.remove('oculto');
+            break;
+        case 5:
+            ocultarDashboard();
+            ocultarProj();
+            ocultarCat();
+            ocultarRel();
+            paginaConfiguracoes.classList.remove('oculto');
+            break;
+        default:
+            break;
+    }
 }
 
 // === EVENT LISTENERS ===
@@ -66,4 +127,6 @@ menuItens.forEach(item => {
     });
 });
 
-document.getElementById('ocultar').addEventListener('click', () =>{popupAlterar()});
+document.getElementById('ocultar').addEventListener('click', () =>{
+    popupAlterar()
+});
