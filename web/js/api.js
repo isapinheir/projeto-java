@@ -206,7 +206,7 @@ async function metricas(){
     const desenvolvimento = projetos.filter(p => p.status.toLowerCase().includes('desenvolvimento'));
     const planejado = projetos.filter(p => p.status.toLowerCase().includes('planejado'));
 
-    document.getElementById('metrica-total').textContent = (total - 1);
+    document.getElementById('metrica-total').textContent = (total);
     document.getElementById('metrica-concluido').textContent = concluido.length;
     document.getElementById('metrica-desenvolvimento').textContent = desenvolvimento.length;
     document.getElementById('metrica-planejado').textContent = planejado.length;
