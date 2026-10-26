@@ -17,32 +17,32 @@
         </div>
 
         <ul class="sidebar-menu">
-            <li class="sidebar-item">
+            <li class="sidebar-item ativo" onclick="paginacao(1)">
                 <a href="#dashboard">
                     <ion-icon name="home" class="icone"></ion-icon>
                     <span>Dashboard</span>
                 </a>
             </li>
-            <li class="sidebar-item ativo">
+            <li class="sidebar-item" onclick="paginacao(1)">
                 <a href="#projetos">
                     <ion-icon name="newspaper"></ion-icon>
                     <span>Projetos</span>
                 </a>
             </li>
             <li class="sidebar-item">
-                <a href="#categorias">
+                <a href="#categorias" onclick="paginacao(3)">
                     <ion-icon name="menu"></ion-icon>
                     <span>Categorias</span>
                 </a>
             </li>
             <li class="sidebar-item">
-                <a href="#relatorios">
+                <a href="#relatorios" onclick="paginacao(4)">
                     <ion-icon name="bar-chart"></ion-icon>
                     <span>Relatórios</span>
                 </a>
             </li>
             <li class="sidebar-item">
-                <a href="#configuracoes">
+                <a href="#configuracoes" onclick="paginacao(5)">
                     <ion-icon name="cog"></ion-icon>
                     <span>Configurações</span>
                 </a>
@@ -164,11 +164,6 @@
                                 <button type="button" class="btn btn-limpar" id="btnLimpar">
                                     <ion-icon name="return-down-back"></ion-icon>
                                     Limpar
-                                </button>
-                                
-                                <button type="button" class="btn btn-excluir" id="btnExcluir">
-                                    <ion-icon name="trash"></ion-icon>
-                                    Excluir
                                 </button>
                             </div>
 

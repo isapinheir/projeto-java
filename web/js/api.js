@@ -1,5 +1,4 @@
-const API_URL = 'http://localhost:7000/projetos'
-const form = document.getElementById('formProjeto');
+const API_URL = 'http://localhost:7000/projetos';
 
 async function obterProjetos(){
     try {
@@ -214,6 +213,27 @@ async function metricas(){
     console.log(concluido)
 }
 
+async function busca (e){
+    const dados = await obterProjetos();
+    if(dados){
+        const projetos = Object.values(dados);
+        const busca = e.target.value.toLowerCase();
+        const filtro = projetos.filter(p => 
+            p.nome.toLowerCase().includes(busca) || 
+            p.descricao.toLowerCase().includes(busca) ||
+            p.categoria.toLowerCase().includes(busca) ||
+            p.status.toLowerCase().includes(busca)
+        );
+        tabela(filtro);
+    }
+    else{
+        buscaInput.style.cursor = 'not-allowed';
+    }
+}
+
+
+
+
 /*
 document.getElementById('btnAdd').addEventListener('click',() =>{
     const projetos = document.getElementById('projetos');
@@ -232,7 +252,9 @@ document.getElementById('btnAdd').addEventListener('click',() =>{
 })
 */
 
-form.addEventListener('submit', async (e) =>{cadastrarProjeto(e)});
+formProjeto.addEventListener('submit', async (e) =>{cadastrarProjeto(e)});
 formAlterar.addEventListener('submit', async (e) =>{alterarProjeto(e)}); 
+btnAtualizar.addEventListener('click', listarProjetos());
+campoBusca.addEventListener('input', async (e) => {busca(e)});
 
 window.onload = listarProjetos();
