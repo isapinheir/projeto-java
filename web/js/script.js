@@ -130,3 +130,10 @@ menuItens.forEach(item => {
 document.getElementById('ocultar').addEventListener('click', () =>{
     popupAlterar()
 });
+
+document.getElementById('grafico-rosquinha').addEventListener('mouseover', (event) =>{
+    event.target.setAttribute('stroke-width', 8);
+});
+document.getElementById('grafico-rosquinha').addEventListener('mouseout', (event) =>{
+    event.target.setAttribute('stroke-width', 6);
+});

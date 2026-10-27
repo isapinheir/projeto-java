@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Projetos</title>
+    <link rel="stylesheet" href="css/geral.css">
+    <link rel="stylesheet" href="css/dashboard.css">
     <link rel="stylesheet" href="css/projetos.css">
 </head>
 <body>
@@ -69,14 +71,132 @@
         <!-- Parte interna do painel -->
         <div id="painel-corpo">
 
-            <section id="paginaDashboard" class="oculto">
+            <section id="paginaDashboard">
             <!-- =========================
                 PAGINA DE DASHBOARD
             ========================== -->
-                <h2>Dashboard</h2>
+
+                <div class="grid-dashboard-topo">
+                    <div class="card-dashboard">
+                        <div class="metrica-conteudo">
+                            <span class="card-dashboard-titulo" id="metrica-total">25</span>
+                            <span class="card-dashboard-subtitulo">Total de Projetos</span>
+                        </div>
+                    </div>
+
+                    <div class="card-dashboard">
+                        <div class="metrica-conteudo">
+                            <span class="card-dashboard-titulo" id="metrica-total">25</span>
+                            <span class="card-dashboard-subtitulo">Total de Projetos</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid-dashboard-meio">
+                
+                    <!-- Gráfico categorias -->
+                    <div class="card-dashboard">
+                        <div class="cabecalho-card-dashboard">
+                            <h3 class="card-dashboard-titulo">Projetos</h3>
+                            <p class="card-dashboard-subtitulo">por categoria</p>
+                        </div>
+
+                        <div class="grafico-colunas">
+                            <div class="grafico-colunas-container">
+                                <span class="legenda-grafico">0</span>
+                                <span class="coluna-grafico" id="graficoSw"></span>
+                                <span class="legenda-grafico">Software</span>
+                            </div>
+
+                            <div class="grafico-colunas-container">
+                                <span class="legenda-grafico">0</span>
+                                <span class="coluna-grafico" id="graficoWeb"></span>
+                                <span class="legenda-grafico">Web</span>
+                            </div>
+
+                            <div class="grafico-colunas-container">
+                                <span class="legenda-grafico">0</span>
+                                <span class="coluna-grafico" id="graficoMob"></span>
+                                <span class="legenda-grafico">Mobile</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Gráfico de categoria -->
+                    <div class="card-dashboard vertical">
+                        <h3 class="card-dashboard-titulo">Estágios</h3>
+                        <p class="card-dashboard-subtitulo">de desenvolvimento</p>
+
+                        <div id="grafico-rosquinha">
+                            <svg width="140" height="140" viewBox="0 0 42 42">
+                                <!-- Fundo do Círculo -->
+                                <circle cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="#eef4f0" stroke-width="6"></circle>
+
+                                <!-- Status 1 -->
+                                <circle id="slice1" cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="#befb5e" stroke-width="6" stroke-dasharray="20 100" stroke-dashoffset="40"></circle>
+
+                                <!-- Status 2 -->
+                                <circle id="slice2" cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="#89c0f4" stroke-width="6" stroke-dasharray="45 100" stroke-dashoffset="0"></circle>
+
+                                <!-- Status 3 -->
+                                <circle id="slice3" cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="#c81212" stroke-width="6" stroke-dasharray="35 100" stroke-dashoffset="90"></circle>
+                            </svg>
+                        </div>
+
+                        <div class="grafico-rosquinha-legendas">
+                            <div class="item-legenda">
+                                <span class="ponto-legenda" style="background-color: #befb5e;"></span>
+                                <span>Concluídos</span>
+                            </div>
+
+                            <div class="item-legenda">
+                                <span class="ponto-legenda" style="background-color: #89c0f4;"></span>
+                                <span>Em desenvolvimento</span>
+                            </div>
+
+                            <div class="item-legenda">
+                                <span class="ponto-legenda" style="background-color: #c81212;"></span>
+                                <span>Planejados</span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid-dashboard-embaixo">
+                    <div class="card-dashboard">
+                        <div class="metrica-conteudo">
+                            <span class="card-dashboard-titulo" id="metrica-total">25</span>
+                            <span class="card-dashboard-subtitulo">Total de Projetos</span>
+                        </div>
+                    </div>
+
+                    <div class="card-dashboard">
+                        <div class="metrica-conteudo">
+                            <span class="card-dashboard-titulo" id="metrica-total">25</span>
+                            <span class="card-dashboard-subtitulo">Total de Projetos</span>
+                        </div>
+                    </div>
+
+                    <div class="card-dashboard">
+                        <div class="metrica-conteudo">
+                            <span class="card-dashboard-titulo" id="metrica-total">25</span>
+                            <span class="card-dashboard-subtitulo">Total de Projetos</span>
+                        </div>
+                    </div>
+
+                    <div class="card-dashboard">
+                        <div class="metrica-conteudo">
+                            <span class="card-dashboard-titulo" id="metrica-total">25</span>
+                            <span class="card-dashboard-subtitulo">Total de Projetos</span>
+                        </div>
+                    </div>
+
+                </div>
+
             </section>
 
-            <section id="paginaProjetos">
+            <section id="paginaProjetos" class="oculto">
             <!-- =========================
                 PAGINA DOS PROJETOS
             ========================== -->
@@ -88,7 +208,7 @@
                             <ion-icon name="folder-open"></ion-icon>
                         </div>
                         <div class="metrica-conteudo">
-                            <span class="metrica-valor" id="metrica-total">25</span>
+                            <span class="metrica-valor" id="metrica-total">0</span>
                             <span class="metrica-rotulo">Total de Projetos</span>
                         </div>
                     </div>
@@ -97,7 +217,7 @@
                             <ion-icon name="checkmark"></ion-icon>
                         </div>
                         <div class="metrica-conteudo">
-                            <span class="metrica-valor" id="metrica-concluido">10</span>
+                            <span class="metrica-valor" id="metrica-concluido">0</span>
                             <span class="metrica-rotulo">Concluídos</span>
                         </div>
                     </div>
@@ -106,7 +226,7 @@
                             <ion-icon name="time"></ion-icon>
                         </div>
                         <div class="metrica-conteudo">
-                            <span class="metrica-valor" id="metrica-desenvolvimento">8</span>
+                            <span class="metrica-valor" id="metrica-desenvolvimento">0</span>
                             <span class="metrica-rotulo">Em desenvolvimento</span>
                         </div>
                     </div>
@@ -115,7 +235,7 @@
                             <ion-icon name="analytics"></ion-icon>  
                         </div>
                         <div class="metrica-conteudo">
-                            <span class="metrica-valor" id="metrica-planejado">7</span>
+                            <span class="metrica-valor" id="metrica-planejado">0</span>
                             <span class="metrica-rotulo">Planejados</span>
                         </div>
                     </div>                
@@ -284,7 +404,7 @@
     </main>
 
     <script src="js/script.js" defer></script>
-    <script src="js/api.js" defer></script>
+    <!-- <script src="js/api.js" defer></script> -->
     <script type="module" src="https://unpkg.com/ionicons@8.0.13/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@8.0.13/dist/ionicons/ionicons.js"></script>
 

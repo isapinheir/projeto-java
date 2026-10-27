@@ -1,0 +1,97 @@
+:root {
+    
+    --cor-sidebar-fundo: #F4E6CF;
+    --cor-sidebar-hover: #CBABFD;
+    --cor-sidebar-ativo: #9b5efb;
+
+    /* Cores de Status e Ações */
+    --status-primario: #4c65ef;
+    --status-primario-hover: #1289c8;
+    --status-primario-ativo: #0f72a7;
+
+    --status-alerta: #c8af12;
+    --status-alerta-hover: #12c8ac;
+    --status-alerta-ativo: #;
+
+
+    --status-erro: #c81212;
+    --status-erro-hover: #c8126d;
+    --status-erro-ativo: #a50f5a;
+
+
+    --status-sucesso: #12c854;
+    --status-sucesso-hover: #12c8ac;
+    --status-sucesso-ativo: #0e9782;
+
+
+    /* Cores de Fundo e Superfície */
+    --cor-fundo-pagina: #F9F5EC;
+    --cor-fundo-card: transparent;
+    --cor-fundo-input: #F4E6CF;
+    --cor-borda-input: #3b3b3a;
+    --cor-borda-input-foco: #80bdff;
+
+    --cor-cabecalho: #edd5af;
+
+    --cor-borda-tabela: #e9ecef;
+    --cor-cabecalho-tabela: #f8f9fa;
+
+    /* Cores de Texto */
+    --cor-texto-principal: #341f37;
+    --cor-texto-secundario: #0000007f;
+    --cor-texto-mutado: #9ca3af;
+    --cor-texto-claro: #ffffff;
+    --cor-texto-sidebar: #4b238a;
+
+    /* Tipografia */
+    --fonte-titulo: 'Orbitron', sans-serif;
+    --fonte-corpo: 'Poppins', sans-serif;
+    --fonte-tamanho-xs: 0.75rem;   /* 12px */
+    --fonte-tamanho-sm: 0.875rem;  /* 14px */
+    --fonte-tamanho-md: 1rem;      /* 16px */
+    --fonte-tamanho-lg: 1.125rem;  /* 18px */
+    --fonte-tamanho-xl: 1.35rem;   /* 21px */
+    --fonte-tamanho-2xl: 1.6rem;   /* 25px */
+
+    /* Espacamentos */
+    --espacamento-xs: 0.25rem;  /* 4px */
+    --espacamento-sm: 0.5rem;   /* 8px */
+    --espacamento-md: 1rem;     /* 16px */
+    --espacamento-lg: 1.25rem;  /* 20px */
+    --espacamento-xl: 1.5rem;   /* 24px */
+    --espacamento-2xl: 2rem;    /* 32px */
+
+    /* Raio de Borda (Border Radius) */
+    --borda: 2px solid #3b3a3a;
+    --raio-borda-pill: 50px;
+
+    /* Sombras */
+    --sombra-card: 9px 7px 0px 0px #3b3a3a;
+    --sombra-card-sm: 5px 5px 0px 0px #3b3a3a;
+    --sombra-hover: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --sombra-foco: 0 0 0 0.2rem rgba(13, 82, 191, 0.25);
+
+    /* Transições */
+    --transicao-rapida: all 0.15s ease-in-out;
+    --transicao-padrao: all 0.25s ease-in-out;
+
+    /* Dimensoes do Layout */
+    --largura-sidebar: 230px;
+    --altura-cabecalho: 64px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--fonte-corpo);
+    background-color: var(--cor-fundo-pagina);
+    color: var(--cor-texto-principal);
+    display: flex;
+    min-height: 100vh;
+    font-size: var(--fonte-tamanho-sm);
+    line-height: 1.5;
+}
