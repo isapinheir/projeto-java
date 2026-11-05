@@ -1,3 +1,6 @@
+import { obterProjetos } from "./api.js";
+
+const projetos = await obterProjetos();
 const container = document.getElementById('painel-corpo');
 const alterar = document.getElementById('alterar');
 const fechado = alterar.classList.contains('oculto');
@@ -109,6 +112,42 @@ function paginacao(pag){
             break;
     }
 }
+
+async function atualizarGraficoRosquinha() {
+    let total = projetos.length;
+    const concluido = projetos.filter(p => p.status.toLowerCase().includes('concluído')).length;
+    const desenvolvimento = projetos.filter(p => p.status.toLowerCase().includes('desenvolvimento')).length;
+    const planejado = projetos.filter(p => p.status.toLowerCase().includes('planejado')).length;
+
+    // evita a divisão por 0, causando NaN a aparecer na tela
+    if(total == 0){
+        total = 1;
+    }
+
+    let p1 = (concluido / total) * 100;
+    let p2 = (desenvolvimento / total) * 100;
+    let p3 = (planejado / total) * 100;
+
+    const slice1 = document.getElementById('slice1');
+    const slice2 = document.getElementById('slice2');
+    const slice3 = document.getElementById('slice3');
+
+    slice1.setAttribute('stroke-dasharray', `${p1} ${100 - p1}`);
+    slice1.setAttribute('stroke-dashoffset', 25);
+
+    slice2.setAttribute('stroke-dasharray', `${p2} ${100 - p2}`);
+    // O offset subtrai o valor do primeiro status para empurrar o traço para frente
+    slice2.setAttribute('stroke-dashoffset', `${25 - p1}`);
+
+    slice3.setAttribute('stroke-dasharray', `${p3} ${100 - p3}`);
+    slice3.setAttribute('stroke-dashoffset', `${25 - (p1 + p2)}`);
+
+    console.log(total);
+    console.log(concluido);
+    console.log(p1)
+
+}
+atualizarGraficoRosquinha();
 
 // === EVENT LISTENERS ===
 

@@ -1,6 +1,6 @@
 const API_URL = 'http://localhost:7000/projetos';
 
-async function obterProjetos(){
+export async function obterProjetos(){
     try {
         const resposta = await fetch(API_URL);
         if (!resposta.ok) {
@@ -198,7 +198,7 @@ function tabela(data) {
 }
 
 async function metricas(){
-    projetos = await obterProjetos();
+    const projetos = await obterProjetos();
 
     const total = projetos.length;
     const concluido = projetos.filter(p => p.status.toLowerCase().includes('concluído'));
@@ -209,8 +209,6 @@ async function metricas(){
     document.getElementById('metrica-concluido').textContent = concluido.length;
     document.getElementById('metrica-desenvolvimento').textContent = desenvolvimento.length;
     document.getElementById('metrica-planejado').textContent = planejado.length;
-
-    console.log(concluido)
 }
 
 async function busca (e){
