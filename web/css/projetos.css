@@ -248,6 +248,7 @@
     grid-template-columns: 1fr 2fr;
     gap: var(--espacamento-xl);
     align-items: start;
+    margin: var(--espacamento-xl)
 }
 
 .card {
