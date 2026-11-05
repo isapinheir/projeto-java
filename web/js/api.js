@@ -64,7 +64,7 @@ async function cadastrarProjeto(e) {
         }
 
         alert("Projeto cadastrado com sucesso.");
-        form.reset();
+        formProjeto.reset();
         listarProjetos();
     }
     catch(err){
