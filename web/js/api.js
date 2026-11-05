@@ -1,5 +1,7 @@
 const API_URL = 'http://localhost:7000/projetos';
 
+let id = 0;
+
 export async function obterProjetos(){
     try {
         const resposta = await fetch(API_URL);

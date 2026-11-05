@@ -112,6 +112,7 @@ function paginacao(pag){
             break;
     }
 }
+window.paginacao = paginacao;
 
 async function atualizarGraficoRosquinha() {
     let total = projetos.length;
