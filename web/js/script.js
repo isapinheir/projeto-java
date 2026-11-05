@@ -112,7 +112,6 @@ function paginacao(pag){
             break;
     }
 }
-window.paginacao = paginacao;
 
 async function atualizarGraficoRosquinha() {
     let total = projetos.length;
@@ -168,7 +167,7 @@ menuItens.forEach(item => {
 });
 
 document.getElementById('ocultar').addEventListener('click', () =>{
-    popupAlterar()
+    ocultarPopupAlterar()
 });
 
 document.getElementById('grafico-rosquinha').addEventListener('mouseover', (event) =>{
@@ -177,3 +176,8 @@ document.getElementById('grafico-rosquinha').addEventListener('mouseover', (even
 document.getElementById('grafico-rosquinha').addEventListener('mouseout', (event) =>{
     event.target.setAttribute('stroke-width', 6);
 });
+
+// === WINDOW ===
+
+window.paginacao = paginacao;
+window.popupAlterar = popupAlterar;

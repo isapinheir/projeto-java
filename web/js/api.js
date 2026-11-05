@@ -1,7 +1,5 @@
 const API_URL = 'http://localhost:7000/projetos';
 
-let id = 0;
-
 export async function obterProjetos(){
     try {
         const resposta = await fetch(API_URL);
@@ -45,7 +43,7 @@ async function listarProjetos(){
 async function cadastrarProjeto(e) {
     e.preventDefault();
     try{
-        id = (await idAtual() + 1);
+        let id = (await idAtual() + 1);
 
         const projeto = {
             id: id,
@@ -121,7 +119,9 @@ async function alterarProjeto(e){
         if(!resposta.ok){
             throw new Error("Erro no servidor do projeto.");
         }
-        telaAlterar();
+        document.getElementById('alterar').classList.add('oculto');
+        document.getElementById('painel-corpo').classList.remove('blur');
+        document.getElementById('inputId').value = '';
         listarProjetos();
         return await resposta.json();
     }
@@ -185,7 +185,7 @@ function tabela(data) {
         
         const iEditar = document.createElement('ion-icon');
         iEditar.setAttribute('name', 'pencil');
-        iEditar.addEventListener('click', () => telaAlterar(projeto.id));
+        iEditar.addEventListener('click', () => popupAlterar(projeto.id));
         
         const iExcluir = document.createElement('ion-icon');
         iExcluir.setAttribute('name', 'trash');
