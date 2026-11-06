@@ -37,7 +37,7 @@
                     <span>Categorias</span>
                 </a>
             </li>
-            <li class="sidebar-item">
+            <!-- <li class="sidebar-item">
                 <a href="#relatorios" onclick="paginacao(4)">
                     <ion-icon name="bar-chart"></ion-icon>
                     <span>Relatórios</span>
@@ -79,15 +79,15 @@
                 <div class="grid-dashboard-topo">
                     <div class="card-dashboard">
                         <div class="metrica-conteudo">
-                            <span class="card-dashboard-titulo">0</span>
-                            <span class="card-dashboard-subtitulo">lorem ipsum</span>
+                            <span class="card-dashboard-titulo" id="dashboardTotal">0</span>
+                            <span class="card-dashboard-subtitulo">Total de projetos</span>
                         </div>
                     </div>
 
                     <div class="card-dashboard">
                         <div class="metrica-conteudo">
-                            <span class="card-dashboard-titulo">0</span>
-                            <span class="card-dashboard-subtitulo">lorem ipsum</span>
+                            <span class="card-dashboard-titulo" id="dashboardNaoConcluido">0</span>
+                            <span class="card-dashboard-subtitulo">Projetos não concluídos</span>
                         </div>
                     </div>
                 </div>
@@ -103,19 +103,19 @@
 
                         <div class="grafico-colunas">
                             <div class="grafico-colunas-container">
-                                <span class="legenda-grafico">0</span>
+                                <span class="legenda-grafico" id="legendaGraficoSw">0</span>
                                 <span class="coluna-grafico" id="graficoSw"></span>
                                 <span class="legenda-grafico">Software</span>
                             </div>
 
                             <div class="grafico-colunas-container">
-                                <span class="legenda-grafico">0</span>
+                                <span class="legenda-grafico" id="legendaGraficoWeb">0</span>
                                 <span class="coluna-grafico" id="graficoWeb"></span>
                                 <span class="legenda-grafico">Web</span>
                             </div>
 
                             <div class="grafico-colunas-container">
-                                <span class="legenda-grafico">0</span>
+                                <span class="legenda-grafico" id="legendaGraficoMob">0</span>
                                 <span class="coluna-grafico" id="graficoMob"></span>
                                 <span class="legenda-grafico">Mobile</span>
                             </div>
@@ -132,31 +132,31 @@
                                 <!-- Fundo do Círculo -->
                                 <circle cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="#eef4f0" stroke-width="6"></circle>
 
-                                <!-- Status 1 -->
-                                <circle id="slice1" cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="#befb5e" stroke-width="6" stroke-dasharray="20 100" stroke-dashoffset="40"></circle>
+                                <circle id="slice1" cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="#befb5e" stroke-width="6" stroke-dasharray="0 0" stroke-dashoffset="0"></circle>
 
-                                <!-- Status 2 -->
-                                <circle id="slice2" cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="#89c0f4" stroke-width="6" stroke-dasharray="45 100" stroke-dashoffset="0"></circle>
+                                <circle id="slice2" cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="#89c0f4" stroke-width="6" stroke-dasharray="0 0" stroke-dashoffset="0"></circle>
 
-                                <!-- Status 3 -->
-                                <circle id="slice3" cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="#c81212" stroke-width="6" stroke-dasharray="35 100" stroke-dashoffset="90"></circle>
+                                <circle id="slice3" cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="#c81212" stroke-width="6" stroke-dasharray="0 0" stroke-dashoffset="0"></circle>
                             </svg>
                         </div>
 
                         <div class="grafico-rosquinha-legendas">
                             <div class="item-legenda">
                                 <span class="ponto-legenda" style="background-color: #befb5e;"></span>
-                                <span>Concluídos</span>
+                                <span>Concluídos:</span>
+                                <span id="porc-legenda1">0%</span>
                             </div>
 
                             <div class="item-legenda">
                                 <span class="ponto-legenda" style="background-color: #89c0f4;"></span>
-                                <span>Em desenvolvimento</span>
+                                <span>Desenvolvendo:</span>
+                                <span id="porc-legenda2">0%</span>
                             </div>
 
                             <div class="item-legenda">
                                 <span class="ponto-legenda" style="background-color: #c81212;"></span>
-                                <span>Planejados</span>
+                                <span>Planejados:</span>
+                                <span id="porc-legenda3">0%</span>
                             </div>
 
                         </div>
@@ -166,29 +166,22 @@
                 <div class="grid-dashboard-embaixo">
                     <div class="card-dashboard">
                         <div class="metrica-conteudo">
-                            <span class="card-dashboard-titulo">0</span>
-                            <span class="card-dashboard-subtitulo">lorem ipsum</span>
+                            <span class="card-dashboard-titulo" id="dashboardSw">0</span>
+                            <span class="card-dashboard-subtitulo">Projetos de software</span>
                         </div>
                     </div>
 
                     <div class="card-dashboard">
                         <div class="metrica-conteudo">
-                            <span class="card-dashboard-titulo">0</span>
-                            <span class="card-dashboard-subtitulo">lorem ipsum</span>
+                            <span class="card-dashboard-titulo" id="dashboardWeb">0</span>
+                            <span class="card-dashboard-subtitulo">Projetos web</span>
                         </div>
                     </div>
 
                     <div class="card-dashboard">
                         <div class="metrica-conteudo">
-                            <span class="card-dashboard-titulo">0</span>
-                            <span class="card-dashboard-subtitulo">lorem ipsum</span>
-                        </div>
-                    </div>
-
-                    <div class="card-dashboard">
-                        <div class="metrica-conteudo">
-                            <span class="card-dashboard-titulo">0</span>
-                            <span class="card-dashboard-subtitulo">lorem ipsum</span>
+                            <span class="card-dashboard-titulo" id="dashboardMob">0</span>
+                            <span class="card-dashboard-subtitulo">Projetos mobile</span>
                         </div>
                     </div>
 
@@ -350,9 +343,9 @@
 
             <section id="paginaCategorias" class="oculto">
             <!-- =========================
-                PAGINA DOS PROJETOS
+                PAGINA DAS CATEGORIAS
             ========================== -->
-                <h2>categorias</h2>
+
             </section>
 
             <section id="paginaRelatorios" class="oculto">
@@ -403,8 +396,8 @@
 
     </main>
 
-    <script src="js/script.js" defer></script>
-    <script src="js/api.js" defer></script>
+    <script type="module" src="js/script.js" defer></script>
+    <script type="module" src="js/api.js" defer></script>
     <script type="module" src="https://unpkg.com/ionicons@8.0.13/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@8.0.13/dist/ionicons/ionicons.js"></script>
 

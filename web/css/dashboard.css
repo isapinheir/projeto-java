@@ -9,7 +9,7 @@
 }
 .grid-dashboard-embaixo {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: var(--espacamento-medio);
 }
 
@@ -43,6 +43,9 @@
     line-height: 1;
     color: var(--cor-texto-principal);
 }
+.metrica-conteudo .card-dashboard-titulo{
+    font-family: var(--fonte-corpo);
+}
 .card-dashboard-subtitulo{
     font-size: 13px;
     font-family: var(--fonte-titulo);
@@ -67,7 +70,7 @@
 }
 .coluna-grafico{
     display: inline-block;
-    height: 10rem;
+    height: .5rem;
     width: 6rem;
 }
 .legenda-grafico{

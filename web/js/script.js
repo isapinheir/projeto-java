@@ -1,9 +1,32 @@
+import { obterProjetos } from "./api.js";
+
+const projetos = await obterProjetos();
 const container = document.getElementById('painel-corpo');
 const alterar = document.getElementById('alterar');
 const fechado = alterar.classList.contains('oculto');
 const inputId = document.getElementById('inputId');
 const btnLimpar = document.getElementById('btnLimpar');
 const menuItens = document.querySelectorAll('.sidebar-item');
+
+// === INFO PROJETOS ===
+
+let total = projetos.length;
+
+const software = projetos.filter(p => p.categoria.toLowerCase().includes('software')).length;
+let porcSw = (software / total) * 100;
+
+const web = projetos.filter(p => p.categoria.toLowerCase().includes('web')).length;
+let porcWeb = (web / total) * 100;
+
+const mobile = projetos.filter(p => p.categoria.toLowerCase().includes('mobile')).length;
+let porcMob = (mobile / total) * 100;
+
+const concluido = projetos.filter(p => p.status.toLowerCase().includes('concluído')).length;
+const desenvolvimento = projetos.filter(p => p.status.toLowerCase().includes('desenvolvimento')).length;
+const planejado = projetos.filter(p => p.status.toLowerCase().includes('planejado')).length;
+
+let naoConcluido = total - concluido;
+let porcNaoConcluido = (naoConcluido / total) * 100;
 
 // === FUNÇÕES ===
 
@@ -110,6 +133,68 @@ function paginacao(pag){
     }
 }
 
+async function atualizarGraficoRosquinha() {
+    // evita a divisão por 0, causando NaN a aparecer na tela
+    if(total == 0){
+        total = 1;
+    }
+
+    let p1 = (concluido / total) * 100;
+    let p2 = (desenvolvimento / total) * 100;
+    let p3 = (planejado / total) * 100;
+
+    const slice1 = document.getElementById('slice1');
+    const slice2 = document.getElementById('slice2');
+    const slice3 = document.getElementById('slice3');
+
+    slice1.setAttribute('stroke-dasharray', `${p1} ${100 - p1}`);
+    slice1.setAttribute('stroke-dashoffset', 25);
+
+    slice2.setAttribute('stroke-dasharray', `${p2} ${100 - p2}`);
+    // O offset subtrai o valor do primeiro status para empurrar o traço para frente
+    slice2.setAttribute('stroke-dashoffset', `${25 - p1}`);
+
+    slice3.setAttribute('stroke-dasharray', `${p3} ${100 - p3}`);
+    slice3.setAttribute('stroke-dashoffset', `${25 - (p1 + p2)}`);
+
+    document.getElementById('porc-legenda1').textContent = `${Math.round(p1)}%`;
+    document.getElementById('porc-legenda2').textContent = `${Math.round(p2)}%`;
+    document.getElementById('porc-legenda3').textContent = `${Math.round(p3)}%`;
+
+}
+atualizarGraficoRosquinha();
+
+async function atualizarGraficoBarras(){
+    // evita a divisão por 0, causando NaN a aparecer na tela
+    if(total == 0){
+        total = 1;
+    }
+
+    let [sw1, sw2] = String(porcSw).split('');
+    let [web1, web2] = String(porcWeb).split('');
+    let [mob1, mob2] = String(porcMob).split('');
+
+    graficoSw.style.height = `${sw1}.${sw2}rem`;
+    legendaGraficoSw.textContent = software;
+
+    graficoWeb.style.height = `${web1}.${web2}rem`;
+    legendaGraficoWeb.textContent = web;
+
+    graficoMob.style.height = `${mob1}.${mob2}rem`;
+    legendaGraficoMob.textContent = mobile;
+
+}
+atualizarGraficoBarras();
+
+async function atualizarDadosDashboard(){
+    dashboardTotal.textContent = total;
+    dashboardNaoConcluido.textContent = `${naoConcluido} (${Math.round(porcNaoConcluido)}%)`;
+    dashboardSw.textContent = `${Math.round(porcSw)}%`;
+    dashboardWeb.textContent = `${Math.round(porcWeb)}%`;
+    dashboardMob.textContent = `${Math.round(porcMob)}%`;
+}
+atualizarDadosDashboard();
+
 // === EVENT LISTENERS ===
 
 btnLimpar.addEventListener('click', () => {
@@ -128,7 +213,7 @@ menuItens.forEach(item => {
 });
 
 document.getElementById('ocultar').addEventListener('click', () =>{
-    popupAlterar()
+    ocultarPopupAlterar()
 });
 
 document.getElementById('grafico-rosquinha').addEventListener('mouseover', (event) =>{
@@ -137,3 +222,8 @@ document.getElementById('grafico-rosquinha').addEventListener('mouseover', (even
 document.getElementById('grafico-rosquinha').addEventListener('mouseout', (event) =>{
     event.target.setAttribute('stroke-width', 6);
 });
+
+// === WINDOW ===
+
+window.paginacao = paginacao;
+window.popupAlterar = popupAlterar;

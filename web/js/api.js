@@ -1,6 +1,6 @@
 const API_URL = 'http://localhost:7000/projetos';
 
-async function obterProjetos(){
+export async function obterProjetos(){
     try {
         const resposta = await fetch(API_URL);
         if (!resposta.ok) {
@@ -43,7 +43,7 @@ async function listarProjetos(){
 async function cadastrarProjeto(e) {
     e.preventDefault();
     try{
-        id = (await idAtual() + 1);
+        let id = (await idAtual() + 1);
 
         const projeto = {
             id: id,
@@ -119,7 +119,9 @@ async function alterarProjeto(e){
         if(!resposta.ok){
             throw new Error("Erro no servidor do projeto.");
         }
-        telaAlterar();
+        document.getElementById('alterar').classList.add('oculto');
+        document.getElementById('painel-corpo').classList.remove('blur');
+        document.getElementById('inputId').value = '';
         listarProjetos();
         return await resposta.json();
     }
@@ -183,7 +185,7 @@ function tabela(data) {
         
         const iEditar = document.createElement('ion-icon');
         iEditar.setAttribute('name', 'pencil');
-        iEditar.addEventListener('click', () => telaAlterar(projeto.id));
+        iEditar.addEventListener('click', () => popupAlterar(projeto.id));
         
         const iExcluir = document.createElement('ion-icon');
         iExcluir.setAttribute('name', 'trash');
@@ -198,7 +200,7 @@ function tabela(data) {
 }
 
 async function metricas(){
-    projetos = await obterProjetos();
+    const projetos = await obterProjetos();
 
     const total = projetos.length;
     const concluido = projetos.filter(p => p.status.toLowerCase().includes('concluído'));
@@ -209,8 +211,6 @@ async function metricas(){
     document.getElementById('metrica-concluido').textContent = concluido.length;
     document.getElementById('metrica-desenvolvimento').textContent = desenvolvimento.length;
     document.getElementById('metrica-planejado').textContent = planejado.length;
-
-    console.log(concluido)
 }
 
 async function busca (e){
