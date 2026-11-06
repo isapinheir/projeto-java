@@ -8,6 +8,26 @@ const inputId = document.getElementById('inputId');
 const btnLimpar = document.getElementById('btnLimpar');
 const menuItens = document.querySelectorAll('.sidebar-item');
 
+// === INFO PROJETOS ===
+
+let total = projetos.length;
+
+const software = projetos.filter(p => p.categoria.toLowerCase().includes('software')).length;
+let porcSw = (software / total) * 100;
+
+const web = projetos.filter(p => p.categoria.toLowerCase().includes('web')).length;
+let porcWeb = (web / total) * 100;
+
+const mobile = projetos.filter(p => p.categoria.toLowerCase().includes('mobile')).length;
+let porcMob = (mobile / total) * 100;
+
+const concluido = projetos.filter(p => p.status.toLowerCase().includes('concluído')).length;
+const desenvolvimento = projetos.filter(p => p.status.toLowerCase().includes('desenvolvimento')).length;
+const planejado = projetos.filter(p => p.status.toLowerCase().includes('planejado')).length;
+
+let naoConcluido = total - concluido;
+let porcNaoConcluido = (naoConcluido / total) * 100;
+
 // === FUNÇÕES ===
 
 function atualizarRelogio() {
@@ -114,11 +134,6 @@ function paginacao(pag){
 }
 
 async function atualizarGraficoRosquinha() {
-    let total = projetos.length;
-    const concluido = projetos.filter(p => p.status.toLowerCase().includes('concluído')).length;
-    const desenvolvimento = projetos.filter(p => p.status.toLowerCase().includes('desenvolvimento')).length;
-    const planejado = projetos.filter(p => p.status.toLowerCase().includes('planejado')).length;
-
     // evita a divisão por 0, causando NaN a aparecer na tela
     if(total == 0){
         total = 1;
@@ -150,25 +165,14 @@ async function atualizarGraficoRosquinha() {
 atualizarGraficoRosquinha();
 
 async function atualizarGraficoBarras(){
-    let total = projetos.length;
-
-    const software = projetos.filter(p => p.categoria.toLowerCase().includes('software')).length;
-    const web = projetos.filter(p => p.categoria.toLowerCase().includes('web')).length;
-    const mobile = projetos.filter(p => p.categoria.toLowerCase().includes('mobile')).length;
-
     // evita a divisão por 0, causando NaN a aparecer na tela
     if(total == 0){
         total = 1;
     }
 
-    let porcSw = (software / total) * 100;
-    let porcWeb = (web / total) * 100;
-    let porcMob = (mobile / total) * 100;
-
     let [sw1, sw2] = String(porcSw).split('');
     let [web1, web2] = String(porcWeb).split('');
     let [mob1, mob2] = String(porcMob).split('');
-
 
     graficoSw.style.height = `${sw1}.${sw2}rem`;
     legendaGraficoSw.textContent = software;
@@ -181,6 +185,15 @@ async function atualizarGraficoBarras(){
 
 }
 atualizarGraficoBarras();
+
+async function atualizarDadosDashboard(){
+    dashboardTotal.textContent = total;
+    dashboardNaoConcluido.textContent = `${naoConcluido} (${Math.round(porcNaoConcluido)}%)`;
+    dashboardSw.textContent = `${Math.round(porcSw)}%`;
+    dashboardWeb.textContent = `${Math.round(porcWeb)}%`;
+    dashboardMob.textContent = `${Math.round(porcMob)}%`;
+}
+atualizarDadosDashboard();
 
 // === EVENT LISTENERS ===
 
