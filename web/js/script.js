@@ -142,9 +142,9 @@ async function atualizarGraficoRosquinha() {
     slice3.setAttribute('stroke-dasharray', `${p3} ${100 - p3}`);
     slice3.setAttribute('stroke-dashoffset', `${25 - (p1 + p2)}`);
 
-    console.log(total);
-    console.log(concluido);
-    console.log(p1)
+    document.getElementById('porc-legenda1').textContent = `${Math.round(p1)}%`;
+    document.getElementById('porc-legenda2').textContent = `${Math.round(p2)}%`;
+    document.getElementById('porc-legenda3').textContent = `${Math.round(p3)}%`;
 
 }
 atualizarGraficoRosquinha();
