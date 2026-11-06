@@ -149,6 +149,39 @@ async function atualizarGraficoRosquinha() {
 }
 atualizarGraficoRosquinha();
 
+async function atualizarGraficoBarras(){
+    let total = projetos.length;
+
+    const software = projetos.filter(p => p.categoria.toLowerCase().includes('software')).length;
+    const web = projetos.filter(p => p.categoria.toLowerCase().includes('web')).length;
+    const mobile = projetos.filter(p => p.categoria.toLowerCase().includes('mobile')).length;
+
+    // evita a divisão por 0, causando NaN a aparecer na tela
+    if(total == 0){
+        total = 1;
+    }
+
+    let porcSw = (software / total) * 100;
+    let porcWeb = (web / total) * 100;
+    let porcMob = (mobile / total) * 100;
+
+    let [sw1, sw2] = String(porcSw).split('');
+    let [web1, web2] = String(porcWeb).split('');
+    let [mob1, mob2] = String(porcMob).split('');
+
+
+    graficoSw.style.height = `${sw1}.${sw2}rem`;
+    legendaGraficoSw.textContent = software;
+
+    graficoWeb.style.height = `${web1}.${web2}rem`;
+    legendaGraficoWeb.textContent = web;
+
+    graficoMob.style.height = `${mob1}.${mob2}rem`;
+    legendaGraficoMob.textContent = mobile;
+
+}
+atualizarGraficoBarras();
+
 // === EVENT LISTENERS ===
 
 btnLimpar.addEventListener('click', () => {

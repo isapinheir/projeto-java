@@ -67,7 +67,7 @@
 }
 .coluna-grafico{
     display: inline-block;
-    height: 10rem;
+    height: .5rem;
     width: 6rem;
 }
 .legenda-grafico{
