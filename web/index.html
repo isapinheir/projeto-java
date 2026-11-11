@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="css/geral.css">
     <link rel="stylesheet" href="css/dashboard.css">
     <link rel="stylesheet" href="css/projetos.css">
+    <link rel="stylesheet" href="css/categoria.css">
 </head>
 <body>
 
@@ -31,7 +32,7 @@
                     <span>Projetos</span>
                 </a>
             </li>
-            <!-- <li class="sidebar-item">
+            <li class="sidebar-item">
                 <a href="#categorias" onclick="paginacao(3)">
                     <ion-icon name="menu"></ion-icon>
                     <span>Categorias</span>
@@ -345,6 +346,65 @@
             <!-- =========================
                 PAGINA DAS CATEGORIAS
             ========================== -->
+                <div class="card-categoria azul">
+                    <div class="card-categoria-header">
+                        <ion-icon name="desktop-outline"></ion-icon>
+                        <span class="card-categoria-titulo" id="qtdCatSw">0</span>
+                        <span class="card-categoria-subtitulo">Projetos de software</span>
+                    </div>
+                    <table class="tabela-categoria">
+                        <thead>
+                            <tr>
+                                <th>Nome do Projeto</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbodySoftware">
+                            <!--Inserido pela api-->
+                        </tbody>
+
+                    </table>
+                </div>
+
+                <div class="card-categoria rosa">
+                    <div class="card-categoria-header">
+                        <ion-icon name="globe-outline"></ion-icon>
+                        <span class="card-categoria-titulo" id="qtdCatWeb">0</span>
+                        <span class="card-categoria-subtitulo">Projetos web</span>
+                    </div>
+                    <table class="tabela-categoria">
+                        <thead>
+                            <tr>
+                                <th>Nome do Projeto</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbodyWeb">
+                           
+                        </tbody>
+
+                    </table>
+                </div>
+
+                <div class="card-categoria vermelho">
+                    <div class="card-categoria-header">
+                        <ion-icon name="phone-portrait-outline"></ion-icon>
+                        <span class="card-categoria-titulo" id="qtdCatMob">0</span>
+                        <span class="card-categoria-subtitulo">Projetos mobile</span>
+                    </div>
+                    <table class="tabela-categoria">
+                        <thead>
+                            <tr>
+                                <th>Nome do Projeto</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbodyMobile">
+
+                        </tbody>
+
+                    </table>
+                </div>
 
             </section>
 
