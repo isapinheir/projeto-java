@@ -5,8 +5,8 @@ id;nome;descricao;categoria;status
 4;Sistema de Eventos;Sistema de gerenciamento para eventos;Web;Em desenvolvimento
 5;Sistema Financeiro;Sistema para gerenciar finanças;Software;Concluído
 6;Sistema de Projetos;Sistema de projetos em Java;Software;Em desenvolvimento
-7;Plataforma de Música;Site para uma escola de música online.;Web;Concluído;
-8;Cinemaster;Site para uma empresa de cinema gerenciar a compra de ingressos.;Web;Em desenvolvimento;
-10;Mistura de Cores;Jogo infantil para auxiliar no desenvolvimento artístico.;Software;Em desenvolvimento;
-11;Aplicativo de Cilma;Aplicação mobile para verificar o clima em determinado local.;Mobile;Planejado;
-12;Loja de Cosméticos;E-commerce para venda de cosméticos;Web;Em desenvolvimento;
+7;Plataforma de Música;Site para uma escola de música online.;Web;Concluído
+8;Cinemaster;Site para uma empresa de cinema gerenciar a compra de ingressos.;Web;Em desenvolvimento
+10;Mistura de Cores;Jogo infantil para auxiliar no desenvolvimento artístico.;Software;Em desenvolvimento
+11;Aplicativo de Cilma;Aplicação mobile para verificar o clima em determinado local.;Mobile;Planejado
+12;Loja de Cosméticos;E-commerce para venda de cosméticos;Web;Em desenvolvimento

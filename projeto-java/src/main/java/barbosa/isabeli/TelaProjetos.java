@@ -1,9 +1,11 @@
 package barbosa.isabeli;
 
 import barbosa.isabeli.model.Projeto;
+import barbosa.isabeli.utils.Cores;
 import barbosa.isabeli.api.Api;
 import barbosa.isabeli.dao.ProjetoCSV;
 import barbosa.isabeli.client.ApiClient;
+import barbosa.isabeli.components.*;
 
 import io.javalin.Javalin;
 import java.util.List;
@@ -30,6 +32,8 @@ public class TelaProjetos extends JFrame {
     private JButton botaoLimpar;
     private JButton botaoAlterar;
     private JButton botaoExcluir;
+    
+    private NeoButton botao;
 
     static ApiClient apiClient;
     static ProjetoCSV dao = new ProjetoCSV();
@@ -88,6 +92,8 @@ public class TelaProjetos extends JFrame {
         comboStatusNovo.addItem("Planejado");
         comboStatusNovo.addItem("Em desenvolvimento");
         comboStatusNovo.addItem("Concluído");
+        
+        botao = new NeoButton("Teste", Cores.get("roxo"));
 
         JPanel painelFormulario = new JPanel();
 
@@ -110,6 +116,7 @@ public class TelaProjetos extends JFrame {
         painelFormulario.add(botaoLimpar);
         painelFormulario.add(botaoAlterar);
         painelFormulario.add(botaoExcluir);
+        painelFormulario.add(botao);
 
         setLayout(new BoxLayout(getContentPane(),BoxLayout.Y_AXIS));
 
