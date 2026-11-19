@@ -36,6 +36,7 @@ async function listarProjetos(){
     const projetos = await obterProjetos();
     if(projetos){
         tabela(projetos);
+        categorias(projetos);
         metricas();
     }
 }
@@ -197,6 +198,104 @@ function tabela(data) {
 
         tbody.appendChild(tr);
     });
+}
+
+function categorias(data){
+    const tbSw = document.getElementById('tbodySoftware');
+    const projSw = data.filter(sw => sw.categoria.toLowerCase().includes('software'));
+
+    const tbWeb = document.getElementById('tbodyWeb');
+    const projWeb = data.filter(sw => sw.categoria.toLowerCase().includes('web'));
+
+    const tbMob = document.getElementById('tbodyMobile');
+    const projMob = data.filter(sw => sw.categoria.toLowerCase().includes('mobile'));
+
+    projSw.forEach((projeto) => {
+        const tr = document.createElement('tr');
+        const tdNome = document.createElement('td');
+        const pNome = document.createElement('p');
+        pNome.className = 'nome-projeto';
+        pNome.textContent = projeto.nome;
+        tdNome.appendChild(pNome);
+        tr.appendChild(tdNome);
+
+        const tdStts = document.createElement('td');
+        const sttsBadge = document.createElement('span');
+        
+        const statusNormalizado = projeto.status ? projeto.status.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() : '';
+        
+        sttsBadge.className = `badge ${statusNormalizado}`;
+
+        const spanIcone = document.createElement('span');
+        spanIcone.className = 'icone-status';
+
+        const pStatus = document.createElement('p');
+        pStatus.textContent = projeto.status;
+
+        sttsBadge.appendChild(spanIcone);
+        sttsBadge.appendChild(pStatus);
+        tdStts.appendChild(sttsBadge);
+        tr.appendChild(tdStts);
+        tbSw.appendChild(tr);
+    });
+
+    projWeb.forEach((projeto) => {
+        const tr = document.createElement('tr');
+        const tdNome = document.createElement('td');
+        const pNome = document.createElement('p');
+        pNome.className = 'nome-projeto';
+        pNome.textContent = projeto.nome;
+        tdNome.appendChild(pNome);
+        tr.appendChild(tdNome);
+
+        const tdStts = document.createElement('td');
+        const sttsBadge = document.createElement('span');
+        
+        const statusNormalizado = projeto.status ? projeto.status.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() : '';
+        
+        sttsBadge.className = `badge ${statusNormalizado}`;
+
+        const spanIcone = document.createElement('span');
+        spanIcone.className = 'icone-status';
+
+        const pStatus = document.createElement('p');
+        pStatus.textContent = projeto.status;
+
+        sttsBadge.appendChild(spanIcone);
+        sttsBadge.appendChild(pStatus);
+        tdStts.appendChild(sttsBadge);
+        tr.appendChild(tdStts);
+        tbWeb.appendChild(tr);
+    });
+
+    projMob.forEach((projeto) => {
+        const tr = document.createElement('tr');
+        const tdNome = document.createElement('td');
+        const pNome = document.createElement('p');
+        pNome.className = 'nome-projeto';
+        pNome.textContent = projeto.nome;
+        tdNome.appendChild(pNome);
+        tr.appendChild(tdNome);
+
+        const tdStts = document.createElement('td');
+        const sttsBadge = document.createElement('span');
+        
+        const statusNormalizado = projeto.status ? projeto.status.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() : '';
+        
+        sttsBadge.className = `badge ${statusNormalizado}`;
+
+        const spanIcone = document.createElement('span');
+        spanIcone.className = 'icone-status';
+
+        const pStatus = document.createElement('p');
+        pStatus.textContent = projeto.status;
+
+        sttsBadge.appendChild(spanIcone);
+        sttsBadge.appendChild(pStatus);
+        tdStts.appendChild(sttsBadge);
+        tr.appendChild(tdStts);
+        tbMob.appendChild(tr);
+    }); 
 }
 
 async function metricas(){
