@@ -5,7 +5,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.geom.Arc2D;
 
-public class ViewDashboard extends JFrame {
+public class ViewDashboard extends JPanel { 
 
     // Paleta de cores extraída do seu CSS
     private static final Color COR_FUNDO_TELA = new Color(248, 250, 252);
@@ -37,27 +37,29 @@ public class ViewDashboard extends JFrame {
     // Componentes de gráficos customizados
     private GraficoColunasPanel graficoColunas;
     private GraficoRosquinhaPanel graficoRosquinha;
+    
+    // ==========================================
+    // CONSTRUTOR
+    // ==========================================
 
     public ViewDashboard() {
-        setTitle("Dashboard de Projetos");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1100, 750);
-        setLocationRelativeTo(null);
+        setLayout(new BorderLayout());
+        setBackground(COR_FUNDO_TELA);
 
-        // Container principal (equivalente à <section id="paginaDashboard">)
         JPanel mainContainer = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        JPanel gridTopo = new JPanel(new GridLayout(1, 2, 16, 0));
+        
+        
         mainContainer.setBackground(COR_FUNDO_TELA);
         mainContainer.setBorder(new EmptyBorder(20, 20, 20, 20));
-
-        GridBagConstraints gbc = new GridBagConstraints();
+        
         gbc.fill = GridBagConstraints.BOTH;
         gbc.insets = new Insets(8, 8, 8, 8);
         gbc.weightx = 1.0;
 
-        // ==========================================
-        // 1. GRID TOPO (2 Colunas iguais)
-        // ==========================================
-        JPanel gridTopo = new JPanel(new GridLayout(1, 2, 16, 0));
+
+        
         gridTopo.setOpaque(false);
 
         lblDashboardTotal = criarTituloCard("0");
@@ -70,9 +72,7 @@ public class ViewDashboard extends JFrame {
         gbc.weighty = 0.15;
         mainContainer.add(gridTopo, gbc);
 
-        // ==========================================
-        // 2. GRID MEIO (Proporção 3fr 1fr)
-        // ==========================================
+        
         JPanel gridMeio = new JPanel(new GridBagLayout());
         gridMeio.setOpaque(false);
 
@@ -119,7 +119,7 @@ public class ViewDashboard extends JFrame {
         JScrollPane scrollPane = new JScrollPane(mainContainer);
         scrollPane.setBorder(null);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
-        add(scrollPane);
+        add(scrollPane, BorderLayout.CENTER);
 
         // Exemplo de carregamento inicial de dados (pode ser alterado para 0)
         atualizarDashboard(12, 5, 4, 5, 3, 7, 3, 2);
@@ -159,7 +159,7 @@ public class ViewDashboard extends JFrame {
 
     private JPanel criarCardMetrica(JLabel lblNumero, String textoSubtitulo) {
         CardPanel card = new CardPanel();
-        card.setLayout(new GridBagLayout()); // Centraliza verticalmente à esquerda
+        card.setLayout(new GridBagLayout());
 
         JPanel conteudo = new JPanel();
         conteudo.setLayout(new BoxLayout(conteudo, BoxLayout.Y_AXIS));
@@ -184,7 +184,6 @@ public class ViewDashboard extends JFrame {
         CardPanel card = new CardPanel();
         card.setLayout(new BorderLayout(0, 16));
 
-        // Cabeçalho do card
         JPanel cabecalho = new JPanel();
         cabecalho.setLayout(new BoxLayout(cabecalho, BoxLayout.Y_AXIS));
         cabecalho.setOpaque(false);
@@ -203,7 +202,6 @@ public class ViewDashboard extends JFrame {
         CardPanel card = new CardPanel();
         card.setLayout(new BorderLayout(0, 12));
 
-        // Cabeçalho
         JPanel cabecalho = new JPanel();
         cabecalho.setLayout(new BoxLayout(cabecalho, BoxLayout.Y_AXIS));
         cabecalho.setOpaque(false);
@@ -211,10 +209,8 @@ public class ViewDashboard extends JFrame {
         cabecalho.add(Box.createVerticalStrut(4));
         cabecalho.add(criarSubtituloCard("de desenvolvimento"));
 
-        // Centro: Gráfico SVG convertido para Java2D
         graficoRosquinha = new GraficoRosquinhaPanel();
 
-        // Rodapé: Legendas (.grafico-rosquinha-legendas)
         JPanel painelLegendas = new JPanel(new GridLayout(2, 2, 12, 8));
         painelLegendas.setOpaque(false);
 
@@ -236,7 +232,6 @@ public class ViewDashboard extends JFrame {
         JPanel item = new JPanel(new FlowLayout(FlowLayout.LEFT, 6, 0));
         item.setOpaque(false);
 
-        // Ponto colorido (.ponto-legenda)
         JPanel ponto = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -288,9 +283,6 @@ public class ViewDashboard extends JFrame {
     // CLASSES CUSTOMIZADAS (CARD, GRÁFICO DE COLUNAS E GRÁFICO DE ROSCA)
     // =========================================================================
 
-    /**
-     * Simula a classe CSS .card-dashboard com bordas arredondadas e sombra sutil.
-     */
     static class CardPanel extends JPanel {
         public CardPanel() {
             setOpaque(false);
@@ -303,15 +295,12 @@ public class ViewDashboard extends JFrame {
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
             int arc = 14;
-            // Sombra sutil
             g2.setColor(new Color(0, 0, 0, 12));
             g2.fillRoundRect(2, 3, getWidth() - 4, getHeight() - 4, arc, arc);
 
-            // Fundo branco do card
             g2.setColor(COR_FUNDO_CARD);
             g2.fillRoundRect(0, 0, getWidth() - 3, getHeight() - 3, arc, arc);
 
-            // Borda do card
             g2.setColor(COR_BORDA_CARD);
             g2.drawRoundRect(0, 0, getWidth() - 3, getHeight() - 3, arc, arc);
 
@@ -320,9 +309,6 @@ public class ViewDashboard extends JFrame {
         }
     }
 
-    /**
-     * Simula .grafico-colunas e suas barras proporcionais.
-     */
     static class GraficoColunasPanel extends JPanel {
         private int sw = 0, web = 0, mob = 0;
 
@@ -351,7 +337,7 @@ public class ViewDashboard extends JFrame {
             int areaUtilAltura = height - margemInferior - margemSuperior;
 
             int maxValor = Math.max(1, Math.max(sw, Math.max(web, mob)));
-            int larguraBarra = Math.min(96, width / 5); // ~6rem
+            int larguraBarra = Math.min(96, width / 5);
 
             String[] labels = {"SOFTWARE", "WEB", "MOBILE"};
             int[] valores = {sw, web, mob};
@@ -363,25 +349,21 @@ public class ViewDashboard extends JFrame {
                 int centroX = espacamento * (i + 1);
                 int xBarra = centroX - (larguraBarra / 2);
 
-                // Altura mínima de 8px (.5rem do CSS) se for 0
                 int alturaBarra = (valores[i] == 0)
                         ? 8
                         : Math.max(8, (int) ((valores[i] / (double) maxValor) * areaUtilAltura));
 
                 int yBarra = height - margemInferior - alturaBarra;
 
-                // Desenha a barra
                 g2.setColor(cores[i]);
                 g2.fillRoundRect(xBarra, yBarra, larguraBarra, alturaBarra, 8, 8);
 
-                // Desenha o valor acima da barra
                 g2.setColor(COR_TEXTO_MUTADO);
                 g2.setFont(new Font("SansSerif", Font.BOLD, 13));
                 String strValor = String.valueOf(valores[i]);
                 FontMetrics fm = g2.getFontMetrics();
                 g2.drawString(strValor, centroX - (fm.stringWidth(strValor) / 2), yBarra - 8);
 
-                // Desenha o rótulo abaixo da barra
                 String strLabel = labels[i];
                 g2.drawString(strLabel, centroX - (fm.stringWidth(strLabel) / 2), height - 10);
             }
@@ -390,9 +372,6 @@ public class ViewDashboard extends JFrame {
         }
     }
 
-    /**
-     * Simula o SVG #grafico-rosquinha com os 3 arcos (Concluídos, Desenvolvendo, Planejados).
-     */
     static class GraficoRosquinhaPanel extends JPanel {
         private int concluidos = 0, desenvolvendo = 0, planejados = 0;
 
@@ -415,41 +394,37 @@ public class ViewDashboard extends JFrame {
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
             int tamanho = Math.min(getWidth(), getHeight()) - 20;
-            tamanho = Math.max(100, Math.min(tamanho, 150)); // Mantém próximo aos 140px do SVG
+            tamanho = Math.max(100, Math.min(tamanho, 150));
 
             int x = (getWidth() - tamanho) / 2;
             int y = (getHeight() - tamanho) / 2;
-            float espessura = tamanho * 0.16f; // Proporcional ao stroke-width="6" no viewBox="42"
+            float espessura = tamanho * 0.16f;
 
             g2.setStroke(new BasicStroke(espessura, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND));
 
-            // Círculo de fundo (#eef4f0)
             g2.setColor(COR_FUNDO_ROSQUINHA);
             g2.drawOval(x, y, tamanho, tamanho);
 
             int total = concluidos + desenvolvendo + planejados;
             if (total > 0) {
-                double anguloInicial = 90.0; // Começa no topo (12h)
+                double anguloInicial = 90.0;
 
                 double anguloConcluidos = (concluidos / (double) total) * 360.0;
                 double anguloDesenvolvendo = (desenvolvendo / (double) total) * 360.0;
                 double anguloPlanejados = (planejados / (double) total) * 360.0;
 
-                // Slice 1: Concluídos (#befb5e)
                 if (anguloConcluidos > 0) {
                     g2.setColor(COR_VERDE_CONCLUIDO);
                     g2.draw(new Arc2D.Double(x, y, tamanho, tamanho, anguloInicial, -anguloConcluidos, Arc2D.OPEN));
                     anguloInicial -= anguloConcluidos;
                 }
 
-                // Slice 2: Desenvolvendo (#89c0f4)
                 if (anguloDesenvolvendo > 0) {
                     g2.setColor(COR_AZUL_SW);
                     g2.draw(new Arc2D.Double(x, y, tamanho, tamanho, anguloInicial, -anguloDesenvolvendo, Arc2D.OPEN));
                     anguloInicial -= anguloDesenvolvendo;
                 }
 
-                // Slice 3: Planejados (#c81212)
                 if (anguloPlanejados > 0) {
                     g2.setColor(COR_VERMELHO_PLANEJADO);
                     g2.draw(new Arc2D.Double(x, y, tamanho, tamanho, anguloInicial, -anguloPlanejados, Arc2D.OPEN));

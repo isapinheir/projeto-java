@@ -1,9 +1,12 @@
 package barbosa.isabeli;
 
+import com.kitfox.svg.app.beans.SVGIcon;
+
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -19,6 +22,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import barbosa.isabeli.components.NeoButton;
 import barbosa.isabeli.utils.Cores;
@@ -29,11 +33,13 @@ public class TelaSistema extends JFrame{
     
     private CardLayout cardLayout;
     private JPanel conteudo;
+    private JButton botaoAtivoAtual;
     
     /*
      * as dimensões estão péssimas!!!
      * como trocar a cor dos menus da sidebar?
      * não tá dando pra ler o arquivo das fontes
+     * mexer no foco dos elementos depois
      * 
      * */
 
@@ -45,8 +51,16 @@ public class TelaSistema extends JFrame{
 
         getContentPane().setBackground(Cores.get("fundo"));
         setLayout(new BorderLayout());
+        
+        // ========= ÍCONES =========
+        
+        URL iconeDashboard = getClass().getResource("/assets/img/home.svg");
+        URL iconeProjetos = getClass().getResource("/assets/img/newspaper.svg");
+        URL iconeCategorias = getClass().getResource("/assets/img/menu.svg");
+        // URL iconePessoa = getClass().getResource("/assets/img/cog.svg");
 
-        // sidebar        
+        // ========= SIDEBAR =========
+   
         JPanel sidebar = new JPanel();
         sidebar.setBackground(Cores.get("sidebarFundo"));
         sidebar.setPreferredSize(new Dimension(220, getHeight()));
@@ -62,24 +76,50 @@ public class TelaSistema extends JFrame{
         sidebar.add(logoLabel);
         sidebar.add(Box.createRigidArea(new Dimension(0, 30)));
         
-        URL iconeDashboard = getClass().getResource("/assets/img/home.svg");
-        URL iconeProjetos = getClass().getResource("/assets/img/newspaper.svg");
-        URL iconeCategorias = getClass().getResource("/assets/img/menu.svg");
+        JButton menuDashboard = criarBtn("Dashboard", iconeDashboard, false);
+        JButton menuProjetos = criarBtn("Projetos", iconeProjetos, true);
+        JButton menuCategorias = criarBtn("Categorias", iconeCategorias, false);
 
-        sidebar.add(createSidebarItem("Dashboard", iconeDashboard, false));
+        sidebar.add(menuDashboard);
         sidebar.add(Box.createRigidArea(new Dimension(0, 10)));
-        sidebar.add(createSidebarItem("Projetos", iconeProjetos, true)); // Ativo (roxo)
+        sidebar.add(menuProjetos);
         sidebar.add(Box.createRigidArea(new Dimension(0, 10)));
-        sidebar.add(createSidebarItem("Categorias", iconeCategorias, false));
+        sidebar.add(menuCategorias);
+        
+        setMenuAtivo(menuDashboard); 
 
-        // botões
-        JButton btnHome = new NeoButton("Home", Cores.get("azul"));
-        JButton btnSettings = new NeoButton("Configurações", Cores.get("verde"));
+        // ========= CABEÇALHO =========
+        
+        JPanel cabecalho = new JPanel();
+        cabecalho.setBackground(Cores.get("cabecalho"));
+        cabecalho.setPreferredSize(new Dimension(getWidth(), 100));
+      
+        JPanel relogio = new JPanel();
+        JLabel diaSemana = new JLabel("Quinta-feira");
+        JLabel data = new JLabel("19 de novembro de 2026, 20:03");
+        relogio.add(diaSemana);
+        relogio.add(data);
+        
+        JButton usuario = new JButton("João Silva");
+        usuario.setHorizontalAlignment(SwingConstants.LEFT);
+        usuario.setIconTextGap(10);
+        /*try {
+	        SVGIcon perfil = new SVGIcon();
+	        perfil.setSvgURI(iconePessoa.toURI());
+	        perfil.setPreferredSize(new Dimension(18, 18));
+	        perfil.setAutosize(SVGIcon.AUTOSIZE_BESTFIT);
+	        perfil.setAntiAlias(true);
+	        
+	        usuario.setIcon(perfil);
+        } catch(Exception e) {
+        	e.printStackTrace();
+        }*/
+      
+        cabecalho.add(usuario);
+        cabecalho.add(relogio);
 
-        sidebar.add(btnHome);
-        sidebar.add(btnSettings);
-
-        // conteudo
+        // ========= CONTEÚDO =========
+        
         cardLayout = new CardLayout();
         conteudo = new JPanel(cardLayout);
         conteudo.setOpaque(false);
@@ -89,39 +129,69 @@ public class TelaSistema extends JFrame{
         conteudo.add(dashboard, "DASHBOARD");
         conteudo.add(projetos, "PROJETOS");
 
-        btnHome.addActionListener(e -> cardLayout.show(conteudo, "DASHBOARD"));
-        btnSettings.addActionListener(e -> cardLayout.show(conteudo, "PROJETOS"));
+        menuDashboard.addActionListener(e -> cardLayout.show(conteudo, "DASHBOARD"));
+        menuProjetos.addActionListener(e -> cardLayout.show(conteudo, "PROJETOS"));
 
         add(sidebar, BorderLayout.WEST);
+        add(cabecalho, BorderLayout.NORTH);
         add(conteudo, BorderLayout.CENTER);
     }
     
-    private JComponent createSidebarItem(String text, URL icone, boolean active) {
-        JPanel item = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 8));
-        item.setMaximumSize(new Dimension(190, 40)); // AAA
-        item.setOpaque(active);
+    
+    private JButton criarBtn(String text, URL icone, boolean active) {
+        JButton item = new JButton(text);
+        item.setMaximumSize(new Dimension(190, 40));
+        item.setFont(new Font("SansSerif", Font.BOLD, 13));
+        item.setForeground(active ? Color.WHITE : Color.BLACK);
+        
+        item.setHorizontalAlignment(SwingConstants.LEFT);
+        item.setIconTextGap(10);
+        item.setFocusPainted(false);
+        item.setBorderPainted(false);
+        item.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
         if (active) {
-            item.setBackground(Cores.get("sidebarAtivo"));
-        } else {
-            item.setOpaque(false);
+            item.setBackground(Cores.get("sidebarAtivfalseo"));
         }
-        
+
         if (icone != null) {
-            ImageIcon imgIcon = new ImageIcon(icone);
-            // Image imagemRedimensionada = imgIcon.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH);
-            // imgIcon = new ImageIcon(im-agemRedimensionada);
-            
-            JLabel lblIcon = new JLabel(imgIcon);
-            item.add(lblIcon);
+            try {
+                SVGIcon svgIcon = new SVGIcon();
+                svgIcon.setSvgURI(icone.toURI());
+                svgIcon.setPreferredSize(new Dimension(18, 18));
+                svgIcon.setAutosize(SVGIcon.AUTOSIZE_BESTFIT);
+                svgIcon.setAntiAlias(true);
+
+                item.setIcon(svgIcon); // Adiciona o ícone direto no botão
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         
-        JLabel lbl = new JLabel(text);
-        lbl.setFont(new Font("SansSerif", Font.BOLD, 13));
-        lbl.setForeground(active ? Color.WHITE : Color.BLACK);
-      
-        item.add(lbl);
+        if (active) {
+            setMenuAtivo(item);
+        } else {
+            item.setContentAreaFilled(false);
+            item.setForeground(Color.BLACK);
+        }
         
-        
+        item.addActionListener(e -> setMenuAtivo(item));
+
         return item;
     }
+
+    private void setMenuAtivo(JButton novoBotao) {
+        if (botaoAtivoAtual != null) {
+            botaoAtivoAtual.setContentAreaFilled(false);
+            botaoAtivoAtual.setForeground(Color.BLACK);
+        }
+
+        novoBotao.setContentAreaFilled(true);
+        novoBotao.setBackground(Cores.get("sidebarAtivo"));
+        novoBotao.setForeground(Color.WHITE);
+
+        botaoAtivoAtual = novoBotao;
+    }
+
+
 }

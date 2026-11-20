@@ -14,7 +14,7 @@
     </properties>
 
     <dependencies>
-        <!-- Javalin -->
+        <!-- Javalin, API  -->
         <dependency>
             <groupId>io.javalin</groupId>
             <artifactId>javalin</artifactId>
@@ -33,6 +33,13 @@
             <artifactId>slf4j-simple</artifactId>
             <version>2.0.13</version>
         </dependency>
+        
+        <!-- SVG Salamander, permite o uso de SVGs no Swing -->
+		<dependency>
+		  <groupId>io.github.blackears</groupId>
+		  <artifactId>svg-salamander</artifactId>
+		  <version>1.1.5.5</version>
+		</dependency>
     </dependencies>
 
     <build>
