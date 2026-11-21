@@ -10,12 +10,16 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Graphics2D;
 import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.net.URL;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -54,10 +58,10 @@ public class TelaSistema extends JFrame{
         
         // ========= ÍCONES =========
         
-        URL iconeDashboard = Icones.get("home.svg");
-        URL iconeProjetos = Icones.get("newspaper.svg");
-        URL iconeCategorias = Icones.get("menu.svg");
-        URL iconePessoa = Icones.get("person.svg");
+        ImageIcon iconeDashboard = Icones.get("home.svg", 18, 18, Color.BLACK);
+        ImageIcon iconeProjetos = Icones.get("newspaper.svg", 18, 18, Color.BLACK);
+        ImageIcon iconeCategorias = Icones.get("menu.svg", 18, 18, Color.BLACK);
+        ImageIcon iconePessoa = Icones.get("person.svg", 18, 18, Color.WHITE);
 
         // ========= SIDEBAR =========
    
@@ -76,9 +80,9 @@ public class TelaSistema extends JFrame{
         sidebar.add(logoLabel);
         sidebar.add(Box.createRigidArea(new Dimension(0, 30)));
         
-        JButton menuDashboard = criarBtn("Dashboard", iconeDashboard, false);
-        JButton menuProjetos = criarBtn("Projetos", iconeProjetos, true);
-        JButton menuCategorias = criarBtn("Categorias", iconeCategorias, false);
+        JButton menuDashboard = criarBtn("Dashboard", iconeDashboard);
+        JButton menuProjetos = criarBtn("Projetos", iconeProjetos);
+        JButton menuCategorias = criarBtn("Categorias", iconeCategorias);
 
         sidebar.add(menuDashboard);
         sidebar.add(Box.createRigidArea(new Dimension(0, 10)));
@@ -103,17 +107,7 @@ public class TelaSistema extends JFrame{
         JButton usuario = new JButton("João Silva");
         usuario.setHorizontalAlignment(SwingConstants.LEFT);
         usuario.setIconTextGap(10);
-        try {
-	        SVGIcon perfil = new SVGIcon();
-	        perfil.setSvgURI(iconePessoa.toURI());
-	        perfil.setPreferredSize(new Dimension(18, 18));
-	        perfil.setAutosize(SVGIcon.AUTOSIZE_BESTFIT);
-	        perfil.setAntiAlias(true);
-	        
-	        usuario.setIcon(perfil);
-        } catch(Exception e) {
-        	e.printStackTrace();
-        }
+        usuario.setIcon(iconePessoa);
       
         cabecalho.add(usuario);
         cabecalho.add(relogio);
@@ -139,42 +133,20 @@ public class TelaSistema extends JFrame{
     
     // ========= MÉTODOS AUXIIARES =========
     
-    private JButton criarBtn(String text, URL icone, boolean active) {
+    private JButton criarBtn(String text, ImageIcon icone) {
         JButton item = new JButton(text);
         item.setMaximumSize(new Dimension(190, 40));
         item.setFont(new Font("SansSerif", Font.BOLD, 13));
-        item.setForeground(active ? Color.WHITE : Color.BLACK);
         
         item.setHorizontalAlignment(SwingConstants.LEFT);
         item.setIconTextGap(10);
         item.setFocusPainted(false);
         item.setBorderPainted(false);
         item.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        item.setContentAreaFilled(false);
+        item.setForeground(Color.BLACK);
         
-        if (active) {
-            item.setBackground(Cores.get("sidebarAtivo"));
-        }
-
-        if (icone != null) {
-            try {
-                SVGIcon svgIcon = new SVGIcon();
-                svgIcon.setSvgURI(icone.toURI());
-                svgIcon.setPreferredSize(new Dimension(18, 18));
-                svgIcon.setAutosize(SVGIcon.AUTOSIZE_BESTFIT);
-                svgIcon.setAntiAlias(true);
-
-                item.setIcon(svgIcon);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        
-        if (active) {
-            setMenuAtivo(item);
-        } else {
-            item.setContentAreaFilled(false);
-            item.setForeground(Color.BLACK);
-        }
+        item.setIcon(icone);
         
         item.addActionListener(e -> setMenuAtivo(item));
 
@@ -185,14 +157,19 @@ public class TelaSistema extends JFrame{
         if (botaoAtivoAtual != null) {
             botaoAtivoAtual.setContentAreaFilled(false);
             botaoAtivoAtual.setForeground(Color.BLACK);
+            Icones.recolorir(botaoAtivoAtual.getIcon(), Color.BLACK);
         }
 
         novoBotao.setContentAreaFilled(true);
         novoBotao.setBackground(Cores.get("sidebarAtivo"));
         novoBotao.setForeground(Color.WHITE);
+        Icones.recolorir(novoBotao.getIcon(), Color.WHITE);
+
 
         botaoAtivoAtual = novoBotao;
     }
+    
+    
 
 
 }
