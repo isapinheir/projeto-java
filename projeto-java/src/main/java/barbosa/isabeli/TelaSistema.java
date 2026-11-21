@@ -26,7 +26,7 @@ import javax.swing.SwingConstants;
 
 import barbosa.isabeli.components.NeoButton;
 import barbosa.isabeli.utils.Cores;
-
+import barbosa.isabeli.utils.Icones;
 import barbosa.isabeli.views.*;
 
 public class TelaSistema extends JFrame{
@@ -54,10 +54,10 @@ public class TelaSistema extends JFrame{
         
         // ========= ÍCONES =========
         
-        URL iconeDashboard = getClass().getResource("/assets/img/home.svg");
-        URL iconeProjetos = getClass().getResource("/assets/img/newspaper.svg");
-        URL iconeCategorias = getClass().getResource("/assets/img/menu.svg");
-        // URL iconePessoa = getClass().getResource("/assets/img/cog.svg");
+        URL iconeDashboard = Icones.get("home.svg");
+        URL iconeProjetos = Icones.get("newspaper.svg");
+        URL iconeCategorias = Icones.get("menu.svg");
+        URL iconePessoa = Icones.get("person.svg");
 
         // ========= SIDEBAR =========
    
@@ -103,7 +103,7 @@ public class TelaSistema extends JFrame{
         JButton usuario = new JButton("João Silva");
         usuario.setHorizontalAlignment(SwingConstants.LEFT);
         usuario.setIconTextGap(10);
-        /*try {
+        try {
 	        SVGIcon perfil = new SVGIcon();
 	        perfil.setSvgURI(iconePessoa.toURI());
 	        perfil.setPreferredSize(new Dimension(18, 18));
@@ -113,7 +113,7 @@ public class TelaSistema extends JFrame{
 	        usuario.setIcon(perfil);
         } catch(Exception e) {
         	e.printStackTrace();
-        }*/
+        }
       
         cabecalho.add(usuario);
         cabecalho.add(relogio);
@@ -137,6 +137,7 @@ public class TelaSistema extends JFrame{
         add(conteudo, BorderLayout.CENTER);
     }
     
+    // ========= MÉTODOS AUXIIARES =========
     
     private JButton criarBtn(String text, URL icone, boolean active) {
         JButton item = new JButton(text);
@@ -149,9 +150,9 @@ public class TelaSistema extends JFrame{
         item.setFocusPainted(false);
         item.setBorderPainted(false);
         item.setCursor(new Cursor(Cursor.HAND_CURSOR));
-
+        
         if (active) {
-            item.setBackground(Cores.get("sidebarAtivfalseo"));
+            item.setBackground(Cores.get("sidebarAtivo"));
         }
 
         if (icone != null) {
@@ -162,7 +163,7 @@ public class TelaSistema extends JFrame{
                 svgIcon.setAutosize(SVGIcon.AUTOSIZE_BESTFIT);
                 svgIcon.setAntiAlias(true);
 
-                item.setIcon(svgIcon); // Adiciona o ícone direto no botão
+                item.setIcon(svgIcon);
             } catch (Exception e) {
                 e.printStackTrace();
             }

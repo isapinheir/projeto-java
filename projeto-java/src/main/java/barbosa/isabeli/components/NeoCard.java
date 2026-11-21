@@ -11,8 +11,11 @@ import java.awt.RenderingHints;
 import javax.swing.JPanel;
 
 public class NeoCard extends JPanel {
-    public NeoCard() {
+	private Color fundo;
+	
+    public NeoCard(Color cor) {
         setOpaque(false);
+        this.fundo = cor;
     }
     
     @Override
@@ -30,7 +33,7 @@ public class NeoCard extends JPanel {
         g2d.fillRect(6, 6, width, height);
 
         // 2. Desenha o fundo do cartão (Amarelo claro pastel)
-        g2d.setColor(Cores.get("fundo"));
+        g2d.setColor(fundo);
         g2d.fillRect(0, 0, width, height);
 
         // 3. Desenha a borda preta grossa (3 pixels)
