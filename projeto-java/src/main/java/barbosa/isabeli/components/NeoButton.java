@@ -24,7 +24,7 @@ public class NeoButton extends JButton {
         super(text);
         this.corFundo = cor;
         
-        setFont(Fontes.carregarFonte("barbosa/isabeli/assets/fonts/Orbitron-ExtraBold.ttf", 14f));
+        setFont(Fontes.carregarFonte("/barbosa/isabeli/assets/fonts/Orbitron-ExtraBold.ttf", 14f));
         setFocusPainted(false);
         setContentAreaFilled(false);
         setBorderPainted(false);
