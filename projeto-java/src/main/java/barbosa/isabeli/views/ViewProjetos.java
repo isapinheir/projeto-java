@@ -4,6 +4,7 @@ import barbosa.isabeli.client.ApiClient;
 import barbosa.isabeli.components.NeoButton;
 import barbosa.isabeli.components.NeoCard;
 import barbosa.isabeli.model.Projeto;
+import barbosa.isabeli.utils.Fontes;
 import barbosa.isabeli.utils.Cores;
 import barbosa.isabeli.utils.Icones;
 
@@ -76,15 +77,21 @@ public class ViewProjetos extends JPanel {
     private ApiClient apiClient;
 
     // ========= ÍCONES =========
-    private final ImageIcon iconePasta = Icones.get("folder-open.svg", 18, 18, Color.WHITE);
-    private final ImageIcon iconeConfere = Icones.get("checkmark.svg", 18, 18, Color.WHITE);
-    private final ImageIcon iconeRelogio = Icones.get("time.svg", 18, 18, Color.WHITE);
-    private final ImageIcon iconeGrafico = Icones.get("bar-chart.svg", 18, 18, Color.WHITE);
+    private final ImageIcon iconePasta = Icones.get("folder-open.svg", 30, 30, Color.WHITE);
+    private final ImageIcon iconeConfere = Icones.get("checkmark.svg", 30, 30, Color.WHITE);
+    private final ImageIcon iconeRelogio = Icones.get("time.svg", 30, 30, Color.WHITE);
+    private final ImageIcon iconeGrafico = Icones.get("bar-chart.svg", 30, 30, Color.WHITE);
 
     private final ImageIcon iconeSalvar = Icones.get("save.svg", 18, 18, Color.WHITE);
     private final ImageIcon iconeVoltar = Icones.get("return-down-back.svg", 18, 18, Color.WHITE);
     private final ImageIcon iconeLapis = Icones.get("pencil.svg", 18, 18, Color.WHITE);
     private final ImageIcon iconeLixo = Icones.get("trash.svg", 18, 18, Color.WHITE);
+
+    private final ImageIcon iconeMais = Icones.get("add.svg", 20, 20, Color.WHITE);
+    private final ImageIcon iconeLista = Icones.get("list.svg", 20, 20, Color.WHITE);
+
+    //private final ImageIcon iconeLapis = Icones.get("pencil.svg", 18, 18, Color.WHITE);
+    //private final ImageIcon iconeLixo = Icones.get("trash.svg", 18, 18, Color.WHITE);
 
     public ViewProjetos() {
         setLayout(new BorderLayout());
@@ -198,21 +205,21 @@ public class ViewProjetos extends JPanel {
             setBorder(new EmptyBorder(14, 18, 20, 24));
 
             IconeCardMetricas wrapper = new IconeCardMetricas(corIcone, icone);
-            wrapper.setPreferredSize(new Dimension(42, 42));
-            wrapper.setMinimumSize(new Dimension(42, 42));
-            wrapper.setMaximumSize(new Dimension(42, 42));
+            wrapper.setPreferredSize(new Dimension(62, 62));
+            wrapper.setMinimumSize(new Dimension(62, 62));
+            wrapper.setMaximumSize(new Dimension(62, 62));
 
             JPanel textos = new JPanel();
             textos.setLayout(new BoxLayout(textos, BoxLayout.Y_AXIS));
             textos.setOpaque(false);
 
             lblValor = new JLabel(valorInicial);
-            lblValor.setFont(new Font("SansSerif", Font.BOLD, 24));
-            lblValor.setForeground(COR_TEXTO_PRINCIPAL);
+            lblValor.setFont(Fontes.carregarFonte("Poppins-ExtraBold.ttf", 40f));
+            lblValor.setForeground(Cores.get("textoPrincipal"));
 
             lblRotulo = new JLabel(rotulo);
-            lblRotulo.setFont(new Font("SansSerif", Font.BOLD, 12));
-            lblRotulo.setForeground(COR_TEXTO_SECUNDARIO);
+            lblRotulo.setFont(Fontes.carregarFonte("Orbitron-Medium.ttf", 17f));
+            lblRotulo.setForeground(Cores.get("textoSecundario"));
 
             textos.add(lblValor);
             textos.add(Box.createVerticalStrut(2));
@@ -278,9 +285,9 @@ public class ViewProjetos extends JPanel {
             setLayout(new BorderLayout());
 
             JLabel cabecalho = new JLabel("Cadastro de Projetos");
-            cabecalho.setFont(new Font("SansSerif", Font.BOLD, 15));
+            cabecalho.setFont(Fontes.carregarFonte("Orbitron-ExtraBold.ttf", 20f));
             cabecalho.setForeground(COR_TEXTO_PRINCIPAL);
-            cabecalho.setIcon(iconePasta);
+            cabecalho.setIcon(iconeMais);
             cabecalho.setBorder(new EmptyBorder(18, 18, 0, 18));
 
             JPanel corpo = new JPanel();
@@ -291,17 +298,19 @@ public class ViewProjetos extends JPanel {
             // == Nome ==
             lblNome = new JLabel("Nome");
             estilizarLabel(lblNome);
+            lblNome.setHorizontalAlignment(SwingConstants.LEFT);
             txtNome = new JTextField();
             estilizarTextField(txtNome);
 
             // == Descrição ==
             lblDesc = new JLabel("Descrição");
+            lblDesc.setHorizontalAlignment(SwingConstants.LEFT);            
             estilizarLabel(lblDesc);
 
             txtDesc = new JTextArea("", 4, 20);
             txtDesc.setLineWrap(true);
             txtDesc.setWrapStyleWord(true);
-            txtDesc.setFont(new Font("SansSerif", Font.PLAIN, 13));
+            txtDesc.setFont(Fontes.carregarFonte("Orbitron-ExtraBold.ttf", 17f));
             txtDesc.setForeground(COR_TEXTO_PRINCIPAL);
             txtDesc.setBorder(new EmptyBorder(8, 10, 8, 10));
 
@@ -319,8 +328,9 @@ public class ViewProjetos extends JPanel {
             colCategoria.setOpaque(false);
 
             lblCat = new JLabel("Categoria");
+            lblCat.setHorizontalAlignment(SwingConstants.LEFT);
             estilizarLabel(lblCat);
-
+        
             cbCat = new JComboBox<>(new String[]{"Software", "Web", "Mobile"});
             estilizarCombo(cbCat);
 
@@ -329,6 +339,7 @@ public class ViewProjetos extends JPanel {
             colStatus.setOpaque(false);
 
             lblStts = new JLabel("Status");
+            lblStts.setHorizontalAlignment(SwingConstants.LEFT);
             estilizarLabel(lblStts);
 
             cbStts = new JComboBox<>(new String[]{"Em desenvolvimento", "Concluído", "Planejado"});
@@ -382,9 +393,9 @@ public class ViewProjetos extends JPanel {
             setLayout(new BorderLayout());
 
             JLabel cabecalho = new JLabel("Lista de Projetos");
-            cabecalho.setFont(new Font("SansSerif", Font.BOLD, 15));
+            cabecalho.setFont(Fontes.carregarFonte("Orbitron-Bold.ttf", 20f));
             cabecalho.setForeground(COR_TEXTO_PRINCIPAL);
-            cabecalho.setIcon(iconeGrafico);
+            cabecalho.setIcon(iconeLista);
             cabecalho.setBorder(new EmptyBorder(18, 18, 0, 18));
 
             JPanel corpo = new JPanel(new BorderLayout(0, 14));
@@ -406,8 +417,7 @@ public class ViewProjetos extends JPanel {
                 public void changedUpdate(DocumentEvent e) { filtrarTabela(); }
             });
 
-            JButton btnAtualizar = new JButton("Atualizar");
-            btnAtualizar.setFont(new Font("SansSerif", Font.BOLD, 12));
+            JButton btnAtualizar = new JButton();
             btnAtualizar.setBackground(Color.WHITE);
             btnAtualizar.setForeground(COR_TEXTO_SECUNDARIO);
             btnAtualizar.setFocusPainted(false);
@@ -426,8 +436,8 @@ public class ViewProjetos extends JPanel {
                     return false;
                 }
             };
-            modelo.addColumn("ID");
             modelo.addColumn("Nome");
+            modelo.addColumn("Descrição");
             modelo.addColumn("Categoria");
             modelo.addColumn("Status");
 
@@ -435,20 +445,20 @@ public class ViewProjetos extends JPanel {
 
             tabelaProjetos = new JTable(modelo);
             tabelaProjetos.setRowSorter(filtro);
-            tabelaProjetos.setRowHeight(44);
+            tabelaProjetos.setRowHeight(90);
             tabelaProjetos.setShowVerticalLines(false);
             tabelaProjetos.setGridColor(COR_BORDA);
             tabelaProjetos.setSelectionBackground(new Color(191, 155, 13, 52));
             tabelaProjetos.setSelectionForeground(COR_TEXTO_PRINCIPAL);
-            tabelaProjetos.setFont(new Font("SansSerif", Font.PLAIN, 13));
+            tabelaProjetos.setFont(Fontes.carregarFonte("Poppins-Medium.ttf", 17f));
 
             JTableHeader header = tabelaProjetos.getTableHeader();
-            header.setFont(new Font("SansSerif", Font.BOLD, 12));
+            header.setFont(Fontes.carregarFonte("Orbitron-ExtraBold.ttf", 17f));
             header.setBackground(new Color(241, 245, 249));
             header.setForeground(COR_TEXTO_PRINCIPAL);
             header.setReorderingAllowed(false);
 
-            tabelaProjetos.getColumnModel().getColumn(1).setCellRenderer(new NegritoTabela());
+            tabelaProjetos.getColumnModel().getColumn(0).setCellRenderer(new NegritoTabela());
             tabelaProjetos.getColumnModel().getColumn(2).setCellRenderer(new BadgeTabela(false));
             tabelaProjetos.getColumnModel().getColumn(3).setCellRenderer(new BadgeTabela(true));
 
@@ -459,7 +469,7 @@ public class ViewProjetos extends JPanel {
             barraPesquisa.add(txtBusca, BorderLayout.CENTER);
             barraPesquisa.add(btnAtualizar, BorderLayout.EAST);
 
-            // Botões de ação inferiores para o item selecionado
+            // == Rodapé ==
             JPanel rodapeAcoes = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
             rodapeAcoes.setOpaque(false);
 
@@ -483,7 +493,7 @@ public class ViewProjetos extends JPanel {
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
                                                        boolean hasFocus, int row, int column) {
             JLabel lbl = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-            lbl.setFont(new Font("SansSerif", Font.BOLD, 13));
+            setFont(Fontes.carregarFonte("Poppins-Bold.ttf", 17f));
             lbl.setForeground(COR_TEXTO_PRINCIPAL);
             return lbl;
         }
@@ -491,11 +501,14 @@ public class ViewProjetos extends JPanel {
 
     static class BadgeTabela extends DefaultTableCellRenderer {
         private final boolean isStatus;
+        private final Font fonteBadge;
 
         BadgeTabela(boolean isStatus) {
             this.isStatus = isStatus;
             setOpaque(false);
             setHorizontalAlignment(CENTER);
+            // Carrega uma vez para não recarregar o arquivo a cada desenho da célula
+            this.fonteBadge = Fontes.carregarFonte("Poppins-Regular.ttf", 14f);
         }
 
         @Override
@@ -514,6 +527,7 @@ public class ViewProjetos extends JPanel {
                     super.paintComponent(g);
                     Graphics2D g2 = (Graphics2D) g.create();
                     g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                    g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
                     Color fundo;
                     Color borda = new Color(59, 59, 62);
@@ -528,14 +542,21 @@ public class ViewProjetos extends JPanel {
                         fundo = CARD_ROXO;
                     }
 
-                    g2.setFont(new Font("SansSerif", Font.BOLD, 11));
+                    g2.setFont(fonteBadge);
                     FontMetrics fm = g2.getFontMetrics();
-                    int pillW = fm.stringWidth(texto) + 20;
-                    int pillH = 24;
+
+                    int paddingX = 14; 
+                    int paddingY = 8; 
+                    int margemLateral = 6;
+
+                    int maxLarguraDisponivel = Math.max(20, getWidth() - (margemLateral * 2));
+                    int pillW = Math.min(fm.stringWidth(texto) + (paddingX * 2), maxLarguraDisponivel);
+                    int pillH = Math.min(fm.getHeight() + paddingY, Math.max(20, getHeight() - 8));
+
                     int px = (getWidth() - pillW) / 2;
                     int py = (getHeight() - pillH) / 2;
 
-                    Shape pill = new RoundRectangle2D.Double(px, py, pillW, pillH, 99, 99);
+                    Shape pill = new RoundRectangle2D.Double(px, py, pillW, pillH, pillH, pillH);
                     g2.setColor(fundo);
                     g2.fill(pill);
 
@@ -545,7 +566,10 @@ public class ViewProjetos extends JPanel {
                     }
 
                     g2.setColor(COR_TEXTO_SECUNDARIO);
-                    g2.drawString(texto, px + 10, py + ((pillH + fm.getAscent() - fm.getDescent()) / 2));
+                    int textX = px + ((pillW - fm.stringWidth(texto)) / 2);
+                    int textY = py + ((pillH - fm.getHeight()) / 2) + fm.getAscent();
+                    g2.drawString(texto, textX, textY);
+
                     g2.dispose();
                 }
             };
@@ -582,7 +606,7 @@ public class ViewProjetos extends JPanel {
         txtDescNova = new JTextArea(projetoAtual.getDescricao(), 4, 24);
         txtDescNova.setLineWrap(true);
         txtDescNova.setWrapStyleWord(true);
-        txtDescNova.setFont(new Font("SansSerif", Font.PLAIN, 13));
+        txtDescNova.setFont(Fontes.carregarFonte("Poppins-Medium.ttf", 17f));
         txtDescNova.setForeground(COR_TEXTO_PRINCIPAL);
         txtDescNova.setBorder(new EmptyBorder(8, 10, 8, 10));
 
@@ -807,8 +831,8 @@ public class ViewProjetos extends JPanel {
 
         for (Projeto projeto : projetos) {
             modelo.addRow(new Object[]{
-                    projeto.getId(),
                     projeto.getNome(),
+                    projeto.getDescricao(),
                     projeto.getCategoria(),
                     projeto.getStatus()
             });
@@ -859,22 +883,23 @@ public class ViewProjetos extends JPanel {
     // ========= MÉTODOS DE ESTILIZAÇÃO =========
 
     private void estilizarLabel(JLabel lbl) {
-        lbl.setFont(new Font("SansSerif", Font.BOLD, 13));
+        lbl.setFont(Fontes.carregarFonte("Poppins-Bold.ttf", 17f));
         lbl.setForeground(COR_TEXTO_PRINCIPAL);
     }
 
     private void estilizarTextField(JTextField txt) {
-        txt.setFont(new Font("SansSerif", Font.PLAIN, 13));
+        txt.setFont(Fontes.carregarFonte("Poppins-Medium.ttf", 17f));
         txt.setForeground(COR_TEXTO_PRINCIPAL);
         txt.setBackground(Color.WHITE);
         txt.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(COR_BORDA, 1, true),
                 new EmptyBorder(8, 10, 8, 10)
         ));
+        txt.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
     }
 
     private void estilizarCombo(JComboBox<String> combo) {
-        combo.setFont(new Font("SansSerif", Font.PLAIN, 13));
+        combo.setFont(Fontes.carregarFonte("Poppins-Medium.ttf", 17f));
         combo.setForeground(COR_TEXTO_PRINCIPAL);
         combo.setBackground(Color.WHITE);
         combo.setMaximumSize(new Dimension(Integer.MAX_VALUE, 36));

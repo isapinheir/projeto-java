@@ -49,6 +49,10 @@ public class Cores {
 	    
 	    // --- Tabela ---
 	    PALETA.put("hoverTabela", new Color(191, 155, 13, 52));
+	    
+	    // --- Texto ---
+	    PALETA.put("textoPrimario", new Color(30, 41, 59));
+	    PALETA.put("textoSecundario", new Color(71, 85, 105));
 	}
 	
 	// retorna preto caso o nome da cor não exista

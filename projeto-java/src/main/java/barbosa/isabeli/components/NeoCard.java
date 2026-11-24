@@ -30,7 +30,7 @@ public class NeoCard extends JPanel {
 
         // 1. Desenha a sombra preta deslocada (Hard Shadow)
         g2d.setColor(Color.BLACK);
-        g2d.fillRect(6, 6, width, height);
+        g2d.fillRect(12, 12, width, height);
 
         // 2. Desenha o fundo do cartão (Amarelo claro pastel)
         g2d.setColor(fundo);
