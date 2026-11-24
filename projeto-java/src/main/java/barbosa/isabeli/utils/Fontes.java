@@ -9,8 +9,9 @@ import java.io.InputStream;
 
 public class Fontes {
 
-    public static Font carregarFonte(String path, float size) {
+    public static Font carregarFonte(String fonte, float size) {
         try {
+        	String path = "/barbosa/isabeli/assets/fonts/" + fonte;
             InputStream is = Fontes.class.getResourceAsStream(path);
             
             if (is == null) {
