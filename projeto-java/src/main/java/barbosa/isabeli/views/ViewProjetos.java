@@ -15,6 +15,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumn;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
@@ -436,6 +437,7 @@ public class ViewProjetos extends JPanel {
                     return false;
                 }
             };
+            modelo.addColumn("Id");
             modelo.addColumn("Nome");
             modelo.addColumn("Descrição");
             modelo.addColumn("Categoria");
@@ -451,6 +453,10 @@ public class ViewProjetos extends JPanel {
             tabelaProjetos.setSelectionBackground(new Color(191, 155, 13, 52));
             tabelaProjetos.setSelectionForeground(COR_TEXTO_PRINCIPAL);
             tabelaProjetos.setFont(Fontes.carregarFonte("Poppins-Medium.ttf", 17f));
+            
+            // remove a coluna de id da visualização, mas ainda deixa ela no modelo para outros métodos conseguirem obter o id
+            TableColumn colunaId = tabelaProjetos.getColumnModel().getColumn(0);
+            tabelaProjetos.removeColumn(colunaId);
 
             JTableHeader header = tabelaProjetos.getTableHeader();
             header.setFont(Fontes.carregarFonte("Orbitron-ExtraBold.ttf", 17f));
@@ -507,7 +513,6 @@ public class ViewProjetos extends JPanel {
             this.isStatus = isStatus;
             setOpaque(false);
             setHorizontalAlignment(CENTER);
-            // Carrega uma vez para não recarregar o arquivo a cada desenho da célula
             this.fonteBadge = Fontes.carregarFonte("Poppins-Regular.ttf", 14f);
         }
 
@@ -689,7 +694,10 @@ public class ViewProjetos extends JPanel {
             limparFormulario();
             carregarPagina();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Erro: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Não foi possível cadastrar o projeto. ", "Erro", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+            apiClient.registrarLogErro("cadastro_projetos", e);
+            
         }
     }
 
@@ -702,17 +710,16 @@ public class ViewProjetos extends JPanel {
             }
 
             int linhaModel = tabelaProjetos.convertRowIndexToModel(linhaView);
-            int id = (int) modelo.getValueAt(linhaModel, 0);
-
+            int id = Integer.parseInt(String.valueOf(modelo.getValueAt(linhaModel, 0)));
             Projeto atual = projetosCache.stream()
                     .filter(p -> p.getId() == id)
                     .findFirst()
                     .orElse(new Projeto(
                             id,
                             String.valueOf(modelo.getValueAt(linhaModel, 1)),
-                            "",
                             String.valueOf(modelo.getValueAt(linhaModel, 2)),
-                            String.valueOf(modelo.getValueAt(linhaModel, 3))
+                            String.valueOf(modelo.getValueAt(linhaModel, 3)),
+                            String.valueOf(modelo.getValueAt(linhaModel, 4))
                     ));
 
             int opcao = JOptionPane.showConfirmDialog(
@@ -742,7 +749,9 @@ public class ViewProjetos extends JPanel {
             apiClient.registrarLogProjeto("ALTERAR", "ID=" + id + " | Nome=" + nome + " | Status=" + status);
             carregarPagina();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Erro: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Não foi possível alterar o projeto. ", "Erro", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+            apiClient.registrarLogErro("alteracao_projetos", e);
         }
     }
 
@@ -760,7 +769,9 @@ public class ViewProjetos extends JPanel {
             apiClient.registrarLogProjeto("EXCLUIR", "ID=" + id);
             carregarPagina();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Erro: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Não foi possível excluir o projeto. ", "Erro", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+            apiClient.registrarLogErro("exclusao_projetos", e);
         }
     }
 
@@ -810,12 +821,9 @@ public class ViewProjetos extends JPanel {
                     atualizarCards(projetosCache);
                     calcularProximoId(projetosCache);
                 } catch (Exception e) {
-                    JOptionPane.showMessageDialog(
-                            ViewProjetos.this,
-                            "Erro ao carregar: " + e.getMessage(),
-                            "Erro",
-                            JOptionPane.ERROR_MESSAGE
-                    );
+                    JOptionPane.showMessageDialog(ViewProjetos.this, "Não foi possível carregar a página, tente novamente mais tarde. ", "Erro", JOptionPane.ERROR_MESSAGE);
+                    e.printStackTrace();
+                    apiClient.registrarLogErro("carregar_pagina", e);
                 }
             }
         }.execute();
@@ -835,6 +843,7 @@ public class ViewProjetos extends JPanel {
 
         for (Projeto projeto : projetos) {
             modelo.addRow(new Object[]{
+            		projeto.getId(),
                     projeto.getNome(),
                     projeto.getDescricao(),
                     projeto.getCategoria(),
