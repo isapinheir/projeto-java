@@ -13,6 +13,8 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 
@@ -28,6 +30,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import barbosa.isabeli.client.ApiClient;
 import barbosa.isabeli.components.NeoButton;
 import barbosa.isabeli.utils.Cores;
 import barbosa.isabeli.utils.Icones;
@@ -38,6 +41,7 @@ public class TelaSistema extends JFrame{
     private CardLayout cardLayout;
     private JPanel conteudo;
     private JButton botaoAtivoAtual;
+    private ApiClient apiClient;
     
     /*
      * as dimensões estão péssimas!!!
@@ -55,6 +59,17 @@ public class TelaSistema extends JFrame{
 
         getContentPane().setBackground(Cores.get("fundo"));
         setLayout(new BorderLayout());
+        
+        String usuarioLogado = "João Silva";
+        apiClient = new ApiClient();
+		apiClient.registrarLogSessao("login", usuarioLogado);
+		
+		addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+            	apiClient.registrarLogSessao("logout", usuarioLogado);
+            }
+        });
         
         // ========= ÍCONES =========
         

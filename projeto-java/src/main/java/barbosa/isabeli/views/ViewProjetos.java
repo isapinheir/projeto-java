@@ -665,6 +665,7 @@ public class ViewProjetos extends JPanel {
 
     private void cadastrar() {
         try {
+        	int id = proximoId;
             String nome = txtNome.getText().trim();
             String desc = txtDesc.getText().trim();
             String cat = String.valueOf(cbCat.getSelectedItem());
@@ -680,8 +681,9 @@ public class ViewProjetos extends JPanel {
                 return;
             }
 
-            Projeto projeto = new Projeto(proximoId, nome, desc, cat, stts);
+            Projeto projeto = new Projeto(id, nome, desc, cat, stts);
             apiClient.cadastrarProjeto(projeto);
+            apiClient.registrarLogProjeto("CRIAR", "ID=" + id + " | Nome=" + nome);
 
             JOptionPane.showMessageDialog(this, "Projeto cadastrado com sucesso!");
             limparFormulario();
@@ -737,6 +739,7 @@ public class ViewProjetos extends JPanel {
 
             Projeto novoProjeto = new Projeto(id, nome, descricao, categoria, status);
             apiClient.alterarProjeto(id, novoProjeto);
+            apiClient.registrarLogProjeto("ALTERAR", "ID=" + id + " | Nome=" + nome + " | Status=" + status);
             carregarPagina();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Erro: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
@@ -754,6 +757,7 @@ public class ViewProjetos extends JPanel {
             int linhaModel = tabelaProjetos.convertRowIndexToModel(linhaView);
             int id = (int) modelo.getValueAt(linhaModel, 0);
             apiClient.excluirProjeto(id);
+            apiClient.registrarLogProjeto("EXCLUIR", "ID=" + id);
             carregarPagina();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Erro: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);

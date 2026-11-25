@@ -1,13 +1,16 @@
 package barbosa.isabeli.api;
 
+import barbosa.isabeli.model.LogReq;
 import barbosa.isabeli.model.Projeto;
 import barbosa.isabeli.service.ProjetoService;
+import barbosa.isabeli.service.LogService;
 import io.javalin.Javalin;
 import java.util.List;
 
 public class Api {
 
     static ProjetoService service = new ProjetoService();
+    static LogService logService = new LogService();
 
     public static void web(Javalin app) {
     	// raiz
@@ -113,6 +116,24 @@ public class Api {
         		e.printStackTrace();
         		ctx.status(500).result("Erro ao excluir o projeto selecionado.");
         	}
+        });
+        // LOGS
+        app.post("/api/logs/sessao", ctx -> {
+            LogReq req = ctx.bodyAsClass(LogReq.class);
+            logService.registrarSessao(req);
+            ctx.status(201).result("Sessão registrada");
+        });
+
+        app.post("/api/logs/projeto", ctx -> {
+            LogReq req = ctx.bodyAsClass(LogReq.class);
+            logService.registrarProjeto(req);
+            ctx.status(201).result("Log de projeto registrado");
+        });
+
+        app.post("/api/logs/erro", ctx -> {
+            LogReq req = ctx.bodyAsClass(LogReq.class);
+            logService.registrarErro(req);
+            ctx.status(201).result("Erro registrado");
         });
         
     }
