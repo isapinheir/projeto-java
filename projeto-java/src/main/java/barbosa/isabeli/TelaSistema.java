@@ -16,6 +16,7 @@ import java.awt.Image;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
+
 import java.net.URL;
 
 import javax.swing.BorderFactory;
@@ -29,6 +30,12 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.Timer;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+import java.util.Locale;
 
 import barbosa.isabeli.client.ApiClient;
 import barbosa.isabeli.components.NeoButton;
@@ -42,6 +49,13 @@ public class TelaSistema extends JFrame{
     private JPanel conteudo;
     private JButton botaoAtivoAtual;
     private ApiClient apiClient;
+    private final Timer timer;
+    
+    private String horario;
+    private String dia;
+    private String data;
+    private JButton usuario;
+
     
     /*
      * as dimensões estão péssimas!!!
@@ -70,6 +84,10 @@ public class TelaSistema extends JFrame{
             	apiClient.registrarLogSessao("logout", usuarioLogado);
             }
         });
+		
+	    atualizarRelogio();
+	    timer = new Timer(10_000, e -> atualizarRelogio());
+	    timer.start();
         
         // ========= ÍCONES =========
         
@@ -114,12 +132,12 @@ public class TelaSistema extends JFrame{
         cabecalho.setPreferredSize(new Dimension(getWidth(), 100));
       
         JPanel relogio = new JPanel();
-        JLabel diaSemana = new JLabel("Quinta-feira");
-        JLabel data = new JLabel("19 de novembro de 2026, 20:03");
+        JLabel diaSemana = new JLabel(dia);
+        JLabel dataHora = new JLabel(data + ", " + horario);
         relogio.add(diaSemana);
-        relogio.add(data);
+        relogio.add(dataHora);
         
-        JButton usuario = new JButton("João Silva");
+        usuario = new JButton("João Silva");
         usuario.setHorizontalAlignment(SwingConstants.LEFT);
         usuario.setIconTextGap(10);
         usuario.setIcon(iconePessoa);
@@ -184,7 +202,14 @@ public class TelaSistema extends JFrame{
         botaoAtivoAtual = novoBotao;
     }
     
-    
+    private void atualizarRelogio() {
+        LocalDateTime agora = LocalDateTime.now();
 
+        String diaMin = agora.format(DateTimeFormatter.ofPattern("EEEE", Locale.of("pt", "BR")));
+        
+        dia = diaMin.substring(0, 1).toUpperCase(Locale.of("pt", "BR")) + diaMin.substring(1);
+        data = agora.format(DateTimeFormatter.ofPattern("d 'de' MMMM 'de' yyyy", Locale.of("pt", "BR")));
+        horario = agora.format(DateTimeFormatter.ofPattern("HH:mm", Locale.of("pt", "BR")));
 
+    } 
 }
