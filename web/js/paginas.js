@@ -2,6 +2,7 @@ const alterar = document.getElementById('alterar');
 const fechado = alterar.classList.contains('oculto');
 const inputId = document.getElementById('inputId');
 const container = document.getElementById('painel-corpo');
+const btnOcultar = document.getElementById('ocultar');
 
 async function carregarComponente() {
     const db = await fetch("./dashboard.html");
@@ -70,6 +71,9 @@ function paginacao(pag){
             break;
     }
 }
+
+btnOcultar.addEventListener('click', () =>{ocultarPopupAlterar()});
+
 // === WINDOW ===
 window.paginacao = paginacao;
 window.popupAlterar = popupAlterar;

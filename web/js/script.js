@@ -125,7 +125,6 @@ document.addEventListener('componenteCarregado', (e) => {
 
 function inicializarEventos(){;
     const btnLimpar = document.getElementById('btnLimpar');
-    const btnOcultar = document.getElementById('ocultar');
     const menuItens = document.querySelectorAll('.sidebar-item');
     const graficoRosquinha = document.getElementById('grafico-rosquinha');
     const tabelaCat = document.querySelectorAll('.tabela-categoria');
@@ -147,12 +146,6 @@ function inicializarEventos(){;
                 menuItens.forEach(i => i.classList.remove('ativo'));
                 item.classList.add('ativo');
             });
-        });
-    }
-
-    if(btnOcultar){
-        btnOcultar.addEventListener('click', () =>{
-            ocultarPopupAlterar()
         });
     }
 

@@ -1,5 +1,5 @@
 const API_URL = 'http://localhost:7000';
-const usuario = "Carlos Alberto";
+const usuario = "Ana Catarina";
 const projetos = await obterProjetos();
 
 log("LOGIN", usuario, null, `${API_URL}/api/logs/sessao`);
