@@ -111,6 +111,12 @@ async function atualizarDadosDashboard(){
 }
 atualizarDadosDashboard();
 
+async function atualizarCategorias(){
+    qtdCatSw.textContent = software;
+    qtdCatWeb.textContent = web;
+    qtdCatMob.textContent = mobile;
+}
+
 // === EVENT LISTENERS ===
 
 document.addEventListener('componenteCarregado', (e) => {
@@ -122,6 +128,7 @@ function inicializarEventos(){;
     const btnOcultar = document.getElementById('ocultar');
     const menuItens = document.querySelectorAll('.sidebar-item');
     const graficoRosquinha = document.getElementById('grafico-rosquinha');
+    const tabelaCat = document.querySelectorAll('.tabela-categoria');
 
     if(btnLimpar){
         btnLimpar.addEventListener('click', () => {
@@ -156,5 +163,9 @@ function inicializarEventos(){;
         graficoRosquinha.addEventListener('mouseout', (event) =>{
             event.target.setAttribute('stroke-width', 6);
         });
+    }
+
+    if(tabelaCat){
+        atualizarCategorias();
     }
 }
