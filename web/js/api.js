@@ -1,9 +1,12 @@
-const API_URL = 'http://localhost:7000/projetos';
+const API_URL = 'http://localhost:7000';
+const usuario = "Carlos Alberto";
+log("LOGIN", usuario, null, `${API_URL}/api/logs/sessao`);
 
 export async function obterProjetos(){
     try {
-        const resposta = await fetch(API_URL);
+        const resposta = await fetch(`${API_URL}/projetos`);
         if (!resposta.ok) {
+            log("ERRO", "API", `${resposta.status}`, `${API_URL}/api/logs/erro`);
             throw new Error('Erro ao buscar dados da API');
         }
         const projetos = await resposta.json();
@@ -11,6 +14,7 @@ export async function obterProjetos(){
     }
     catch (error) {
         console.error('Erro:', error);
+        log("ERRO", "API", error, `${API_URL}/api/logs/erro`);
         alert('Não foi possível obter os dados dos projetos.');
     }
 }
@@ -28,6 +32,7 @@ async function idAtual(){
     }
     catch (error) {
         console.error('Erro:', error);
+        log("ERRO", "obter_id", error, `${API_URL}/api/logs/erro`);
         return error;
     }
 }
@@ -53,22 +58,25 @@ async function cadastrarProjeto(e) {
             status: document.getElementById('status').value,
         }
     
-        const resposta = await fetch(API_URL,{
+        const resposta = await fetch(`${API_URL}/projetos`,{
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(projeto)
         });
 
         if(!resposta.ok){
+            log("ERRO", "cadastro_projeto", `${resposta.status}`, `${API_URL}/api/logs/erro`);
             throw new Error("Erro ao cadastrar o projeto.");
         }
 
         alert("Projeto cadastrado com sucesso.");
+        log("CRIAR", `ID ${id} | NOME ${nome}`, null, `${API_URL}/api/logs/projeto`);
         formProjeto.reset();
         listarProjetos();
     }
     catch(err){
         alert("Não foi possível cadastrar o projeto.");
+        log("ERRO", "cadastro_projeto", err, `${API_URL}/api/logs/erro`);
         console.error(err);
     }
     
@@ -81,19 +89,21 @@ async function excluirProjeto(id){
     }
 
     try{
-        const resposta = await fetch(`${API_URL}/${id}`,{
+        const resposta = await fetch(`${API_URL}/projetos${id}`,{
             method: "DELETE"
         });
 
         if(!resposta.ok){
+            log("ERRO", "exclusao_projeto", `${resposta.status}`, `${API_URL}/api/logs/erro`);
             throw new Error("Erro ao excluir o projeto.");
         }
-        
+        log("EXCLUIR", `ID ${id}`, null, `${API_URL}/api/logs/projeto`);
         alert("Projeto excluído com sucesso.");
         await listarProjetos();
     }
     catch(e){
         alert("Não foi possível excluir o projeto.");
+        log("ERRO", "API", `${resposta.status}`, `${API_URL}/api/logs/erro`);
         console.error(e);
     }
 }
@@ -111,14 +121,16 @@ async function alterarProjeto(e){
             status: document.getElementById('statusNovo').value,
         }
 
-        const resposta = await fetch(`${API_URL}/${id}`,{
+        const resposta = await fetch(`${API_URL}/projetos${id}`,{
             method: "PUT",
             headers:{"Content-Type": "application/json"},
             body: JSON.stringify(projeto),
         });
         if(!resposta.ok){
+            log("ERRO", "alterar_projeto", `${resposta.status}`, `${API_URL}/api/logs/erro`);
             throw new Error("Erro no servidor do projeto.");
         }
+        log("ALTERAR", `ID ${id}`, null, `${API_URL}/api/logs/projeto`);
         document.getElementById('alterar').classList.add('oculto');
         document.getElementById('painel-corpo').classList.remove('blur');
         document.getElementById('inputId').value = '';
@@ -127,6 +139,7 @@ async function alterarProjeto(e){
     }
     catch(e){
       console.error("Erro: " + e);
+      log("ERRO", "API", e, `${API_URL}/api/logs/erro`);
       alert("Não foi possível alterar o projeto."); 
     }
 }
@@ -379,10 +392,50 @@ document.getElementById('btnAdd').addEventListener('click',() =>{
     });
   }
 }
-document.addEventListener('componenteCarregado', (e) => {
+document.addEventListener('componenteCarregado', () => {
   inicializarEventos();
   listarProjetos();
   metricas();
 });
 
+async function log(acao, detalhes, erro, rota) {
+    try{
+        const log = {
+            origem: "WEB",
+            acao: acao,
+            detalhes: detalhes,
+            erro: erro,
+        }
+        const resposta = await fetch(rota,{
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(log)
+        });
+
+        if(!resposta.ok){
+            throw new Error(`Erro de log(${acao}) = ${resposta.status}`);
+        }
+    }
+    catch(err){
+        console.error(err);
+    }
+}
+
 window.onload = listarProjetos();
+document.addEventListener('visibilitychange', () => {
+    let acao;
+    if (document.visibilityState === 'visible') {
+        acao = "LOGIN";
+    }
+    if (document.visibilityState === 'hidden') {
+        acao = "LOGOUT";
+    }
+    const payload = JSON.stringify({
+        origem: "WEB",
+        acao: acao,
+        detalhes: usuario,
+        erro: null,
+    });
+    navigator.sendBeacon(`${API_URL}/api/logs/sessao`, payload);
+    }
+);
