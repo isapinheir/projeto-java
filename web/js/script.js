@@ -78,25 +78,27 @@ async function atualizarGraficoRosquinha() {
 }
 atualizarGraficoRosquinha();
 
-async function atualizarGraficoBarras(){
-    // evita a divisão por 0, causando NaN a aparecer na tela
-    if(total == 0){
-        total = 1;
-    }
+function porcentagemParaRem(valor) {
+  const pct = Math.max(0, Math.min(100, Number(valor) || 0));
+  if (pct === 0) return '0.5rem';
 
-    let [sw1, sw2] = String(porcSw).split('');
-    let [web1, web2] = String(porcWeb).split('');
-    let [mob1, mob2] = String(porcMob).split('');
+  const altura = 1 + (pct / 100) * 9;
+  return `${Number(altura.toFixed(2))}rem`;
+}
 
-    graficoSw.style.height = `${sw1}.${sw2}rem`;
-    legendaGraficoSw.textContent = software;
+function atualizarGraficoBarras() {
+  const barras = [
+    { barra: graficoSw, legenda: legendaGraficoSw, label: software, pct: porcSw },
+    { barra: graficoWeb, legenda: legendaGraficoWeb, label: web, pct: porcWeb },
+    { barra: graficoMob, legenda: legendaGraficoMob, label: mobile, pct: porcMob },
+  ];
 
-    graficoWeb.style.height = `${web1}.${web2}rem`;
-    legendaGraficoWeb.textContent = web;
-
-    graficoMob.style.height = `${mob1}.${mob2}rem`;
-    legendaGraficoMob.textContent = mobile;
-
+  barras.forEach(({ barra, legenda, label, pct }) => {
+    const pctFormatada = Number(pct) || 0;
+    barra.style.height = porcentagemParaRem(pctFormatada);
+    barra.setAttribute('aria-valuenow', pctFormatada);
+    legenda.textContent = `${label} (${Math.round(pctFormatada)}%)`;
+  });
 }
 atualizarGraficoBarras();
 
