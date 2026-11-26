@@ -1,5 +1,7 @@
 const API_URL = 'http://localhost:7000';
 const usuario = "Carlos Alberto";
+const projetos = await obterProjetos();
+
 log("LOGIN", usuario, null, `${API_URL}/api/logs/sessao`);
 
 export async function obterProjetos(){
@@ -21,7 +23,6 @@ export async function obterProjetos(){
 
 async function idAtual(){
     try {
-        const projetos = await obterProjetos();
         let maior = 0;
         projetos.forEach((projeto) => {
             if(projeto.id > maior){
@@ -38,7 +39,6 @@ async function idAtual(){
 }
 
 async function listarProjetos(){
-    const projetos = await obterProjetos();
     if(projetos){
         tabela(projetos);
         categorias(projetos);
@@ -311,8 +311,6 @@ function categorias(data){
 }
 
 async function metricas(){
-    const projetos = await obterProjetos();
-
     const total = projetos.length;
     const concluido = projetos.filter(p => p.status.toLowerCase().includes('concluído'));
     const desenvolvimento = projetos.filter(p => p.status.toLowerCase().includes('desenvolvimento'));
@@ -324,10 +322,9 @@ async function metricas(){
     document.getElementById('metrica-planejado').textContent = planejado.length;
 }
 
-async function busca (e){
-    const dados = await obterProjetos();
-    if(dados){
-        const projetos = Object.values(dados);
+async function busca (e){ 
+    if(projetos){
+        const projetos = Object.values(projetos);
         const busca = e.target.value.toLowerCase();
         const filtro = projetos.filter(p => 
             p.nome.toLowerCase().includes(busca) || 
