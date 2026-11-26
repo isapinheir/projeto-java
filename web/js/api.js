@@ -89,7 +89,7 @@ async function excluirProjeto(id){
     }
 
     try{
-        const resposta = await fetch(`${API_URL}/projetos${id}`,{
+        const resposta = await fetch(`${API_URL}/projetos/${id}`,{
             method: "DELETE"
         });
 
@@ -121,13 +121,13 @@ async function alterarProjeto(e){
             status: document.getElementById('statusNovo').value,
         }
 
-        const resposta = await fetch(`${API_URL}/projetos${id}`,{
+        const resposta = await fetch(`${API_URL}/projetos/${id}`,{
             method: "PUT",
             headers:{"Content-Type": "application/json"},
             body: JSON.stringify(projeto),
         });
         if(!resposta.ok){
-            log("ERRO", "alterar_projeto", `${resposta.status}`, `${API_URL}/api/logs/erro`);
+            log("ERRO", "alteracao_projetos", `${resposta.status}`, `${API_URL}/api/logs/erro`);
             throw new Error("Erro no servidor do projeto.");
         }
         log("ALTERAR", `ID ${id}`, null, `${API_URL}/api/logs/projeto`);
