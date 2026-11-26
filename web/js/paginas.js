@@ -1,8 +1,14 @@
 const alterar = document.getElementById('alterar');
 const fechado = alterar.classList.contains('oculto');
-const inputId = document.getElementById('inputId');
+
 const container = document.getElementById('painel-corpo');
 const btnOcultar = document.getElementById('ocultar');
+
+const inputId = document.getElementById('inputId');
+const nome = document.getElementById('nomeNovo');
+const descricao = document.getElementById('descricaoNova');
+const categoria = document.getElementById('categoriaNova');
+const stts = document.getElementById('statusNovo');
 
 async function carregarComponente() {
     const db = await fetch("./dashboard.html");
@@ -37,6 +43,10 @@ function ocultarPopupAlterar(){
     alterar.classList.add('oculto');
     container.classList.remove('blur');
     inputId.value = '';
+    nome.value = '';
+    descricao.value = '';
+    categoria.value = '';
+    stts.value = '';
 }
 
 function ocultarDashboard(){
