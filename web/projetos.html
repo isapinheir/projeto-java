@@ -1,0 +1,143 @@
+<!-- Cards de Métricas e Resumo -->
+<section class="grid-metricas">
+    <div class="card-metrica azul">
+        <div class="icone-metrica-wrapper azul">
+            <ion-icon name="folder-open"></ion-icon>
+        </div>
+        <div class="metrica-conteudo">
+            <span class="metrica-valor" id="metrica-total">0</span>
+            <span class="metrica-rotulo">Total de Projetos</span>
+        </div>
+    </div>
+    <div class="card-metrica verde">
+        <div class="icone-metrica-wrapper verde">
+            <ion-icon name="checkmark"></ion-icon>
+        </div>
+        <div class="metrica-conteudo">
+            <span class="metrica-valor" id="metrica-concluido">0</span>
+            <span class="metrica-rotulo">Concluídos</span>
+        </div>
+    </div>
+    <div class="card-metrica amarelo">
+        <div class="icone-metrica-wrapper amarelo">
+            <ion-icon name="time"></ion-icon>
+        </div>
+        <div class="metrica-conteudo">
+            <span class="metrica-valor" id="metrica-desenvolvimento">0</span>
+            <span class="metrica-rotulo">Em desenvolvimento</span>
+        </div>
+    </div>
+    <div class="card-metrica roxo">
+        <div class="icone-metrica-wrapper roxo">
+            <ion-icon name="analytics"></ion-icon>  
+        </div>
+        <div class="metrica-conteudo">
+            <span class="metrica-valor" id="metrica-planejado">0</span>
+            <span class="metrica-rotulo">Planejados</span>
+        </div>
+    </div>                
+</section>
+
+<!-- Seção de Cadastro e Lista de Projetos -->
+<section class="grid-conteudo">
+    
+    <!-- Coluna 1: Formulário de Cadastro -->
+    <article class="card">
+        <div class="card-cabecalho">
+            <h2 class="card-titulo">
+                <ion-icon name="add"></ion-icon>
+                Cadastro de Projeto
+            </h2>
+        </div>
+
+        <div class="card-corpo">
+            <form id="formProjeto" class="formulario-projeto" onsubmit="event.preventDefault();">
+                
+                <div class="grupo-campo">
+                    <label for="nome" class="rotulo-campo">Nome do Projeto</label>
+                    <input type="text" id="nome" class="campo-input" required>
+                </div>
+
+                <div class="grupo-campo">
+                    <label for="descricao" class="rotulo-campo">Descrição</label>
+                    <textarea id="descricao" class="campo-textarea"></textarea>
+                </div>
+
+                <div class="linha-dupla">
+                    <div class="grupo-campo">
+                        <label for="categoria" class="rotulo-campo">Categoria</label>
+                        <select id="categoria" class="campo-select">
+                            <option value="Software" selected>Software</option>
+                            <option value="Web">Web</option>
+                            <option value="Mobile">Mobile</option>
+                        </select>
+                    </div>
+
+                    <div class="grupo-campo">
+                        <label for="status" class="rotulo-campo">Status</label>
+                        <select id="status" class="campo-select">
+                            <option value="Em desenvolvimento" selected>Em desenvolvimento</option>
+                            <option value="Concluído">Concluído</option>
+                            <option value="Planejado">Planejado</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="acoes-formulario">
+                    <button type="submit" class="btn btn-salvar" id="btnSalvar">
+                        <ion-icon name="save"></ion-icon>
+                        Salvar
+                    </button>
+                    
+                    <button type="button" class="btn btn-limpar" id="btnLimpar">
+                        <ion-icon name="return-down-back"></ion-icon>
+                        Limpar
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </article>
+
+    <!-- Coluna 2: Tabela de Projetos -->
+    <article class="card">
+        <div class="card-cabecalho">
+            <h2 class="card-titulo">
+                <ion-icon name="list"></ion-icon>
+                Lista de Projetos
+            </h2>
+        </div>
+
+        <div class="card-corpo">
+            <!-- Campo de Pesquisa Superior -->
+            <div class="barra-pesquisa-container">
+                <div class="pesquisa-wrapper">
+                    <ion-icon name="search" class="icone-pesquisa"></ion-icon>
+                    <input type="text" id="campoBusca" class="campo-input input-pesquisa" placeholder="Pesquisar por nome, categoria ou status...">
+                </div>
+                <button class="btn-icone" id="btnAtualizar" title="Atualizar lista">
+                    <ion-icon name="reload-circle"></ion-icon>
+                </button>
+            </div>
+
+            <!-- Tabela de Conteúdo -->
+            <div class="tabela-container">
+                <table class="tabela-projetos" id="tabelaProjetos">
+                    <thead>
+                        <tr>
+                            <th>Nome do Projeto</th>
+                            <th>Descrição</th>
+                            <th>Categoria</th>
+                            <th>Status</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="tBody">
+                        <!--Inserido pela api-->
+                    </tbody>
+                </table>
+            </div>
+            
+        </div>
+    </article>
+</section>

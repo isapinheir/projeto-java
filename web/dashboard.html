@@ -1,0 +1,110 @@
+<div class="grid-dashboard-topo">
+    <div class="card-dashboard">
+        <div class="metrica-conteudo">
+            <span class="card-dashboard-titulo" id="dashboardTotal">0</span>
+            <span class="card-dashboard-subtitulo">Total de projetos</span>
+        </div>
+    </div>
+
+    <div class="card-dashboard">
+        <div class="metrica-conteudo">
+            <span class="card-dashboard-titulo" id="dashboardNaoConcluido">0</span>
+            <span class="card-dashboard-subtitulo">Projetos não concluídos</span>
+        </div>
+    </div>
+</div>
+
+<div class="grid-dashboard-meio">
+
+    <!-- Gráfico categorias -->
+    <div class="card-dashboard">
+        <div class="cabecalho-card-dashboard">
+            <h3 class="card-dashboard-titulo">Projetos</h3>
+            <p class="card-dashboard-subtitulo">por categoria</p>
+        </div>
+
+        <div class="grafico-colunas">
+            <div class="grafico-colunas-container">
+                <span class="legenda-grafico" id="legendaGraficoSw">0</span>
+                <span class="coluna-grafico" id="graficoSw"></span>
+                <span class="legenda-grafico">Software</span>
+            </div>
+
+            <div class="grafico-colunas-container">
+                <span class="legenda-grafico" id="legendaGraficoWeb">0</span>
+                <span class="coluna-grafico" id="graficoWeb"></span>
+                <span class="legenda-grafico">Web</span>
+            </div>
+
+            <div class="grafico-colunas-container">
+                <span class="legenda-grafico" id="legendaGraficoMob">0</span>
+                <span class="coluna-grafico" id="graficoMob"></span>
+                <span class="legenda-grafico">Mobile</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gráfico de categoria -->
+    <div class="card-dashboard vertical">
+        <h3 class="card-dashboard-titulo">Estágios</h3>
+        <p class="card-dashboard-subtitulo">de desenvolvimento</p>
+
+        <div id="grafico-rosquinha">
+            <svg width="140" height="140" viewBox="0 0 42 42">
+                <!-- Fundo do Círculo -->
+                <circle cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="#eef4f0" stroke-width="6"></circle>
+
+                <circle id="slice1" cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="#befb5e" stroke-width="6" stroke-dasharray="0 0" stroke-dashoffset="0"></circle>
+
+                <circle id="slice2" cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="#89c0f4" stroke-width="6" stroke-dasharray="0 0" stroke-dashoffset="0"></circle>
+
+                <circle id="slice3" cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="#c81212" stroke-width="6" stroke-dasharray="0 0" stroke-dashoffset="0"></circle>
+            </svg>
+        </div>
+
+        <div class="grafico-rosquinha-legendas">
+            <div class="item-legenda">
+                <span class="ponto-legenda" style="background-color: #befb5e;"></span>
+                <span>Concluídos:</span>
+                <span id="porc-legenda1">0%</span>
+            </div>
+
+            <div class="item-legenda">
+                <span class="ponto-legenda" style="background-color: #89c0f4;"></span>
+                <span>Desenvolvendo:</span>
+                <span id="porc-legenda2">0%</span>
+            </div>
+
+            <div class="item-legenda">
+                <span class="ponto-legenda" style="background-color: #c81212;"></span>
+                <span>Planejados:</span>
+                <span id="porc-legenda3">0%</span>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="grid-dashboard-embaixo">
+    <div class="card-dashboard">
+        <div class="metrica-conteudo">
+            <span class="card-dashboard-titulo" id="dashboardSw">0</span>
+            <span class="card-dashboard-subtitulo">Projetos de software</span>
+        </div>
+    </div>
+
+    <div class="card-dashboard">
+        <div class="metrica-conteudo">
+            <span class="card-dashboard-titulo" id="dashboardWeb">0</span>
+            <span class="card-dashboard-subtitulo">Projetos web</span>
+        </div>
+    </div>
+
+    <div class="card-dashboard">
+        <div class="metrica-conteudo">
+            <span class="card-dashboard-titulo" id="dashboardMob">0</span>
+            <span class="card-dashboard-subtitulo">Projetos mobile</span>
+        </div>
+    </div>
+
+</div>

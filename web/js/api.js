@@ -37,7 +37,6 @@ async function listarProjetos(){
     if(projetos){
         tabela(projetos);
         categorias(projetos);
-        metricas();
     }
 }
 
@@ -350,10 +349,40 @@ document.getElementById('btnAdd').addEventListener('click',() =>{
     }
 })
 */
+ function inicializarEventos(root = document) {
+  const formProjeto = root.querySelector('#formProjeto');
+  const formAlterar = root.querySelector('#formAlterar');
+  const btnAtualizar = root.querySelector('#btnAtualizar');
+  const campoBusca = root.querySelector('#campoBusca');
 
-formProjeto.addEventListener('submit', async (e) =>{cadastrarProjeto(e)});
-formAlterar.addEventListener('submit', async (e) =>{alterarProjeto(e)}); 
-btnAtualizar.addEventListener('click', listarProjetos());
-campoBusca.addEventListener('input', async (e) => {busca(e)});
+  if (formProjeto) {
+    formProjeto.addEventListener('submit', async (e) => {
+      await cadastrarProjeto(e);
+    });
+  }
+
+  if (formAlterar) {
+    formAlterar.addEventListener('submit', async (e) => {
+      await alterarProjeto(e);
+    });
+  }
+
+  if (btnAtualizar) {
+    btnAtualizar.addEventListener('click', () => {
+      listarProjetos();
+    });
+  }
+
+  if (campoBusca) {
+    campoBusca.addEventListener('input', async (e) => {
+      await busca(e);
+    });
+  }
+}
+document.addEventListener('componenteCarregado', (e) => {
+  inicializarEventos();
+  listarProjetos();
+  metricas();
+});
 
 window.onload = listarProjetos();
