@@ -337,13 +337,14 @@
     margin-top: var(--espacamento-xs);
 }
 
-.btn {
+button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: var(--espacamento-sm);
     padding: var(--espacamento-sm) var(--espacamento-lg);
     font-size: var(--fonte-tamanho-sm);
+    font-family: var(--fonte-titulo);
     font-weight: 600;
     border-radius: var(--raio-borda-md);
     border: 1px solid #3b3b3e;
@@ -535,22 +536,30 @@
 }
 #alterar h2{
     display: inline;
-    color: var(--status-primario);
+    font-family: var(--fonte-titulo);
 }
 #alterar ion-icon{
     font-size: 1.5rem;
+    flex-shrink: 0;
 }
 .alterar-cabecalho{
     display: flex;
     justify-content: space-between;
     padding: 1rem;
+    margin-bottom: 1rem;
     background-color: var(--cor-fundo-input);
     border-radius: var(--radius-md);
 }
 .alterar-cabecalho button{
     background-color: transparent;
-    border: none;
-    cursor: pointer
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    cursor: pointer;
+    flex: 0;
+}
+#formAlterar input, #formAlterar textarea, #formAlterar select{
+    margin-bottom: 1rem;
 }
 .oculto{
     display: none !important;
