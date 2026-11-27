@@ -79,8 +79,54 @@ public class ApiClient {
 
         return mapper.readValue(response.body(), Projeto.class);
     }
+    
+    public boolean login(String email, String senha) throws Exception {
 
-    // ========= LOGS UNIFICADOS (SWING -> JAVALIN) =========
+        Map<String, String> dados = new LinkedHashMap<>();
+
+        dados.put("usuario", email);
+        dados.put("senha", senha);
+
+        String json = mapper.writeValueAsString(dados);
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(baseUrl + "/login"))
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(json))
+                .build();
+
+        HttpResponse<String> response = client.send(
+                request,
+                HttpResponse.BodyHandlers.ofString()
+        );
+
+        return response.statusCode() == 200;
+    }
+
+    public boolean cadastrar(String email, String senha) throws Exception {
+
+        Map<String, String> dados = new LinkedHashMap<>();
+
+        dados.put("usuario", email);
+        dados.put("senha", senha);
+
+        String json = mapper.writeValueAsString(dados);
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(baseUrl + "/signin"))
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(json))
+                .build();
+
+        HttpResponse<String> response = client.send(
+                request,
+                HttpResponse.BodyHandlers.ofString()
+        );
+
+        return response.statusCode() == 201;
+    }
+
+
 
     public void registrarLogSessao(String acao, String detalhes) {
         enviarLogAsync("/api/logs/sessao", acao, detalhes, null);

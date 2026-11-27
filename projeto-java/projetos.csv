@@ -1,15 +1,143 @@
 id;nome;descricao;categoria;status
-1;Sistema Academico;Sistema para gerenciamento acadêmico;Software;Em desenvolvimento
-2;Site Institucional;Site de uma instituicão;Web;Concluído
-3;Aplicativo Mobile;Aplicativo de serviços;Mobile;Planejado
-4;Sistema de Eventos;Sistema de gerenciamento para eventos;Web;Em desenvolvimento
-5;Sistema Financeiro;Sistema para gerenciar finanças;Software;Concluído
-6;Sistema de Projetos;Sistema de projetos em Java;Software;Em desenvolvimento
-7;Plataforma de Música;Site para uma escola de música online.;Web;Concluído
-8;Cinemaster;Site para uma empresa de cinema gerenciar a compra de ingressos.;Web;Em desenvolvimento
-10;Mistura de Cores;Jogo infantil para auxiliar no desenvolvimento artístico.;Software;Em desenvolvimento
-11;Aplicativo de Cilma;Aplicação mobile para verificar o clima em determinado local.;Mobile;Planejado
-12;Loja de Cosméticos;E-commerce para venda de cosméticos;Web;Em desenvolvimento
-13;Sistema Escolar;Gerenciador de matrículas, notas e trancamentos.;Software;Planejado
-14;SuperFit;Aplicativo mobile para treinar em casa;Mobile;Concluído
-15;Não-me-esqueças;Aplicativo para cuidar de plantas e hortas doméstivas;Mobile;Em desenvolvimento
+16;Agenda Pet;Sistema para agendamento de banho, tosa e consultas veterinárias;Software;Concluído
+17;Café & Código;E-commerce de cafés especiais e acessórios para baristas;Web;Em desenvolvimento
+18;Rota Segura;Aplicativo mobile para compartilhar trajeto em tempo real;Mobile;Planejado
+19;EstoqueFácil;Controle de estoque e validade para pequenos mercados;Software;Concluído
+20;Blog Literário;Portal de resenhas de livros e clubes de leitura;Web;Concluído
+21;FocoTimer;Aplicativo para sessões de estudo com técnica Pomodoro;Mobile;Em desenvolvimento
+22;ClínicaÁgil;Sistema de prontuário eletrônico e agenda médica;Software;Em desenvolvimento
+23;ModaCircular;Marketplace de roupas seminovas e brechó online;Web;Planejado
+24;LeituraDiária;Aplicativo para registrar páginas lidas e metas anuais;Mobile;Concluído
+25;OficinaPro;Sistema de ordem de serviço para oficinas mecânicas;Software;Concluído
+26;ArteViva;Galeria virtual e loja para artistas independentes;Web;Em desenvolvimento
+27;RespiroCalmo;Aplicativo de exercícios de respiração e controle de ansiedade;Mobile;Planejado
+28;CondomínioConecta;Gestão de encomendas, reservas e avisos de condomínio;Software;Em desenvolvimento
+29;Sabores da Casa;Site de receitas caseiras com lista de compras automática;Web;Concluído
+30;CorridaLeve;Aplicativo para acompanhar treinos de corrida e pace;Mobile;Em desenvolvimento
+31;PontoCerto;Sistema de registro de ponto e banco de horas;Software;Concluído
+32;TechReview;Portal de análises de hardware e periféricos;Web;Planejado
+33;PagueFácil;Aplicativo mobile para dividir contas entre amigos;Mobile;Concluído
+34;SalãoVIP;Sistema de agendamento e fidelidade para salões de beleza;Software;Em desenvolvimento
+35;EcoLoja;E-commerce de produtos sustentáveis e zero desperdício;Web;Concluído
+36;SonoBom;Aplicativo para monitorar hábitos e qualidade do sono;Mobile;Planejado
+37;FrotaControl;Sistema de manutenção e abastecimento de veículos comerciais;Software;Em desenvolvimento
+38;CineClube;Site para curadoria de filmes independentes e debates;Web;Concluído
+39;MenteAtiva;Jogo de memória e lógica para treinar o raciocínio;Software;Em desenvolvimento
+40;GuiaTrilha;Aplicativo mobile com mapas de trilhas e condições do tempo;Mobile;Planejado
+41;CardápioQR;Sistema de pedidos digitais por mesa para restaurantes;Software;Concluído
+42;PetShopOnline;E-commerce de rações, brinquedos e itens pet;Web;Em desenvolvimento
+43;Hábito+1;Aplicativo para criar e acompanhar hábitos diários;Mobile;Concluído
+44;ImobiGestão;Sistema para administração de aluguéis e vistorias;Software;Em desenvolvimento
+45;PortfólioDev;Template de site portfólio para desenvolvedores e designers;Web;Concluído
+46;VozAtiva;Aplicativo mobile para gravar lembretes rápidos por áudio;Mobile;Planejado
+47;AcademiaFoco;Sistema de controle de alunos, planos e catraca;Software;Concluído
+48;JogosRetro;Catálogo web de jogos clássicos e emuladores;Web;Em desenvolvimento
+49;ÁguaPura;Aplicativo para lembretes de hidratação ao longo do dia;Mobile;Concluído
+50;LaboratórioLab;Sistema de cadastro de exames e emissão de laudos;Software;Planejado
+51;DecoraLar;E-commerce de itens de decoração e iluminação;Web;Em desenvolvimento
+52;ViagemFácil;Aplicativo mobile para roteiros de viagem e gastos;Mobile;Concluído
+53;ContábilSimples;Sistema de apoio para emissão de notas e relatórios;Software;Em desenvolvimento
+54;PodcastHub;Plataforma web para descobrir e organizar podcasts;Web;Concluído
+55;MapaAcessível;Aplicativo mobile para avaliar acessibilidade de locais;Mobile;Planejado
+56;PadariaExpress;Sistema de encomendas e caixa para padarias;Software;Concluído
+57;GameStoreBR;Loja virtual de jogos digitais e gift cards;Web;Em desenvolvimento
+58;CuidarIdoso;Aplicativo mobile para lembretes de remédios e rotinas;Mobile;Concluído
+59;EventoCerto;Sistema de inscrição e credenciamento para eventos;Software;Em desenvolvimento
+60;NoticiasTech;Portal de notícias sobre tecnologia e ciência;Web;Concluído
+61;TreinoCasa;Aplicativo mobile com rotinas rápidas sem equipamentos;Mobile;Planejado
+62;BarbeariaEstilo;Sistema de agenda e fila virtual para barbearias;Software;Concluído
+63;LivrosUsados;Sebo online para compra e troca de livros;Web;Em desenvolvimento
+64;FinançasBolso;Aplicativo mobile para controle de gastos pessoais;Mobile;Concluído
+65;RádioWeb;Sistema de automação e programação para rádio online;Software;Planejado
+66;CursoIdiomas;Site institucional e de matrícula para escola de idiomas;Web;Em desenvolvimento
+67;FotoDiário;Aplicativo mobile para diário visual com uma foto por dia;Mobile;Concluído
+68;DentistaAgenda;Sistema de gestão de pacientes e orçamentos odontológicos;Software;Em desenvolvimento
+69;FeiraOrgânica;E-commerce de hortifrúti e produtores locais;Web;Concluído
+70;MeditaJá;Aplicativo mobile de meditação guiada e sons relaxantes;Mobile;Planejado
+71;BibliotecaEscolar;Sistema de empréstimo e acervo para escolas;Software;Concluído
+72;Arquitetura3D;Site portfólio de projetos arquitetônicos e maquetes;Web;Em desenvolvimento
+73;ComprasLista;Aplicativo mobile de lista de supermercado compartilhada;Mobile;Concluído
+74;LavanderiaFlash;Sistema de controle de peças e entregas de lavanderia;Software;Em desenvolvimento
+75;ClubeQuadrinhos;Plataforma web de assinatura de quadrinhos digitais;Web;Concluído
+76;PassosDia;Aplicativo mobile contador de passos e metas semanais;Mobile;Planejado
+77;HotelGestor;Sistema de reservas, check-in e check-out hoteleiro;Software;Concluído
+78;PapelariaCriativa;E-commerce de cadernos, adesivos e materiais de arte;Web;Em desenvolvimento
+79;EstudaFácil;Aplicativo mobile com flashcards e resumos de matérias;Mobile;Concluído
+80;SegurosFácil;Sistema de cotação e acompanhamento de apólices;Software;Planejado
+81;PortalTurismo;Guia web de pontos turísticos e rotas regionais;Web;Em desenvolvimento
+82;ChamaAmigo;Aplicativo mobile de botão de alerta rápido e localização;Mobile;Concluído
+83;ÓticaVisão;Sistema de cadastro de receitas e vendas de óculos;Software;Em desenvolvimento
+84;ReceitaFit;Site de receitas saudáveis e cardápios semanais;Web;Concluído
+85;ClimaPesca;Aplicativo mobile com previsão de maré e vento para pesca;Mobile;Planejado
+86;PizzariaDelivery;Sistema de gestão de pedidos e rotas de entrega;Software;Concluído
+87;CosplayBR;Comunidade e loja web de itens para cosplay;Web;Em desenvolvimento
+88;DiárioSonhos;Aplicativo mobile para anotar sonhos e padrões;Mobile;Concluído
+89;EscritórioAdv;Sistema de controle de prazos e processos jurídicos;Software;Em desenvolvimento
+90;VinícolaOnline;E-commerce de vinhos e kits de degustação;Web;Concluído
+91;FocoLeitura;Aplicativo mobile com modo sem distrações para leitura;Mobile;Planejado
+92;EstacionaBem;Sistema de controle de vagas e cobrança de estacionamento;Software;Concluído
+93;CineIndie;Site para festival de curtas e cinema alternativo;Web;Em desenvolvimento
+94;CuidadosBebe;Aplicativo mobile para registrar mamadas, sono e vacinas;Mobile;Concluído
+95;ConstrutoraObra;Sistema de acompanhamento de etapas e materiais de obra;Software;Planejado
+96;LojaGeek;E-commerce de action figures, camisetas e colecionáveis;Web;Em desenvolvimento
+97;RitmoTreino;Aplicativo mobile com cronômetro para treinos intervalados;Mobile;Concluído
+98;FarmáciaRede;Sistema de vendas e controle de lotes em farmácia;Software;Em desenvolvimento
+99;GuiaShows;Site de agenda cultural, shows e shows locais;Web;Concluído
+100;OrçamentoFesta;Aplicativo mobile para planejar festas e convidados;Mobile;Planejado
+101;TransportadoraCarga;Sistema de rastreamento de encomendas e rotas;Software;Concluído
+102;AdoçãoPet;Portal web para adoção responsável de cães e gatos;Web;Em desenvolvimento
+103;alongamentoDia;Aplicativo mobile de pausas e alongamentos no trabalho;Mobile;Concluído
+104;GráficaRápida;Sistema de orçamento e produção para gráficas;Software;Em desenvolvimento
+105;CaféBistrô;Site com cardápio digital e reservas para bistrô;Web;Concluído
+106;PontoTurísticoAR;Aplicativo mobile com curiosidades sobre locais históricos;Mobile;Planejado
+107;ClínicaEstética;Sistema de fichas de atendimento e pacotes estéticos;Software;Concluído
+108;LojaEsportes;E-commerce de artigos esportivos e tênis;Web;Em desenvolvimento
+109;DespesaViagem;Aplicativo mobile para registrar recibos e gastos em viagem;Mobile;Concluído
+110;EscolaMúsicaLocal;Sistema de turmas e mensalidades de escola de música;Software;Planejado
+111;BoardGameHub;Plataforma web para catalogar jogos de tabuleiro;Web;Em desenvolvimento
+112;CalmaProva;Aplicativo mobile de técnicas de foco antes de provas;Mobile;Concluído
+113;AssistênciaTech;Sistema de chamados e garantia para assistência técnica;Software;Em desenvolvimento
+114;Chá&Ervas;E-commerce de chás naturais e infusões;Web;Concluído
+115;RotaBike;Aplicativo mobile para ciclovias e oficinas de bike;Mobile;Planejado
+116;SorveteriaCaixa;Sistema de vendas e controle de sabores em sorveteria;Software;Concluído
+117;BlogFotografia;Site com galerias, presets e dicas de fotografia;Web;Em desenvolvimento
+118;MetaPoupança;Aplicativo mobile para caixinhas e metas de economia;Mobile;Concluído
+119;GestãoRH;Sistema de admissão, férias e avaliações de equipe;Software;Em desenvolvimento
+120;LojaInstrumentos;E-commerce de instrumentos musicais e áudio;Web;Concluído
+121;TrilhaSonora;Aplicativo mobile de playlists por clima ou atividade;Mobile;Planejado
+122;RelógioPontoWeb;Sistema de registro de jornada para equipes remotas;Software;Concluído
+123;PortalCulinária;Site colaborativo de receitas e dicas de cozinha;Web;Em desenvolvimento
+124;LembreteConta;Aplicativo mobile para avisar vencimento de boletos;Mobile;Concluído
+125;FábricaEstoque;Sistema de controle de matéria-prima e produção;Software;Planejado
+126;BrechóKids;E-commerce de roupas e brinquedos infantis;Web;Em desenvolvimento
+127;ModoFocoTotal;Aplicativo mobile para bloquear notificações em horários;Mobile;Concluído
+128;AgendaClínica;Sistema de confirmação automática de consultas;Software;Em desenvolvimento
+129;GuiaJogosIndie;Portal web sobre jogos independentes e desenvolvedores;Web;Concluído
+130;CaminhadaParque;Aplicativo mobile com rotas de caminhada em parques;Mobile;Planejado
+131;ControleCaixaPDV;Sistema de frente de caixa para pequenos negócios;Software;Concluído
+132;LojaCerâmica;E-commerce de peças artesanais em cerâmica;Web;Em desenvolvimento
+133;DiárioHumor;Aplicativo mobile para acompanhar humor e gatilhos;Mobile;Concluído
+134;MãoNaMassa;Sistema de tarefas e projetos para pequenas equipes;Software;Em desenvolvimento
+135;CinemaEmCasa;Site de recomendações de filmes por humor e duração;Web;Concluído
+136;GuiaPlantas;Aplicativo mobile para identificar plantas e rega;Mobile;Planejado
+137;LocadoraEquip;Sistema de locação de equipamentos e devoluções;Software;Concluído
+138;MercadoGamer;Marketplace de contas, itens e periféricos gamer;Web;Em desenvolvimento
+139;ResumoAula;Aplicativo mobile para organizar anotações de aula;Mobile;Concluído
+140;GestãoEventos;Sistema de orçamento e fornecedores para eventos;Software;Em desenvolvimento
+141;ArteDigital;Site portfólio de ilustrações e comissões;Web;Concluído
+142;TreinoForça;Aplicativo mobile para registrar cargas e séries na academia;Mobile;Planejado
+143;ControleFrotaApp;Sistema de acompanhamento de quilometragem e revisões;Software;Concluído
+144;LojaPerfumes;E-commerce de perfumes e cosméticos importados;Web;Em desenvolvimento
+145;CalmaNoite;Aplicativo mobile com histórias curtas para relaxar;Mobile;Concluído
+146;SistemaNotas;Sistema de lançamento de notas e boletins escolares;Software;Planejado
+147;PortalCinema;Site de críticas, trailers e programação de cinemas;Web;Em desenvolvimento
+148;EconomiaCasa;Aplicativo mobile para orçamento doméstico mensal;Mobile;Concluído
+149;AgendaServiços;Sistema de agendamento para prestadores de serviço;Software;Em desenvolvimento
+150;LojaDecorRetro;E-commerce de objetos retrô e decoração vintage;Web;Concluído
+151;FocoEstudoApp;Aplicativo mobile de cronômetro e metas de revisão;Mobile;Planejado
+152;GestãoPedidos;Sistema centralizado de pedidos de loja e entrega;Software;Concluído
+153;BlogViagens;Site de relatos, dicas e roteiros de viagem;Web;Em desenvolvimento
+154;SaúdeEmDia;Aplicativo mobile para exames, vacinas e consultas;Mobile;Concluído
+155;ControleEstoqueAPI;Sistema de inventário com alerta de estoque mínimo;Software;Em desenvolvimento
+156;VitrineCriativa;Loja online para produtos feitos à mão;Web;Concluído
+157;RotinaMatinal;Aplicativo mobile para organizar hábitos da manhã;Mobile;Planejado

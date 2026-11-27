@@ -2,3 +2,13 @@
 2026-11-25 17:07:55 | ORIGEM=SWING | ACAO=ERRO | DETALHES=exclusao_projetos | ERRO=java.lang.ClassCastException: class java.lang.String cannot be cast to class java.lang.Integer (java.lang.String and java.lang.Integer are in module java.base of loader 'bootstrap') - class java.lang.String cannot be cast to class java.lang.Integer (java.lang.String and java.lang.Integer are in module java.base of loader 'bootstrap')
 2026-11-25 17:21:15 | ORIGEM=SWING | ACAO=ERRO | DETALHES=alteracao_projetos | ERRO=java.lang.ClassCastException: class java.lang.String cannot be cast to class java.lang.Integer (java.lang.String and java.lang.Integer are in module java.base of loader 'bootstrap') - class java.lang.String cannot be cast to class java.lang.Integer (java.lang.String and java.lang.Integer are in module java.base of loader 'bootstrap')
 2026-11-25 18:39:03 | ORIGEM=SWING | ACAO=ERRO | DETALHES=alteracao_projetos | ERRO=java.lang.NumberFormatException: For input string: "Projeto de Teste" - For input string: "Projeto de Teste"
+2026-11-26 10:07:50 | ORIGEM=WEB | ACAO=ERRO | DETALHES=alterar_projeto | ERRO=404
+2026-11-26 10:19:44 | ORIGEM=WEB | ACAO=ERRO | DETALHES=alterar_projeto | ERRO=404
+2026-11-26 18:55:08 | ORIGEM=WEB | ACAO=ERRO | DETALHES=falha_autenticacao | ERRO=404
+2026-11-26 18:55:18 | ORIGEM=WEB | ACAO=ERRO | DETALHES=falha_autenticacao | ERRO=404
+2026-11-26 18:55:19 | ORIGEM=WEB | ACAO=ERRO | DETALHES=falha_autenticacao | ERRO=404
+2026-11-26 18:55:19 | ORIGEM=WEB | ACAO=ERRO | DETALHES=falha_autenticacao | ERRO=404
+2026-11-26 21:52:32 | ORIGEM=WEB | ACAO=ERRO | DETALHES=falha_autenticacao | ERRO=500
+2026-11-26 21:52:49 | ORIGEM=WEB | ACAO=ERRO | DETALHES=falha_cadastro_usuario | ERRO=500
+2026-11-26 22:09:41 | ORIGEM=WEB | ACAO=ERRO | DETALHES=falha_cadastro | ERRO=500
+2026-11-26 22:13:40 | ORIGEM=WEB | ACAO=ERRO | DETALHES=falha_autenticacao | ERRO=500

@@ -1,5 +1,7 @@
 package barbosa.isabeli.api;
 
+import barbosa.isabeli.dao.UsuarioCSV;
+import barbosa.isabeli.model.AuthReq;
 import barbosa.isabeli.model.LogReq;
 import barbosa.isabeli.model.Projeto;
 import barbosa.isabeli.service.ProjetoService;
@@ -11,6 +13,7 @@ public class Api {
 
     static ProjetoService service = new ProjetoService();
     static LogService logService = new LogService();
+    static UsuarioCSV usuarioCSV = new UsuarioCSV();
 
     public static void web(Javalin app) {
     	// raiz
@@ -135,6 +138,46 @@ public class Api {
             logService.registrarErro(req);
             ctx.status(201).result("Erro registrado");
         });
+        // AUTH
+        app.post("/login", ctx -> {
+            AuthReq req = ctx.bodyAsClass(AuthReq.class);
+            try {
+	            if (req == null || req.usuario() == null || req.usuario().isBlank()
+	                    || req.senha() == null || req.senha().isBlank()) {
+	                ctx.status(400);
+	                return;
+	            }
+	            
+	            boolean valido = usuarioCSV.autenticar(req.usuario(), req.senha());
+	            if(!valido) {
+	            	ctx.status(401);
+	            	return;
+	            }
+	            ctx.status(200);
+	            ctx.json(req.usuario());
+        	}
+	        catch(Exception e){
+        		e.printStackTrace();
+        		ctx.status(500).result("Erro ao tentar fazer login.");
+	        }
+        });
         
+        app.post("/cadastro", ctx -> {
+            AuthReq req = ctx.bodyAsClass(AuthReq.class);
+
+            if (req == null || req.usuario() == null || req.usuario().isBlank()
+                    || req.senha() == null || req.senha().isBlank()) {
+                ctx.status(400);
+                return;
+            }
+
+            try {
+                usuarioCSV.cadastrarUsuario(req.usuario(), req.senha());
+                ctx.status(201);
+            } catch (Exception e) {
+            	e.printStackTrace();
+                ctx.status(500);
+            }    
+        });
     }
 }
