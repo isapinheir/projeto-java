@@ -3,7 +3,16 @@ package barbosa.isabeli.views;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.geom.Arc2D;
+import java.util.List;
+
+import barbosa.isabeli.client.ApiClient;
+import barbosa.isabeli.components.NeoCard;
+import barbosa.isabeli.model.Projeto;
+import barbosa.isabeli.utils.Cores;
+import barbosa.isabeli.utils.Textos;
 
 public class ViewDashboard extends JPanel { 
 
@@ -37,7 +46,9 @@ public class ViewDashboard extends JPanel {
     // Componentes de gráficos customizados
     private GraficoColunasPanel graficoColunas;
     private GraficoRosquinhaPanel graficoRosquinha;
-    
+
+    private final ApiClient apiClient = new ApiClient();
+
     // ==========================================
     // CONSTRUTOR
     // ==========================================
@@ -121,8 +132,72 @@ public class ViewDashboard extends JPanel {
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         add(scrollPane, BorderLayout.CENTER);
 
-        // Exemplo de carregamento inicial de dados (pode ser alterado para 0)
-        atualizarDashboard(12, 5, 4, 5, 3, 7, 3, 2);
+        // Começa zerado e busca os dados reais na API
+        atualizarDashboard(0, 0, 0, 0, 0, 0, 0, 0);
+        carregarDados();
+
+        // Recarrega sempre que a tela do Dashboard volta a ser exibida (CardLayout),
+        // assim ela reflete o que foi cadastrado, alterado ou excluído em Projetos
+        addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentShown(ComponentEvent e) {
+                carregarDados();
+            }
+        });
+    }
+
+    /**
+     * Busca os projetos na API (fora da thread da interface) e atualiza a tela.
+     */
+    public void carregarDados() {
+        new SwingWorker<List<Projeto>, Void>() {
+            @Override
+            protected List<Projeto> doInBackground() throws Exception {
+                return apiClient.listarProjetos();
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    atualizarDashboard(get());
+                } catch (Exception e) {
+                    // Mantém os últimos dados exibidos; sem pop-up para não incomodar a cada troca de tela
+                    e.printStackTrace();
+                    apiClient.registrarLogErro("carregar_dashboard", e);
+                }
+            }
+        }.execute();
+    }
+
+    /**
+     * Conta os projetos por categoria e por status e atualiza a tela.
+     */
+    public void atualizarDashboard(List<Projeto> projetos) {
+        int total = 0, concluidos = 0, desenvolvendo = 0, planejados = 0;
+        int qtdSw = 0, qtdWeb = 0, qtdMob = 0;
+
+        if (projetos != null) {
+            for (Projeto p : projetos) {
+                total++;
+
+                switch (Textos.normalizar(p.getStatus())) {
+                    case "concluido" -> concluidos++;
+                    case "em desenvolvimento" -> desenvolvendo++;
+                    case "planejado" -> planejados++;
+                    default -> System.err.println("Projeto com status fora do padrão: " + p);
+                }
+
+                switch (Textos.normalizar(p.getCategoria())) {
+                    case "software" -> qtdSw++;
+                    case "web" -> qtdWeb++;
+                    case "mobile" -> qtdMob++;
+                    default -> System.err.println("Projeto com categoria fora do padrão: " + p);
+                }
+            }
+        }
+
+        atualizarDashboard(total, total - concluidos, qtdSw, qtdWeb, qtdMob,
+                concluidos, desenvolvendo, planejados);
     }
 
     /**
@@ -158,7 +233,7 @@ public class ViewDashboard extends JPanel {
     // =========================================================================
 
     private JPanel criarCardMetrica(JLabel lblNumero, String textoSubtitulo) {
-        CardPanel card = new CardPanel();
+        CardPanel card = new CardPanel(Cores.get("fundo"));
         card.setLayout(new GridBagLayout());
 
         JPanel conteudo = new JPanel();
@@ -181,7 +256,7 @@ public class ViewDashboard extends JPanel {
     }
 
     private JPanel criarCardGraficoColunas() {
-        CardPanel card = new CardPanel();
+        CardPanel card = new CardPanel(Cores.get("fundo"));
         card.setLayout(new BorderLayout(0, 16));
 
         JPanel cabecalho = new JPanel();
@@ -199,7 +274,7 @@ public class ViewDashboard extends JPanel {
     }
 
     private JPanel criarCardGraficoRosquinha() {
-        CardPanel card = new CardPanel();
+        CardPanel card = new CardPanel(Cores.get("fundo"));
         card.setLayout(new BorderLayout(0, 12));
 
         JPanel cabecalho = new JPanel();
@@ -283,29 +358,9 @@ public class ViewDashboard extends JPanel {
     // CLASSES CUSTOMIZADAS (CARD, GRÁFICO DE COLUNAS E GRÁFICO DE ROSCA)
     // =========================================================================
 
-    static class CardPanel extends JPanel {
-        public CardPanel() {
-            setOpaque(false);
-            setBorder(new EmptyBorder(18, 22, 18, 22));
-        }
-
-        @Override
-        protected void paintComponent(Graphics g) {
-            Graphics2D g2 = (Graphics2D) g.create();
-            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-            int arc = 14;
-            g2.setColor(new Color(0, 0, 0, 12));
-            g2.fillRoundRect(2, 3, getWidth() - 4, getHeight() - 4, arc, arc);
-
-            g2.setColor(COR_FUNDO_CARD);
-            g2.fillRoundRect(0, 0, getWidth() - 3, getHeight() - 3, arc, arc);
-
-            g2.setColor(COR_BORDA_CARD);
-            g2.drawRoundRect(0, 0, getWidth() - 3, getHeight() - 3, arc, arc);
-
-            g2.dispose();
-            super.paintComponent(g);
+    static class CardPanel extends NeoCard {
+        public CardPanel(Color corFundo) {
+        	super(corFundo);
         }
     }
 

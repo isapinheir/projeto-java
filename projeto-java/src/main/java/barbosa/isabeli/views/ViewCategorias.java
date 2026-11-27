@@ -1,4 +1,4 @@
-package barbosa.isabeli;
+package barbosa.isabeli.views;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -6,8 +6,15 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.geom.RoundRectangle2D;
+import java.util.ArrayList;
 import java.util.List;
+
+import barbosa.isabeli.client.ApiClient;
+import barbosa.isabeli.model.Projeto;
+import barbosa.isabeli.utils.Textos;
 
 public class ViewCategorias extends JPanel {
 
@@ -38,6 +45,8 @@ public class ViewCategorias extends JPanel {
     private final CardCategoriaPanel cardWeb;
     private final CardCategoriaPanel cardMobile;
 
+    private final ApiClient apiClient = new ApiClient();
+
     public ViewCategorias() {
         setLayout(new BorderLayout());
         setBackground(COR_FUNDO_PAGINA);
@@ -61,18 +70,66 @@ public class ViewCategorias extends JPanel {
 
         add(scrollPane, BorderLayout.CENTER);
 
-        // Exemplo inicial de dados (pode remover se for popular via API)
-        setProjetosSoftware(List.of(
-                new ItemProjeto("Sistema Acadêmico", "Em desenvolvimento"),
-                new ItemProjeto("ERP Financeiro", "Concluído")
-        ));
-        setProjetosWeb(List.of(
-                new ItemProjeto("Portal de Vagas", "Concluído"),
-                new ItemProjeto("Landing Page Produto", "Planejado")
-        ));
-        setProjetosMobile(List.of(
-                new ItemProjeto("App Entregas", "Planejado")
-        ));
+        // Busca os projetos reais na API
+        carregarDados();
+
+        // Recarrega sempre que a tela de Categorias volta a ser exibida (CardLayout),
+        // assim ela reflete o que foi cadastrado, alterado ou excluído em Projetos
+        addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentShown(ComponentEvent e) {
+                carregarDados();
+            }
+        });
+    }
+
+    /**
+     * Busca os projetos na API (fora da thread da interface) e atualiza os três cards.
+     */
+    public void carregarDados() {
+        new SwingWorker<List<Projeto>, Void>() {
+            @Override
+            protected List<Projeto> doInBackground() throws Exception {
+                return apiClient.listarProjetos();
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    atualizarProjetos(get());
+                } catch (Exception e) {
+                    // Mantém os últimos dados exibidos; sem pop-up para não incomodar a cada troca de tela
+                    e.printStackTrace();
+                    apiClient.registrarLogErro("carregar_categorias", e);
+                }
+            }
+        }.execute();
+    }
+
+    /**
+     * Separa os projetos por categoria e preenche cada card.
+     */
+    public void atualizarProjetos(List<Projeto> projetos) {
+        List<ItemProjeto> software = new ArrayList<>();
+        List<ItemProjeto> web = new ArrayList<>();
+        List<ItemProjeto> mobile = new ArrayList<>();
+
+        if (projetos != null) {
+            for (Projeto p : projetos) {
+                ItemProjeto item = new ItemProjeto(p.getNome(), p.getStatus());
+
+                switch (Textos.normalizar(p.getCategoria())) {
+                    case "software" -> software.add(item);
+                    case "web" -> web.add(item);
+                    case "mobile" -> mobile.add(item);
+                    default -> System.err.println("Projeto com categoria fora do padrão: " + p);
+                }
+            }
+        }
+
+        setProjetosSoftware(software);
+        setProjetosWeb(web);
+        setProjetosMobile(mobile);
     }
 
     // =========================================================================
