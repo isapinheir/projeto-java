@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Projetos</title>
-    <link rel="icon" type="image/x-icon" href="favicon.svg">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="stylesheet" href="css/geral.css">
     <link rel="stylesheet" href="css/dashboard.css">
     <link rel="stylesheet" href="css/projetos.css">
@@ -12,7 +12,64 @@
 </head>
 <body>
 
-    <aside class="sidebar">
+    <!-- LOGIN -->
+    <section id="telaLogin" class="login-container">
+        <form id="formLogin" class="login-card">
+            <h2 class="login-titulo">Sistema de Projetos</h2>
+            <p class="login-subtitulo">Entre com suas credenciais</p>
+
+            <div class="grupo-campo">
+                <label for="loginEmail" class="rotulo-campo">Usuário</label>
+                <input type="text" id="loginEmail" class="campo-input" required autocomplete="username">
+            </div>
+
+            <div class="grupo-campo">
+                <label for="loginSenha" class="rotulo-campo">Senha</label>
+                <input type="password" id="loginSenha" class="campo-input" required autocomplete="current-password">
+            </div>
+
+            <p id="erroLogin" class="login-erro oculto"></p>
+
+            <button type="submit" id="btnLogin" class="btn-cadastro">Entrar</button>
+        </form>
+
+        <p>Não possui conta?</p>
+        <button type="button" id="btnIrCadastro" class="login-cadastro">Cadastre-se</button>
+    </section>
+
+    <!-- CADASTRO -->
+    <section id="telaCadastro" class="login-container oculto">
+        <form id="formCadastro" class="login-card">
+            <h2 class="login-titulo">Sistema de Projetos</h2>
+            <p class="login-subtitulo">
+                <b>A senha deve possuir:</b>
+                <br>8 caracteres ou mais;
+                <br>Uma letra maiúscula;
+                <br>Uma letra minúscula;
+                <br>Um número;
+                <br>Um símbolo.
+            </p>
+
+            <div class="grupo-campo">
+                <label for="cadastrarEmail" class="rotulo-campo">Usuário</label>
+                <input type="text" id="cadastrarEmail" class="campo-input" required autocomplete="username">
+            </div>
+
+            <div class="grupo-campo">
+                <label for="cadastrarSenha" class="rotulo-campo">Senha</label>
+                <input type="password" id="cadastrarSenha" class="campo-input" required autocomplete="new-password">
+            </div>
+
+            <p id="erroCadastro" class="login-erro oculto"></p>
+
+            <button type="submit" id="btnCadastro" class="btn-cadastro">Cadastrar</button>
+        </form>
+
+        <p>Já possui conta?</p>
+        <button type="button" id="btnIrLogin" class="login-e-cadastro">Entrar</button>
+    </section>
+
+    <aside class="sidebar oculto">
         <div class="sidebar-header">
             <ion-icon name="folder-open"></ion-icon>
             <p class="logo-texto">
@@ -28,7 +85,7 @@
                 </a>
             </li>
             <li class="sidebar-item">
-                <a href="#projetos" onclick="paginacao(2)"">
+                <a href="#projetos" onclick="paginacao(2)">
                     <ion-icon name="newspaper"></ion-icon>
                     <span>Projetos</span>
                 </a>
@@ -40,11 +97,10 @@
                 </a>
             </li>
         </ul>
-
     </aside>
 
-    <main class="conteudo-principal">
-        <header class="top-header">          
+    <main class="conteudo-principal oculto">
+        <header class="top-header">
             <div class="metrica-conteudo">
                 <span class="metrica-data-titulo" id="dia"></span>
                 <span class="metrica-data-subtitulo" id="horario"></span>
@@ -54,11 +110,11 @@
                 <div class="avatar avatar-header">
                     <ion-icon name="person"></ion-icon>
                 </div>
-                <span style="font-weight: 600;">João Silva</span>
+                <span id="nomeUsuario" style="font-weight: 600;"></span>
             </div>
         </header>
 
-        <!-- inseridos dos outros arqiuivos .html pelo js -->
+        <!-- inseridos dos outros arquivos .html pelo js -->
         <div id="painel-corpo">
             <section id="paginaDashboard"></section>
             <section id="paginaProjetos" class="oculto"></section>
@@ -68,11 +124,11 @@
         <section id="alterar" class="oculto">
             <div class="alterar-cabecalho">
                 <h2>Alterar projeto</h2>
-                <button id="ocultar">
+                <button type="button" id="ocultar">
                     <ion-icon name="close-outline"></ion-icon>
                 </button>
             </div>
-            
+
             <div>
                 <form id="formAlterar">
 
@@ -93,11 +149,9 @@
 
                     <label for="statusNovo" class="rotulo-campo">Status:</label>
                     <select id="statusNovo" class="campo-input">
-
                         <option value="Planejado">Planejado</option>
                         <option value="Em desenvolvimento">Em desenvolvimento</option>
                         <option value="Concluido">Concluído</option>
-
                     </select>
 
                     <button class="btn-cadastro" type="submit">Alterar projeto</button>
@@ -107,9 +161,11 @@
 
     </main>
 
-    <script type="module" src="js/script.js" defer></script>
-    <script type="module" src="js/paginas.js" defer></script>
-    <script type="module" src="js/api.js" defer></script>
+    <!-- módulos já são "defer" por padrão; o atributo era redundante -->
+    <script type="module" src="js/script.js"></script>
+    <script type="module" src="js/paginas.js"></script>
+    <script type="module" src="js/api.js"></script>
+    <script type="module" src="js/auth.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@8.0.13/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@8.0.13/dist/ionicons/ionicons.js"></script>
 

@@ -1,99 +1,173 @@
 const API_URL = 'http://localhost:7000';
-const usuario = "Ana Catarina";
-const projetos = await obterProjetos();
 
-log("LOGIN", usuario, null, `${API_URL}/api/logs/sessao`);
+let projetos = [];
+let usuario = lerUsuarioSalvo();
 
-export async function obterProjetos(){
+/* ---------- sessão (somente no navegador) ---------- */
+
+function lerUsuarioSalvo() {
+    try { return sessionStorage.getItem('usuario'); } catch { return null; }
+}
+
+function salvarUsuario(nome) {
+    try {
+        if (nome) sessionStorage.setItem('usuario', nome);
+        else sessionStorage.removeItem('usuario');
+    } catch { /* armazenamento indisponível */ }
+}
+
+export function getUsuario() {
+    return usuario;
+}
+
+export function sair() {
+    log("LOGOUT", usuario, null, `${API_URL}/api/logs/sessao`);
+    usuario = null;
+    projetos = [];
+    salvarUsuario(null);
+}
+
+/* ---------- autenticação ---------- */
+
+export function validarSenha(senha) {
+    return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/.test(senha);
+}
+
+export async function autenticarUsuario(usuarioDigitado, senhaDigitada) {
+    let resposta;
+    try {
+        resposta = await fetch(`${API_URL}/login`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            // ATENÇÃO: confira se o servidor espera exatamente estes nomes de campos
+            body: JSON.stringify({
+                usuario: usuarioDigitado,
+                senha: senhaDigitada
+            })
+        });
+    } catch (err) {
+        log("ERRO", "servidor_indisponivel", err, `${API_URL}/api/logs/erro`);
+        throw new Error("Não foi possível conectar ao servidor.");
+    }
+
+    if (resposta.status === 401) {
+        log("LOGIN", "login_nao_autorizado", null, `${API_URL}/api/logs/sessao`);
+        throw new Error("Usuário ou senha inválidos.");
+    }
+    if (!resposta.ok) {
+        log("ERRO", "falha_autenticacao", `${resposta.status}`, `${API_URL}/api/logs/erro`);
+        throw new Error("Erro ao realizar login. Tente novamente.");
+    }
+
+    usuario = usuarioDigitado;
+    salvarUsuario(usuario);
+    log("LOGIN", usuario, null, `${API_URL}/api/logs/sessao`);
+    return usuario;
+}
+
+export async function cadastrarUsuario(novoUsuario, senha) {
+    if (!validarSenha(senha)) {
+        throw new Error("A senha não atende aos requisitos.");
+    }
+
+    let resposta;
+    try {
+        resposta = await fetch(`${API_URL}/cadastro`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ usuario: novoUsuario, senha })
+        });
+    } catch (err) {
+        log("ERRO", "servidor_indisponivel", err, `${API_URL}/api/logs/erro`);
+        throw new Error("Não foi possível conectar ao servidor.");
+    }
+
+    if (resposta.status === 409) {
+        throw new Error("Esse usuário já está cadastrado.");
+    }
+    if (!resposta.ok) {
+        log("ERRO", "falha_cadastro", `${resposta.status}`, `${API_URL}/api/logs/erro`);
+        throw new Error("Não foi possível realizar o cadastro.");
+    }
+
+    log("CADASTRO", novoUsuario, null, `${API_URL}/api/logs/sessao`);
+    return novoUsuario;
+}
+
+/* ---------- projetos ---------- */
+
+export async function obterProjetos() {
     try {
         const resposta = await fetch(`${API_URL}/projetos`);
         if (!resposta.ok) {
             log("ERRO", "API", `${resposta.status}`, `${API_URL}/api/logs/erro`);
             throw new Error('Erro ao buscar dados da API');
         }
-        const projetos = await resposta.json();
-        return projetos
+        return await resposta.json();
     }
     catch (error) {
         console.error('Erro:', error);
         log("ERRO", "API", error, `${API_URL}/api/logs/erro`);
         alert('Não foi possível obter os dados dos projetos.');
+        return [];
     }
 }
 
-async function idAtual(){
-    try {
-        let maior = 0;
-        projetos.forEach((projeto) => {
-            if(projeto.id > maior){
-                maior = projeto.id;
-            }
-        });
-        return maior;
-    }
-    catch (error) {
-        console.error('Erro:', error);
-        log("ERRO", "obter_id", error, `${API_URL}/api/logs/erro`);
-        return error;
-    }
+function proximoId() {
+    return projetos.reduce((maior, p) => Math.max(maior, Number(p.id) || 0), 0) + 1;
 }
 
-async function listarProjetos(){
-    if(projetos){
-        tabela(projetos);
-        categorias(projetos);
-    }
+export async function listarProjetos() {
+    if (!usuario) return;               // só carrega depois do login
+    projetos = await obterProjetos();
+    tabela(projetos);
+    categorias(projetos);
+    metricas();
 }
 
 async function cadastrarProjeto(e) {
     e.preventDefault();
-    try{
-        let id = (await idAtual() + 1);
-
+    const form = e.target;
+    try {
+        projetos = await obterProjetos();   // dados atualizados para calcular o id
         const projeto = {
-            id: id,
+            id: proximoId(),
             nome: document.getElementById('nome').value,
             descricao: document.getElementById('descricao').value,
             categoria: document.getElementById('categoria').value,
             status: document.getElementById('status').value,
-        }
-    
-        const resposta = await fetch(`${API_URL}/projetos`,{
+        };
+
+        const resposta = await fetch(`${API_URL}/projetos`, {
             method: "POST",
-            headers: {"Content-Type": "application/json"},
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(projeto)
         });
 
-        if(!resposta.ok){
+        if (!resposta.ok) {
             log("ERRO", "cadastro_projeto", `${resposta.status}`, `${API_URL}/api/logs/erro`);
             throw new Error("Erro ao cadastrar o projeto.");
         }
 
         alert("Projeto cadastrado com sucesso.");
-        log("CRIAR", `ID ${id} | NOME ${nome}`, null, `${API_URL}/api/logs/projeto`);
-        formProjeto.reset();
-        listarProjetos();
+        log("CRIAR", `ID ${projeto.id} | NOME ${projeto.nome}`, null, `${API_URL}/api/logs/projeto`);
+        form.reset();
+        await listarProjetos();
     }
-    catch(err){
+    catch (err) {
         alert("Não foi possível cadastrar o projeto.");
         log("ERRO", "cadastro_projeto", err, `${API_URL}/api/logs/erro`);
         console.error(err);
     }
-    
 }
 
-async function excluirProjeto(id){
-    const confirmar = confirm("Deseja realmente excluir esse projeto?");
-    if(!confirmar){
-        return;
-    }
+async function excluirProjeto(id) {
+    if (!confirm("Deseja realmente excluir esse projeto?")) return;
 
-    try{
-        const resposta = await fetch(`${API_URL}/projetos/${id}`,{
-            method: "DELETE"
-        });
+    try {
+        const resposta = await fetch(`${API_URL}/projetos/${id}`, { method: "DELETE" });
 
-        if(!resposta.ok){
+        if (!resposta.ok) {
             log("ERRO", "exclusao_projeto", `${resposta.status}`, `${API_URL}/api/logs/erro`);
             throw new Error("Erro ao excluir o projeto.");
         }
@@ -101,17 +175,37 @@ async function excluirProjeto(id){
         alert("Projeto excluído com sucesso.");
         await listarProjetos();
     }
-    catch(e){
+    catch (e) {
         alert("Não foi possível excluir o projeto.");
-        log("ERRO", "API", `${resposta.status}`, `${API_URL}/api/logs/erro`);
+        log("ERRO", "exclusao_projeto", e, `${API_URL}/api/logs/erro`);
         console.error(e);
     }
 }
 
-async function alterarProjeto(e){
+function popupAlterar(id) {
+    const projeto = projetos.find(p => String(p.id) === String(id));
+    if (!projeto) return;
+
+    document.getElementById('inputId').value = projeto.id;
+    document.getElementById('nomeNovo').value = projeto.nome;
+    document.getElementById('descricaoNova').value = projeto.descricao;
+    document.getElementById('categoriaNova').value = projeto.categoria;
+    document.getElementById('statusNovo').value = projeto.status;
+
+    document.getElementById('alterar').classList.remove('oculto');
+    document.getElementById('painel-corpo').classList.add('blur');
+}
+
+function fecharAlterar() {
+    document.getElementById('alterar').classList.add('oculto');
+    document.getElementById('painel-corpo').classList.remove('blur');
+    document.getElementById('inputId').value = '';
+}
+
+async function alterarProjeto(e) {
     e.preventDefault();
 
-    try{
+    try {
         const id = document.getElementById('inputId').value;
         const projeto = {
             id: id,
@@ -119,33 +213,56 @@ async function alterarProjeto(e){
             descricao: document.getElementById('descricaoNova').value,
             categoria: document.getElementById('categoriaNova').value,
             status: document.getElementById('statusNovo').value,
-        }
+        };
 
-        const resposta = await fetch(`${API_URL}/projetos/${id}`,{
+        const resposta = await fetch(`${API_URL}/projetos/${id}`, {
             method: "PUT",
-            headers:{"Content-Type": "application/json"},
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(projeto),
         });
-        if(!resposta.ok){
+        if (!resposta.ok) {
             log("ERRO", "alteracao_projetos", `${resposta.status}`, `${API_URL}/api/logs/erro`);
             throw new Error("Erro no servidor do projeto.");
         }
         log("ALTERAR", `ID ${id}`, null, `${API_URL}/api/logs/projeto`);
-        document.getElementById('alterar').classList.add('oculto');
-        document.getElementById('painel-corpo').classList.remove('blur');
-        document.getElementById('inputId').value = '';
-        listarProjetos();
-        return await resposta.json();
+        const atualizado = await resposta.json();
+        fecharAlterar();
+        await listarProjetos();
+        return atualizado;
     }
-    catch(e){
-      console.error("Erro: " + e);
-      log("ERRO", "API", e, `${API_URL}/api/logs/erro`);
-      alert("Não foi possível alterar o projeto."); 
+    catch (e) {
+        console.error("Erro: " + e);
+        log("ERRO", "alteracao_projetos", e, `${API_URL}/api/logs/erro`);
+        alert("Não foi possível alterar o projeto.");
     }
+}
+
+/* ---------- renderização ---------- */
+
+function normalizarStatus(status) {
+    return status
+        ? status.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()
+        : '';
+}
+
+function criarBadgeStatus(status) {
+    const badge = document.createElement('span');
+    badge.className = `badge ${normalizarStatus(status)}`;
+
+    const icone = document.createElement('span');
+    icone.className = 'icone-status';
+
+    const p = document.createElement('p');
+    p.textContent = status;
+
+    badge.appendChild(icone);
+    badge.appendChild(p);
+    return badge;
 }
 
 function tabela(data) {
     const tbody = document.getElementById('tBody');
+    if (!tbody) return;                 // componente ainda não carregado
     tbody.innerHTML = '';
 
     if (data.length === 0) {
@@ -177,29 +294,15 @@ function tabela(data) {
         tr.appendChild(tdCat);
 
         const tdStts = document.createElement('td');
-        const sttsBadge = document.createElement('span');
-        
-        const statusNormalizado = projeto.status ? projeto.status.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() : '';
-        
-        sttsBadge.className = `badge ${statusNormalizado}`;
-
-        const spanIcone = document.createElement('span');
-        spanIcone.className = 'icone-status';
-
-        const pStatus = document.createElement('p');
-        pStatus.textContent = projeto.status;
-
-        sttsBadge.appendChild(spanIcone);
-        sttsBadge.appendChild(pStatus);
-        tdStts.appendChild(sttsBadge);
+        tdStts.appendChild(criarBadgeStatus(projeto.status));
         tr.appendChild(tdStts);
 
         const tdAcoes = document.createElement('td');
-        
+
         const iEditar = document.createElement('ion-icon');
         iEditar.setAttribute('name', 'pencil');
         iEditar.addEventListener('click', () => popupAlterar(projeto.id));
-        
+
         const iExcluir = document.createElement('ion-icon');
         iExcluir.setAttribute('name', 'trash');
         iExcluir.addEventListener('click', () => excluirProjeto(projeto.id));
@@ -212,227 +315,119 @@ function tabela(data) {
     });
 }
 
-function categorias(data){
-    const tbSw = document.getElementById('tbodySoftware');
-    const projSw = data.filter(sw => sw.categoria.toLowerCase().includes('software'));
+function categorias(data) {
+    const grupos = {
+        software: 'tbodySoftware',
+        web: 'tbodyWeb',
+        mobile: 'tbodyMobile',
+    };
 
-    const tbWeb = document.getElementById('tbodyWeb');
-    const projWeb = data.filter(sw => sw.categoria.toLowerCase().includes('web'));
+    for (const [chave, idTbody] of Object.entries(grupos)) {
+        const tbody = document.getElementById(idTbody);
+        if (!tbody) continue;
+        tbody.innerHTML = '';           // evita duplicar linhas a cada atualização
 
-    const tbMob = document.getElementById('tbodyMobile');
-    const projMob = data.filter(sw => sw.categoria.toLowerCase().includes('mobile'));
+        data
+            .filter(p => (p.categoria || '').toLowerCase().includes(chave))
+            .forEach((projeto) => {
+                const tr = document.createElement('tr');
 
-    projSw.forEach((projeto) => {
-        const tr = document.createElement('tr');
-        const tdNome = document.createElement('td');
-        const pNome = document.createElement('p');
-        pNome.className = 'nome-projeto';
-        pNome.textContent = projeto.nome;
-        tdNome.appendChild(pNome);
-        tr.appendChild(tdNome);
+                const tdNome = document.createElement('td');
+                const pNome = document.createElement('p');
+                pNome.className = 'nome-projeto';
+                pNome.textContent = projeto.nome;
+                tdNome.appendChild(pNome);
+                tr.appendChild(tdNome);
 
-        const tdStts = document.createElement('td');
-        const sttsBadge = document.createElement('span');
-        
-        const statusNormalizado = projeto.status ? projeto.status.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() : '';
-        
-        sttsBadge.className = `badge ${statusNormalizado}`;
+                const tdStts = document.createElement('td');
+                tdStts.appendChild(criarBadgeStatus(projeto.status));
+                tr.appendChild(tdStts);
 
-        const spanIcone = document.createElement('span');
-        spanIcone.className = 'icone-status';
-
-        const pStatus = document.createElement('p');
-        pStatus.textContent = projeto.status;
-
-        sttsBadge.appendChild(spanIcone);
-        sttsBadge.appendChild(pStatus);
-        tdStts.appendChild(sttsBadge);
-        tr.appendChild(tdStts);
-        tbSw.appendChild(tr);
-    });
-
-    projWeb.forEach((projeto) => {
-        const tr = document.createElement('tr');
-        const tdNome = document.createElement('td');
-        const pNome = document.createElement('p');
-        pNome.className = 'nome-projeto';
-        pNome.textContent = projeto.nome;
-        tdNome.appendChild(pNome);
-        tr.appendChild(tdNome);
-
-        const tdStts = document.createElement('td');
-        const sttsBadge = document.createElement('span');
-        
-        const statusNormalizado = projeto.status ? projeto.status.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() : '';
-        
-        sttsBadge.className = `badge ${statusNormalizado}`;
-
-        const spanIcone = document.createElement('span');
-        spanIcone.className = 'icone-status';
-
-        const pStatus = document.createElement('p');
-        pStatus.textContent = projeto.status;
-
-        sttsBadge.appendChild(spanIcone);
-        sttsBadge.appendChild(pStatus);
-        tdStts.appendChild(sttsBadge);
-        tr.appendChild(tdStts);
-        tbWeb.appendChild(tr);
-    });
-
-    projMob.forEach((projeto) => {
-        const tr = document.createElement('tr');
-        const tdNome = document.createElement('td');
-        const pNome = document.createElement('p');
-        pNome.className = 'nome-projeto';
-        pNome.textContent = projeto.nome;
-        tdNome.appendChild(pNome);
-        tr.appendChild(tdNome);
-
-        const tdStts = document.createElement('td');
-        const sttsBadge = document.createElement('span');
-        
-        const statusNormalizado = projeto.status ? projeto.status.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() : '';
-        
-        sttsBadge.className = `badge ${statusNormalizado}`;
-
-        const spanIcone = document.createElement('span');
-        spanIcone.className = 'icone-status';
-
-        const pStatus = document.createElement('p');
-        pStatus.textContent = projeto.status;
-
-        sttsBadge.appendChild(spanIcone);
-        sttsBadge.appendChild(pStatus);
-        tdStts.appendChild(sttsBadge);
-        tr.appendChild(tdStts);
-        tbMob.appendChild(tr);
-    }); 
-}
-
-async function metricas(){
-    const total = projetos.length;
-    const concluido = projetos.filter(p => p.status.toLowerCase().includes('concluído'));
-    const desenvolvimento = projetos.filter(p => p.status.toLowerCase().includes('desenvolvimento'));
-    const planejado = projetos.filter(p => p.status.toLowerCase().includes('planejado'));
-
-    document.getElementById('metrica-total').textContent = (total);
-    document.getElementById('metrica-concluido').textContent = concluido.length;
-    document.getElementById('metrica-desenvolvimento').textContent = desenvolvimento.length;
-    document.getElementById('metrica-planejado').textContent = planejado.length;
-}
-
-async function busca (e){ 
-    if(projetos){
-        const projetos = Object.values(projetos);
-        const busca = e.target.value.toLowerCase();
-        const filtro = projetos.filter(p => 
-            p.nome.toLowerCase().includes(busca) || 
-            p.descricao.toLowerCase().includes(busca) ||
-            p.categoria.toLowerCase().includes(busca) ||
-            p.status.toLowerCase().includes(busca)
-        );
-        tabela(filtro);
-    }
-    else{
-        buscaInput.style.cursor = 'not-allowed';
+                tbody.appendChild(tr);
+            });
     }
 }
 
+function metricas() {
+    const contar = (trecho) =>
+        projetos.filter(p => normalizarStatus(p.status).includes(trecho)).length;
 
+    const definir = (id, valor) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = valor;
+    };
 
-
-/*
-document.getElementById('btnAdd').addEventListener('click',() =>{
-    const projetos = document.getElementById('projetos');
-    const cadastro = document.getElementById('cadastro');
-
-    if(projetos.style.display === 'flex'){
-        projetos.style.display = 'none';
-        cadastro.style.display = 'block';
-        btnAdd.classList.add('ativado');
-    }
-    else{
-        projetos.style.display = 'flex';
-        cadastro.style.display = 'none';
-        btnAdd.classList.remove('ativado');
-    }
-})
-*/
- function inicializarEventos(root = document) {
-  const formProjeto = root.querySelector('#formProjeto');
-  const formAlterar = root.querySelector('#formAlterar');
-  const btnAtualizar = root.querySelector('#btnAtualizar');
-  const campoBusca = root.querySelector('#campoBusca');
-
-  if (formProjeto) {
-    formProjeto.addEventListener('submit', async (e) => {
-      await cadastrarProjeto(e);
-    });
-  }
-
-  if (formAlterar) {
-    formAlterar.addEventListener('submit', async (e) => {
-      await alterarProjeto(e);
-    });
-  }
-
-  if (btnAtualizar) {
-    btnAtualizar.addEventListener('click', () => {
-      listarProjetos();
-    });
-  }
-
-  if (campoBusca) {
-    campoBusca.addEventListener('input', async (e) => {
-      await busca(e);
-    });
-  }
+    definir('metrica-total', projetos.length);
+    definir('metrica-concluido', contar('concluido'));
+    definir('metrica-desenvolvimento', contar('desenvolvimento'));
+    definir('metrica-planejado', contar('planejado'));
 }
+
+function busca(e) {
+    const termo = e.target.value.toLowerCase();
+    const filtro = projetos.filter(p =>
+        [p.nome, p.descricao, p.categoria, p.status]
+            .some(campo => (campo || '').toLowerCase().includes(termo))
+    );
+    tabela(filtro);
+}
+
+/* ---------- eventos ---------- */
+
+// Evita registrar o mesmo listener várias vezes (o evento
+// "componenteCarregado" dispara uma vez por componente).
+function ligar(el, evento, fn) {
+    if (!el || el.dataset.ligado === evento) return;
+    el.dataset.ligado = evento;
+    el.addEventListener(evento, fn);
+}
+
+function inicializarEventos(root = document) {
+    ligar(root.querySelector('#formProjeto'), 'submit', cadastrarProjeto);
+    ligar(root.querySelector('#formAlterar'), 'submit', alterarProjeto);
+    ligar(root.querySelector('#ocultar'), 'click', fecharAlterar);
+    ligar(root.querySelector('#btnAtualizar'), 'click', () => listarProjetos());
+    ligar(root.querySelector('#campoBusca'), 'input', busca);
+}
+
 document.addEventListener('componenteCarregado', () => {
-  inicializarEventos();
-  listarProjetos();
-  metricas();
+    inicializarEventos();
+    listarProjetos();
 });
+inicializarEventos();   // caso os componentes já tenham sido carregados
+
+/* ---------- logs ---------- */
 
 async function log(acao, detalhes, erro, rota) {
-    try{
-        const log = {
+    try {
+        const corpo = {
             origem: "WEB",
             acao: acao,
             detalhes: detalhes,
-            erro: erro,
-        }
-        const resposta = await fetch(rota,{
+            erro: erro ? String(erro) : null,
+        };
+        const resposta = await fetch(rota, {
             method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify(log)
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(corpo)
         });
 
-        if(!resposta.ok){
+        if (!resposta.ok) {
             throw new Error(`Erro de log(${acao}) = ${resposta.status}`);
         }
     }
-    catch(err){
+    catch (err) {
         console.error(err);
     }
 }
 
-window.onload = listarProjetos();
 document.addEventListener('visibilitychange', () => {
-    let acao;
-    if (document.visibilityState === 'visible') {
-        acao = "LOGIN";
-    }
-    if (document.visibilityState === 'hidden') {
-        acao = "LOGOUT";
-    }
-    const payload = JSON.stringify({
-        origem: "WEB",
-        acao: acao,
-        detalhes: usuario,
-        erro: null,
-    });
+    if (!usuario) return;               // só registra sessão de quem está logado
+
+    const acao = document.visibilityState === 'visible' ? "LOGIN" : "LOGOUT";
+    const payload = new Blob(
+        [JSON.stringify({ origem: "WEB", acao, detalhes: usuario, erro: null })],
+        { type: "application/json" }    // string pura iria como text/plain
+    );
     navigator.sendBeacon(`${API_URL}/api/logs/sessao`, payload);
-    }
-);
+});

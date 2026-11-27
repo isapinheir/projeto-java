@@ -1,6 +1,11 @@
-import { obterProjetos } from "./api.js";
+import { obterProjetos, autenticarUsuario } from "./api.js";
 
 const projetos = await obterProjetos();
+const telaLogin = document.getElementById("telaLogin");
+const telaCadastro = document.getElementById("telaCadastro");
+const sidebar = document.querySelector(".sidebar");
+const btnLoginCadastro = document.querySelector(".login-cadastro")
+const conteudoPrincipal = document.querySelector(".conteudo-principal");
 
 // === INFO PROJETOS ===
 
@@ -23,6 +28,30 @@ let naoConcluido = total - concluido;
 let porcNaoConcluido = (naoConcluido / total) * 100;
 
 // === FUNÇÕES ===
+
+function mostrarSistema(nomeUsuario) {
+    telaLogin.classList.add("oculto");
+    telaCadastro.classList.add("oculto");
+    sidebar.classList.remove("oculto");
+    conteudoPrincipal.classList.remove("oculto");
+
+    const spanUsuario = document.querySelector(".menu-usuario-header span");
+    if (spanUsuario && nomeUsuario) {
+        spanUsuario.textContent = nomeUsuario;
+    }
+}
+
+function loginCadastro(){
+    let login = telaCadastro.classList.contains('oculto');
+    if (login){
+        telaCadastro.classList.remove('oculto');
+        telaLogin.classList.add('oculto');
+    } 
+    else{
+        telaCadastro.classList.add('oculto');
+        telaLogin.classList.remove('oculto');
+    }
+}
 
 function atualizarRelogio() {
     const agora = new Date();
@@ -121,6 +150,55 @@ async function atualizarCategorias(){
 
 document.addEventListener('componenteCarregado', (e) => {
   inicializarEventos();
+});
+
+btnLoginCadastro.addEventListener('click', () =>{
+    loginCadastro();
+})
+
+formLogin.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    erroLogin.classList.add("oculto");
+
+    const usuario = document.getElementById("loginEmail").value.trim();
+    const senha = document.getElementById("loginSenha").value;
+    const btnLogin = document.getElementById("btnLogin");
+
+    btnLogin.disabled = true;
+    btnLogin.textContent = "Entrando...";
+
+    try {
+        const dados = await autenticarUsuario(usuario, senha);
+        mostrarSistema(dados.nome || usuario);
+    } catch (erro) {
+        erroLogin.textContent = erro.message;
+        erroLogin.classList.remove("oculto");
+    } finally {
+        btnLogin.disabled = false;
+        btnLogin.textContent = "Entrar";
+    }
+});
+
+formCadastro.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const usuario = document.getElementById("cadastroEmail").value.trim();
+    const senha = document.getElementById("cadastroSenha").value;
+    const btnCadastro = document.getElementById("btnCadastro");
+
+    btnCadastro.disabled = true;
+    btnCadastro.textContent = "Cadastrando...";
+
+    try {
+        const dados = await cadastrarUsuario(usuario, senha);
+        mostrarSistema(usuario);
+    } catch (erro) {
+        erroLogin.textContent = erro.message;
+        erroLogin.classList.remove("oculto");
+    } finally {
+        btnLogin.disabled = false;
+        btnLogin.textContent = "Cadastrar";
+    }
 });
 
 function inicializarEventos(){;
